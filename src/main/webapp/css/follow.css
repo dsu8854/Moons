@@ -1,0 +1,67 @@
+/* 팔로워 수 */
+#follow_list, #follower_list {
+	float:right;
+	margin-right: 2em;
+	margin-bottom:1em;
+}
+
+#follow_list_label, #follower_list_label {		
+	font-size: 24px;
+	font-style: italic;
+}
+/* 팔로워 수 */
+
+/* 팔로워들 보여주기 */
+.followWrap, .followerWrap {
+	margin: 8em auto;
+	width : 1270px;
+	display: grid;
+	grid-template-columns : repeat(4, 1fr); /* 그리드컨테이너 속 자식 요소들의 폭을 맞춤 */
+    grid-auto-rows: minmax(300px,auto);
+	padding: 2em ;			
+}
+
+.followWrap .wrap_content, .followerWrap .wrap_content {
+	border: 2px solid black;
+	width: 280px;
+	background-color:silver;
+	margin: 1em auto;
+	
+}
+
+/* 프로필 사진 */
+.wrap_content .content_photo img {
+	border: 1px solid blue;
+	margin-top: 5px;
+	margin-left: 70px;
+	width: 140px;
+	height: 140px;
+	border-radius: 70px; /* 이미지 반크기만큼 반경을 잡기*/
+}
+
+/* 프로필 닉네임 */
+.wrap_content .content_nickname {
+	text-align: center;
+	margin-top:1em;
+	margin-left:3em;
+	margin-right: 3em;
+}
+
+/* 프로필 자기소개*/
+.wrap_content .content_introduce {
+	text-align: center;
+	margin-top: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 220px;
+	
+	margin-left:20px;
+	/* margin-right:10px; */ 
+	
+}
+
+.followerBtn, .followCancelBtn, .followerCancelBtn {
+	margin-top:7px;
+	margin-left:95px;
+}

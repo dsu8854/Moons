@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="movie">
+	<select id="commlist" parameterType="String" resultType="dto.CommentDTO">
+		select *
+        from moons_comment
+		where comment_movie=#{movie}
+		order by comment_date desc
+	</select>
+	
+	<insert id="commins" parameterType="dto.CommentDTO">
+		insert into moons_comment
+		values(#{user_code},#{comment_movie},#{comment_content},#{comment_date})
+	</insert>
+	
+	<select id="allrate" parameterType="String" resultType="double">
+		select avg(rating_score)
+		from moons_rating
+		where rating_movie=#{movie}
+	</select>
+	
+	<select id="checkmyrate" parameterType="dto.RatingDTO" resultType="int">
+		select count(*)
+		from moons_rating
+		where user_code=#{user_code} and rating_movie=#{rating_movie}
+	</select>
+	
+	<select id="myrate" parameterType="dto.RatingDTO" resultType="int">
+		select rating_score
+		from moons_rating
+		where user_code=#{user_code} and rating_movie=#{rating_movie}
+	</select>
+		
+	<insert id="rateins" parameterType="dto.RatingDTO">
+		insert into moons_rating
+		values(#{user_code},#{rating_movie},#{rating_score})
+	</insert>
+	
+	<update id="rateupt" parameterType="dto.RatingDTO">
+		update moons_rating
+		set	rating_score=#{rating_score}
+		where user_code=#{user_code} and rating_movie=#{rating_movie}
+	</update>
+	
+	<delete id="ratedel" parameterType="dto.RatingDTO">
+		delete from moons_rating
+		where user_code=#{user_code} and rating_movie=#{rating_movie}
+	</delete>
+	
+	<select id="checkallrate" parameterType="String" resultType="java.lang.Boolean">
+		select case when count(*) > 0 then 1 else 0 end
+		from moons_rating
+		where rating_movie=#{movie}
+	</select>
+</mapper> 

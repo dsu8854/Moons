@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dm">	
+	<!-- 대화 내용 출력하는 sql -->
+	<select id="sel" parameterType="dto.DmDTO" resultType="dto.DmDTO">
+		select d.user_code, d.dm_receiver, d.dm_content, 
+		to_char(dm_date, 'YYYY-MM-DD HH24:MI:SS') as dm_date, 
+		u.user_nickname, u.user_photo 
+		from moons_dm d, moons_user u 
+		where u.user_code=d.user_code and 
+		(d.user_code=#{user_code} or d.dm_receiver=#{user_code}) and 
+		(d.user_code=#{dm_receiver} or d.dm_receiver=#{dm_receiver}) 
+		order by dm_date
+	</select>
+	
+	<!-- 대화내용삽입하는 sql -->
+	<insert id="ins" parameterType="dto.DmDTO">
+		<selectKey keyProperty="dm_date" resultType="java.util.Date">
+			select to_char(sysdate, 'YYYY-MM-DD HH24:MI:SS') from dual
+		</selectKey>
+		insert into moons_dm values(#{user_code }, #{dm_receiver}, #{dm_content }, sysdate )
+	</insert>
+	
+	<select id="selYourInfo" parameterType="dto.DmDTO" resultType="dto.DmDTO">
+		select user_nickname, user_photo
+		from moons_user
+		where user_code=#{dm_receiver}
+	</select>
+	
+	<select id="selList" parameterType="dto.DmDTO" resultType="dto.DmDTO">
+		select d.dm_receiver, u.user_nickname, u.user_photo
+		from(select distinct dm_receiver
+			 from moons_dm
+			 where user_code=#{user_code} or (user_code!=#{user_code} and user_code not in (select distinct user_code
+														 			  from moons_dm
+														 			  where dm_receiver=#{user_code}))) d, moons_user u
+		where d.dm_receiver=u.user_code
+	</select>
+</mapper>

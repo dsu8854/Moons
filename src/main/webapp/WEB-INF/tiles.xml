@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="index" template="/WEB-INF/view/template/layout.jsp">
+		<put-attribute name="title" value="Moons" />
+		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/main/index.jsp" />
+	</definition>
+	
+	<definition name="timeline" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/timeline.jsp" />
+	</definition>
+	
+	<definition name="updateInfoForm" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/updateInfoForm.jsp" />
+	</definition>
+	
+	<definition name="profile" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/profile.jsp" />
+	</definition>
+	
+	<definition name="dmList" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/dmList.jsp" />
+	</definition>
+	
+	<definition name="dmRoom" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/dmRoom.jsp" />
+	</definition>
+	
+	<definition name="notice" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/noticeForm.jsp" />
+	</definition>
+	
+	<definition name="movie" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/movieForm.jsp" />
+	</definition>
+	
+	<definition name="search" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/searchForm.jsp" />
+	</definition>
+	
+	<definition name="follow" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/follow.jsp" />
+	</definition>
+	
+	<definition name="follower" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/follower.jsp" />
+	</definition>
+	
+	<definition name="write" template="/WEB-INF/view/template/layoutWrite.jsp">
+		<put-attribute name="title" value="Moons" />
+		<put-attribute name="body" value="/WEB-INF/view/main/write.jsp" />
+	</definition>
+	
+	<definition name="intro" template="/WEB-INF/view/template/layoutIntro.jsp">
+		<put-attribute name="title" value="Moons" />
+		<put-attribute name="body" value="/WEB-INF/view/main/intro.jsp" />
+	</definition>
+	
+	<definition name="loginPage" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/loginPage.jsp" />
+	</definition>
+	
+	<definition name="loginFormDefault" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/loginFormDefault.jsp" />
+	</definition>
+	
+	<definition name="joinFormDefault" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/joinFormDefault.jsp" />
+	</definition>
+	
+	<definition name="joinFormSns" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/joinFormSns.jsp" />
+	</definition>
+	
+	<definition name="joinSuccess" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/joinSuccess.jsp" />
+	</definition>
+	
+	<definition name="exit" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/exit.jsp" />
+	</definition>
+	
+	<definition name="findFormDefault" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/findFormDefault.jsp" />
+	</definition>
+	
+	<definition name="findSuccess" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/findSuccess.jsp" />
+	</definition>
+</tiles-definitions>

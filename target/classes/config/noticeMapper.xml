@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+	<select id="noticelist" parameterType="map" resultType="dto.NoticeDTO">
+		select b.*
+		from(
+			select rownum rm,a.*
+			from(	select *
+		    	    from moons_notice
+					where user_code=#{user_code}
+					order by notice_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+10]]>
+	</select>
+	
+	<update id="readcheck" parameterType="int">
+		update moons_notice
+		set notice_read=1
+		where user_code=#{user_code} 
+		<![CDATA[and notice_date<=sysdate]]>
+	</update>
+</mapper>

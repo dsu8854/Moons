@@ -1,0 +1,35 @@
+.headerWrap {
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	height: 4em;
+	background-color: blue;
+}
+
+.menu {
+	text-align: center;
+}
+
+.menu li {
+	display: inline-block;
+}
+
+.submenu {
+	
+}
+
+.subment>li {
+	
+}
+
+.logo {
+	float: left;
+}
+
+.btn {
+	float: right;
+}
+
+section {
+	text-align: center;
+}

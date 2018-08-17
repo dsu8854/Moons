@@ -1,0 +1,268 @@
+body {
+	font-size: 11pt;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+	color: gray;
+}
+
+#logo {
+	font-size: 40pt;
+	font-weight: 600;
+}
+
+.contents {
+	width: 100%;
+	height: 400px;
+	/* background-color: #d6d6d6; */
+	margin: 0 auto;
+	margin-top: 3%;
+}
+
+/* banner */
+.banner {
+	position: relative;
+	width: 100%;
+	height: 350px;
+	margin: 0 auto;
+	padding: 0;
+	overflow: hidden;
+}
+
+.banner-images {
+	position: absolute;
+	margin: 0px;
+	padding: 0;
+	list-style: none;
+}
+
+.banner-images div {
+	float: left;
+	width: 340px;
+	height: 350px;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	position: relative;
+}
+/* 텍스트 //////////////////////////*/
+.imgtext {
+	z-index: 10px;
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	color: blue;
+	font-size: 20pt;
+	font-weight: bolder;
+	padding: 0;
+	margin: 0;
+}
+
+#imgonetext, #imgfourtext {
+	top: 10%;
+	left: 10%;
+	position: absolute;
+}
+
+#imgthreetext, #imgsixtext, #imgseventext, #imgeighttext, #imgninetext {
+	top: 40%;
+	left: 30%;
+	position: absolute;
+}
+
+#imgtwotext, #imgfivetext {
+	top: 63%;
+	left: 10%;
+	position: absolute;
+}
+
+/*//////////////////////////*/
+#button-previous {
+	position: relative;
+	float: left;
+	left: 0;
+	width: 50px;
+	height: 50px;
+	width: 50px;
+}
+
+#button-next {
+	position: relative;
+	float: right;
+	width: 50px;
+	height: 50px;
+}
+
+#recomen-box {
+	margin: 3% 0 0 10%;
+	display: flex;
+}
+
+#recomen-box>div {
+	margin-left: 2%;
+	width: 210px;
+	heigth: auto;
+}
+
+#keywordfont {
+	margin: 3%;
+	font-size: 18pt;
+	letter-spacing: 10px;
+	font-size: 18pt;
+}
+
+.keyword-box {
+	width: 100%;
+	height: 400px;
+}
+
+table {
+	display: inline-block;
+	border: 1px solid gray;
+}
+
+tr {
+	height: 120px;
+	border: 1px solid gray;
+}
+
+td {
+	width: 120px;
+	border: 1px solid gray;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#square-box {
+	width: 80%;
+	height: 450px;
+	display: inline-block;
+}
+
+#recomarticle {
+	margin: 2% 5% 5% 5%;
+	font-size: 18pt;
+	letter-spacing: 10px;
+	font-size: 18pt;
+}
+
+#title {
+	font-size: 14pt;
+	padding: 5px;
+}
+
+#contents {
+	font-size: 8pt;
+	padding: 5px 0 0 0;
+	letter-spacing: 2px;
+	line-height: 12px;
+	text-align: left;
+}
+
+#moviemagazines {
+	margin: 5%;
+	font-size: 18pt;
+	letter-spacing: 10px;
+	font-size: 18pt;
+}
+
+#movie-magazines-box {
+	width: 800px;
+	height: 300px;
+	display: inline-block;
+}
+
+#magazines-images {
+	display: flex;
+	padding: 0 5px 0 0;
+}
+
+.link_application {
+	display: block;
+	width: 960px;
+	margin: 10px auto 0;
+}
+
+.link_application .img_application {
+	display: block;
+	width: 100%;
+}
+
+.foot_brunch {
+	width: 100%;
+	height: 300px;
+	margin: 0;
+	background-color: #333;
+	margin-top: 5%;
+}
+
+.foot_brunch .inner_foot {
+	position: relative;
+	width: 960px;
+	margin: 0 auto;
+}
+
+.foot_brunch .area_quotation {
+	overflow: hidden;
+	margin-bottom: 170px;
+	text-align: center;
+	color: #fff;
+	font-family: Georgia, sans-serif;
+	font-style: italic;
+}
+
+.foot_brunch .list_info {
+	float: left;
+	margin: 0 auto;
+}
+
+.foot_brunch .txt_copyright {
+	float: right;
+}
+
+.foot_brunch .list_info li {
+	float: left;
+}
+
+.foot_brunch .txt_quotation {
+	display: inline-block;
+	font-size: 14px;
+	margin-top: 54px;
+}
+
+.foot_brunch .txt_by {
+	display: block;
+	font-size: 11px;
+	opacity: .8;
+	width: 100%;
+	margin: 3px 1px 0 0;
+}
+
+.txt_by {
+	width: 15px;
+	height: 15px;
+	margin-right: 4px;
+	font-size: 12px;
+	font-family: Georgia;
+	font-style: italic;
+	color: #bfbfbf;
+}
+
+.foot_brunch .list_info .link_info {
+	padding: 0 12px;
+	font-size: 11px;
+	font-family: 'Noto Sans Light', sans-serif;
+	color: #959595;
+}
+
+.foot_brunch .txt_copyright .link_corp {
+	font-style: italic;
+	font-family: Georgia, sans-serif;
+	color: #fff;
+	opacity: .5;
+	filter: alpha(opacity = 50);
+}

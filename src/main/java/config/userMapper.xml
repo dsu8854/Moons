@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	<insert id="ins" parameterType="dto.UserDTO">
+		insert into moons_user(user_code,user_type,user_id,user_pass,user_nickname,user_email)
+		values(moons_user_code_seq.nextval,#{user_type},#{user_id},#{user_pass, jdbcType=VARCHAR},#{user_nickname},#{user_email})
+	</insert>
+	
+	<delete id="del" parameterType="dto.UserDTO">
+		delete from moons_user
+		where user_code = #{user_code} and user_type = #{user_type}
+	</delete>
+
+	<select id="chkId" parameterType="dto.UserDTO" resultType="java.lang.Boolean">
+		select case when count(*) > 0 then 1 else 0 end 
+        from moons_user
+		where user_id = #{user_id} and user_type = #{user_type}
+	</select>
+
+	<select id="chkNick" parameterType="dto.UserDTO" resultType="java.lang.Boolean">
+		select case when count(*) > 0 then 1 else 0 end 
+        from moons_user
+		where user_nickname = #{user_nickname}
+	</select>
+	
+	<select id="code" parameterType="dto.UserDTO" resultType="int">
+		select user_code
+        from moons_user
+		where user_id = #{user_id} and user_type = #{user_type}
+	</select>
+	
+	<select id="chkIdPass" parameterType="dto.UserDTO" resultType="java.lang.Boolean">
+		select case when count(*) > 0 then 1 else 0 end 
+        from moons_user
+		where user_id = #{user_id} and user_pass = #{user_pass} and user_type = #{user_type}
+	</select>
+	
+	<select id="chkEmail" parameterType="dto.UserDTO" resultType="java.lang.Boolean">
+		select case when count(*) > 0 then 1 else 0 end 
+        from moons_user
+		where user_id = #{user_id} and user_email = #{user_email} and user_type = #{user_type}
+	</select>
+	
+	<select id="pass" parameterType="dto.UserDTO" resultType="String">
+		select user_pass
+        from moons_user
+		where user_id = #{user_id} and user_email = #{user_email} and user_type = #{user_type}
+	</select>
+	
+	<update id="uptInfo" parameterType="dto.UserDTO">	<!-- 수정하는 역할 -->
+		update moons_user 
+		set user_nickname=#{user_nickname}
+		<if test="user_pass!=null">,user_pass=#{user_pass}</if>
+		,user_email=#{user_email}
+		,user_introduce=#{user_introduce}
+		<if test="user_photo!=null">,user_photo=#{user_photo}</if><!-- 수정파일이 없으면 안해준다. -->
+		where user_code=#{user_code}
+	</update>
+
+	<!-- id에 해당하는 레코드값 가져오기(리스트가 아닌?) -->
+	<select id="selInfo" parameterType="int" resultType="dto.UserDTO">
+		select *
+		from moons_user
+		where user_code=#{user_code}
+	</select>
+
+	<!-- 수정할때 수정한 num의 upload값 첨부파일을 찾아준다. -->
+	<select id="selPhoto" parameterType="int" resultType="String">
+		select user_photo 
+		from moons_user 
+		where user_code=#{user_code}
+	</select>
+	
+	<select id="selNick" parameterType="int" resultType="String">
+		select user_nickname 
+		from moons_user 
+		where user_code=#{user_code}
+	</select>
+	
+	<select id="selFollow" parameterType="dto.UserDTO" resultType="dto.FollowDTO">
+		select f.follow_following,
+		u.user_photo, u.user_nickname, u.user_introduce
+		from moons_follow f, moons_user u
+		where f.user_code=#{user_code} and u.user_code=f.follow_following
+	</select>
+	
+	<select id="followCount" parameterType="dto.UserDTO" resultType="int">
+		select count(*)
+		from moons_follow
+		where user_code=#{user_code}
+	</select>
+	
+	<select id="selFollower" parameterType="dto.UserDTO" resultType="dto.FollowDTO">
+		select f.user_code as follow_following, f.checkFollow,
+	   	u.user_photo, u.user_nickname, u.user_introduce
+		from
+		(
+		select user_code, 1 as checkFollow
+		from moons_follow
+		where follow_following=#{user_code} and user_code in (select follow_following
+											 		 		  from moons_follow
+											 		 		  where user_code=#{user_code})
+		union
+		select user_code, 0 as checkFollow
+		from moons_follow
+		where follow_following=#{user_code} and user_code not in (select follow_following
+														 		  from moons_follow
+														 		  where user_code=#{user_code})
+		) f, moons_user u
+		where u.user_code=f.user_code
+	</select>
+	
+	<select id="followerCount" parameterType="dto.UserDTO" resultType="int">
+		select count(*)
+		from moons_follow
+		where follow_following=#{user_code}
+	</select>
+	
+	<delete id="delFollow" parameterType="dto.FollowDTO">
+		delete from moons_follow
+		where user_code=#{user_code} and follow_following=#{follow_following}
+	</delete>
+	
+	<insert id="insFollow" parameterType="dto.FollowDTO">
+		insert into moons_follow(user_code, follow_following)
+		values(#{user_code},#{follow_following})
+	</insert>
+</mapper>

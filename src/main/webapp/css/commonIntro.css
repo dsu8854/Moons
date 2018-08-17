@@ -1,0 +1,156 @@
+#logo {
+	font-size: 30pt;
+}
+
+#wrap {
+	width: 100%;
+	height: -webkit-fill-available;
+	background-image: url("../images/back.jpg");
+	/* opacity: 0.8; */
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+}
+
+#content {
+	width: 600px;
+	height: 500px;
+	margin-top: -250px;
+	margin-left: -310px;
+	opacity: 0.8;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	opacity: 0.9;
+	color: white;
+} 
+
+#moonsid, #naverid, #kakaoid{
+	width: 250px;   
+    height: 50px;  
+    margin:30px 0 0 -10px;         
+    background: white; 
+    -moz-border-radius: 90px / 50px; 
+    -webkit-border-radius: 100px / 50px;
+    border-radius: 80px / 50px; 
+	display: flex;
+	margin-left: 29%;      
+	text-align: center;  
+	border:0;   
+    outline: 0;
+	color:white;  
+	padding:0 0 0 8%;        
+	font-weight: bolder;
+	cursor: pointer;
+}
+   
+#moonsid{
+	background-color: black;
+	opacity: 0.6;
+}
+    
+#naverid{  
+ 	background-color: green;
+	opacity: 0.9; 
+}   
+  
+#kakaoid{   
+	background-color: yellow;
+	color:black;  
+	opacity: 0.9;  
+	font-weight: 700;     
+}
+
+h1 {
+	display: inline-block;
+	font-size: 40pt;
+	color: white;
+	padding: 10px 0 0 15px;
+	width: auto;  
+	cursor: pointer;
+}
+
+#contentin {
+	text-align: center;
+	height: auto;
+}
+
+#joinText, #loginText, #findText {
+	font-size: 20pt;
+	opacity: 1;
+	padding: 0 0 20px 0;
+}
+
+#id, #pass, #nickname, #email, #auth_code{    
+	display: flex;
+	margin: 0.3% 0 0 28%;        
+	padding: 10px 3px 10px 15px;    
+	width: 250px;
+	height: 25px;
+	font-size: 11pt;
+	border-radius: 20px/50px;       
+	border: 0;
+	outline: 0;
+}
+
+#join-box {
+	padding:0 50px 0 0;  
+}
+
+#join {
+	float: right;  
+	width:100px;
+	height: 30px;  
+	border-radius: 50px / 50px;   
+	border: 0;    
+	position: relative;
+    top: -3em;
+    right: -2em;
+    cursor: pointer;
+}
+
+#loginBtn, #joinBtn, #findBtn, #sendBtn, #authBtn { 
+	width: 270px;           
+    height: 50px;  
+    margin:0px 0px 10px 0px;         
+    background: white; 
+    -moz-border-radius: 90px / 50px; 
+    -webkit-border-radius: 100px / 50px;
+    border-radius: 50px / 50px;           
+	border:0;   
+    outline: 0;     
+    font-size: 12pt; 
+    margin-left: 1%;
+    cursor: pointer;        
+}
+
+#authBtn {
+	margin:10px 0px 10px 0px;
+}
+
+#btn-box {
+	margin:30px 0 0 -10px;
+}
+
+#logoutBtn, #unLinkBtn {
+	width: 270px;
+    height: 50px;  
+    margin:30px 0 0 -10px;         
+    background: white; 
+    -moz-border-radius: 90px / 50px; 
+    -webkit-border-radius: 100px / 50px;
+    border-radius: 50px / 50px;           
+	border:0;   
+    outline: 0;     
+    font-size: 12pt; 
+    margin-left: 1%;
+    cursor: pointer;
+}
+    
+table {      
+	margin: 5% 0 0 28%;
+	text-align: left;      
+}
+td{
+	padding : 5px 0 0 0;  
+}
