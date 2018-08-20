@@ -16,9 +16,28 @@ public class CommentDTO {
 	private String comment_movie;
 	private String comment_content;
 	private Date comment_date;
+	
+	private String user_photo;
+	private String user_nickname;
+
+	public String getUser_nickname() {
+		return user_nickname;
+	}
+
+	public void setUser_nickname(String user_nickname) {
+		this.user_nickname = user_nickname;
+	}
 
 	public CommentDTO() {
+		
+	}
 
+	public String getUser_photo() {
+		return user_photo;
+	}
+
+	public void setUser_photo(String user_photo) {
+		this.user_photo = user_photo;
 	}
 
 	public int getUser_code() {

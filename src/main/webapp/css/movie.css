@@ -6,7 +6,6 @@
 
 body{
 	text-align: center;
-	/* background-color: #f0f0f0; */
 }
 
 .movieWrap{
@@ -126,17 +125,25 @@ h3{
 }
 
 .comment{
-	display:inline-block;
+	display: inline-block;
 	width:90%;
-	height:66px;
 	text-align: left;
-	padding:3px;
+	padding:5px;
 	margin: 10px 0px 0px 0px;
 	border-radius: 5px;
 	background-color: white;
-	border-collapse: collapse;
 }
 
+.comment img{
+	float: left;
+	margin: 0px 10px 0px 0px;
+}
+#content_box{
+	display:inline-block; 
+	width:450px;
+	float:left;
+	line-height: 20px;
+}
 #comment_name{
 	font-weight: bold;
 }
@@ -144,6 +151,9 @@ h3{
 	font-size: 6px;
 	color:#888888;
 }
+#comment_content, #comment_info{
+}
+
 .timeline{
 	display:inline-block;
 	border:1px solid yellow;

@@ -49,4 +49,11 @@ public class NoticeController {
 		}
 		return noticeService.noticeListProcess(map);
 	}
+	
+	@RequestMapping("/noticeread.do")
+	@ResponseBody
+	public void noticeReadProcess(HttpSession session) {
+		int user_code = (int) session.getAttribute("user_code");
+			noticeService.noticeReadCheckProcess(user_code);
+	}
 }

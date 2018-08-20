@@ -24,7 +24,6 @@ $(document).ready(function(){
 	$(window).scroll(function() { 
 		if ($(window).scrollTop() == $(document).height() - $(window).height() ) {
 			start+=10;
-			console.log(start);
 			$.ajax({
 				type:'GET',
 				dataType:'json',
@@ -44,8 +43,8 @@ $(document).ready(function(){
 
 function noticelistMessage(data){
 	$.each(data,function(index, value){
-		var str='<tr><td><img src="images/no_photo.png" /></td><td>'
-				+'<input type="hidden" id="actor" value="'+value.notice_actor+'" />'
+		var str='<tr><td><img src="'+value.user_photo+'" /></td><td>'
+				+'<input type="hidden" id="actor" value="'+value.user_nickname+'" />'
 				+'<input type="hidden" id="type" value="'+value.notice_type+'" />'
 				+'<input type="hidden" id="amount" value="'+value.notice_amount+'" />'
 				+'<input type="hidden" id="read" value="'+value.notice_read+'" />'
