@@ -52,4 +52,9 @@ public class BoardServiceImp implements BoardService{
 	public void deleteShareProcess(BoardDTO bdto) {
 		boardDao.deleteShareMethod(bdto);
 	}
+
+	@Override
+	public int selectWriterProcess(BoardDTO bdto) {
+		return boardDao.selectWriterMethod(bdto);
+	}
 }//end class

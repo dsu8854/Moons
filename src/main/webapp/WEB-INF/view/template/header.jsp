@@ -16,6 +16,9 @@
 		user_code = $('#user_code').val();
 		prev_page = document.referrer.toString();
 		current_page = window.location.href.toString();
+		
+		countNotice();
+		countDm();
 
 		$('#noticeBtn').on('click', function() {
 			location.href = "notice.do";
@@ -42,6 +45,9 @@
 			enterDm();
 		else if (prev_page.indexOf('dmRoom.do') != -1)
 			leaveDm();
+		
+		if(current_page.indexOf('notice.do') != -1)
+			readNotice();
 	}
 
 	function onClose() {
@@ -55,19 +61,30 @@
 		var data = evt.data;
 
 		if (data == 'notice') {
-
+			$('.noticeCount').text(parseInt($('.noticeCount').text())+1);
 		} else {
 			var chk_cmd = data.split("|");
 			if (chk_cmd[0] == 'dm') {
-				$('.dmbody')
-						.append(
-								'<div class="dmReceive"><a href=""><img src="images/'
+				if (chk_cmd[1] == '0') {
+					$('.dmbody').append('<div class="dmReceive"><a href=""><img src="images/'
 										+ $('#yourPhoto').val()
 										+ '" alt="" class="receiverPhoto"</a><span class="receiveBorder"><span class="reMes">'
 										+ chk_cmd[3]
 										+ '</span></span><span class="resDate">방금</span></div>');
-				document.querySelector(".dmbody").scrollTo(0,
-						document.querySelector(".dmbody").scrollHeight);
+					document.querySelector(".dmbody").scrollTo(0,document.querySelector(".dmbody").scrollHeight);
+					
+					var dmFormData = $('#dmForm').serialize();
+					$.ajax({
+						url: 'dmRead.do?',
+						type: 'POST',
+						dataType: 'text',
+						data: dmFormData
+					});
+				} else {
+					$('.messageCount').text(parseInt($('.messageCount').text())+1);
+					$('#roomCount_'+chk_cmd[2]).text(parseInt($('#roomCount_'+chk_cmd[2]).text())+1);
+					$('#roomMessage_'+chk_cmd[2]).text(chk_cmd[3]);
+				}
 			}
 		}
 	}
@@ -79,6 +96,50 @@
 	function leaveDm() {
 		webSocket.send('4|' + user_code);
 	}
+	
+	function countNotice() {
+		$.ajax({
+			url: 'noticeCount.do?',
+			type: 'POST',
+			dataType: 'text',
+			success: function(res) {
+				$('.noticeCount').text(res);
+			}
+		});
+	}
+	
+	function countDm() {
+		$.ajax({
+			url: 'dmCount.do?',
+			type: 'POST',
+			dataType: 'text',
+			success: function(res) {
+				$('.messageCount').text(res);
+			}
+		});
+	}
+	
+	function readNotice() {
+		$.ajax({
+			url: 'noticeRead.do?',
+			type: 'POST',
+			dataType: 'text',
+			success: function() {
+				$('.noticeCount').text(0);
+			}
+		});
+	}
+	
+	/* function readDm() {
+		$.ajax({
+			url: 'dmRead.do?',
+			type: 'POST',
+			dataType: 'text',
+			success: function() {
+				$('.messageCount').text(0);
+			}
+		});
+	} */
 </script>
 <script src="js/sidebar.js"></script>
 <link rel="stylesheet" href="css/sidebar.css">
@@ -104,10 +165,24 @@
          </dl>
     </div>
 	<div class="right-button">
-		<input type="button" value="알림" id="noticeBtn" /> 
-		<input type="button" value="글쓰기" id="writeBtn" /> 
-		<input type="button" value="메세지" id="messageBtn" /> 
-		<input type="button" value="마이페이지" id="profileBtn" />
+		<div class="noticeArea">
+			<input type="button" value="알림" id="noticeBtn" />
+			<span class="noticeCountArea">
+				<span class="noticeCount"></span>
+			</span>
+		</div>
+		<div class="writeArea">
+			<input type="button" value="글쓰기" id="writeBtn" /> 
+		</div>
+		<div class="messageArea">
+			<input type="button" value="메세지" id="messageBtn" /> 
+			<span class="messageCountArea">
+				<span class="messageCount"></span>
+			</span>
+		</div>
+		<div class="profileArea">
+			<input type="button" value="마이페이지" id="profileBtn" />
+		</div>
 	</div>
 	<div class="overlay"></div>
 	<div id="sidebarWrap">

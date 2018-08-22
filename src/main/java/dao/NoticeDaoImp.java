@@ -24,9 +24,12 @@ public class NoticeDaoImp implements NoticeDAO{
 	}
 
 	@Override
-	public void noticeReadCheckMethod(int user_code) {
-		noticeSqlSession.update("notice.readcheck",user_code);
+	public void readNoticeMethod(int user_code) {
+		noticeSqlSession.update("notice.readNotice",user_code);
 	}
-	
-	
+
+	@Override
+	public int selectNoticeCountMethod(int user_code) {
+		return noticeSqlSession.selectOne("notice.cnt",user_code);
+	}
 }

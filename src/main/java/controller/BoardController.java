@@ -8,10 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 
 import dto.BoardDTO;
 import dto.UserDTO;
 import service.BoardService;
+import socket.WebSocketHandler;
 
 // http://localhost:8090/moons/list.do
 
@@ -36,29 +39,39 @@ public class BoardController {
 	
 	//좋아요 클릭시 +1증가시켜 ajax로 뿌리기 위한 메소드
 	@RequestMapping(value="/likePro.do")
-	public @ResponseBody int likePro(BoardDTO bdto, HttpSession session) {
+	public @ResponseBody int likePro(BoardDTO bdto, HttpSession session) throws Exception {
 		int user_code = (int) session.getAttribute("user_code");
 		
 		bdto.setUser_code(user_code);
 		
 		if(bdto.getIsLike())
 			boardService.deleteLikeProcess(bdto);
-		else
+		else {
 			boardService.insertLikeProcess(bdto);
+			WebSocketMessage<String> sendMsg = new TextMessage("5|"+boardService.selectWriterProcess(bdto));
+			WebSocketHandler handler = WebSocketHandler.getInstance();
+			if(handler.getUserList().get(String.valueOf(boardService.selectWriterProcess(bdto)))!=null)
+				handler.handleMessage(handler.getUserList().get(String.valueOf(boardService.selectWriterProcess(bdto))), sendMsg);
+		}
 		
 		return boardService.selectLikeProcess(bdto);
 	}
 	
 	@RequestMapping(value="/sharePro.do")
-	public @ResponseBody int sharePro(BoardDTO bdto, HttpSession session) {
+	public @ResponseBody int sharePro(BoardDTO bdto, HttpSession session) throws Exception {
 		int user_code = (int) session.getAttribute("user_code");
 		
 		bdto.setUser_code(user_code);
 		
 		if(bdto.getIsShare())
 			boardService.deleteShareProcess(bdto);
-		else
+		else {
 			boardService.insertShareProcess(bdto);
+			WebSocketMessage<String> sendMsg = new TextMessage("5|"+boardService.selectWriterProcess(bdto));
+			WebSocketHandler handler = WebSocketHandler.getInstance();
+			if(handler.getUserList().get(String.valueOf(boardService.selectWriterProcess(bdto)))!=null)
+				handler.handleMessage(handler.getUserList().get(String.valueOf(boardService.selectWriterProcess(bdto))), sendMsg);
+		}
 		
 		return boardService.selectShareProcess(bdto);
 	}

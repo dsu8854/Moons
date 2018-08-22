@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -25,6 +27,7 @@ import dto.UserDTO;
 import oauth.bo.KakaoLoginBO;
 import oauth.bo.NaverLoginBO;
 import service.UserService;
+import socket.WebSocketHandler;
 
 // http://localhost:8090/moons/intro.do
 
@@ -405,6 +408,10 @@ public class UserController {
 		
 		try {
 			userService.insertFollowProcess(fdto);
+			WebSocketMessage<String> sendMsg = new TextMessage("5|"+fdto.getFollow_following());
+			WebSocketHandler handler = WebSocketHandler.getInstance();
+			if(handler.getUserList().get(String.valueOf(fdto.getFollow_following()))!=null)
+				handler.handleMessage(handler.getUserList().get(String.valueOf(fdto.getFollow_following())), sendMsg);
 			return true;
 		} catch(Exception e) {
 			return false;

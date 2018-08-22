@@ -44,8 +44,46 @@
 }
 
 .right-button{
-	width:auto;
-	margin:2.5% 0 0 10%;
+	width: 400px;
+	margin:2.5% 0 0 4%;
+	position: absolute;
+	right: 0;
+}
+
+.noticeArea, .writeArea, .messageArea, .profileArea {
+	position: relative;
+	float: left;
+	margin: 0 4% 0 0;
+}
+
+.noticeCountArea {
+	display: flex;
+    position: absolute;
+    right: -5%;
+    top: -10%;
+}
+
+.noticeCount {
+	background-color: #fa3e3e;
+	font-size: 1.3em;
+    border-radius: 2px;
+    color: #fff;
+    padding: 1px 3px;
+}
+
+.messageCountArea {
+	display: flex;
+    position: absolute;
+    right: -5%;
+    top: -10%;
+}
+
+.messageCount {
+	background-color: #fa3e3e;
+	font-size: 1.3em;
+    border-radius: 2px;
+    color: #fff;
+    padding: 1px 3px;
 }
 
 #noticeBtn, #writeBtn, #messageBtn, #profileBtn, #exitBtn{
@@ -69,19 +107,19 @@ hr{
 }
 
 #suggest{
-   display:none;
-   position:absolute;
-   width:40%;
-   height:0px;
-   z-index:100;
-   text-align: left;
-   background-color: white;
+	display:none;
+	position:absolute;
+	width:40%;
+	height:0px;
+	z-index:100;
+	text-align: left;
+	background-color: white;
 }
 
 dl, dt, dd {
-   background-color:white;
-   width:100%;
-   text-align: left;
+	background-color:white;
+	width:100%;
+	text-align: left;
 }
 
 dl{box-shadow: 2px 2px 5px rgba(30,30,30,0.3);}
@@ -89,32 +127,32 @@ dl{box-shadow: 2px 2px 5px rgba(30,30,30,0.3);}
 dt{background-color:#f5f5f5;}
 
 dd{
-   float:left;
-   background-color:white;
-   font-size:14px;
+	float:left;
+	background-color:white;
+	font-size:14px;
 }
 
 #suggestMovie .searchBox{
-   float:left;
-   width:100%;
-   height: 40px;
-   cursor:pointer;
+	float:left;
+	width:100%;
+	height: 40px;
+	cursor:pointer;
 }
 #suggestMovie #movieTitle{
-   width:80%;      
-   float:left;
-   line-height:40px; 
-   padding: 0px 0px 0px 20px;
+	width:80%;		
+	float:left;
+	line-height:40px; 
+	padding: 0px 0px 0px 20px;
 }
 
 #suggestMovie #image{
-   text-align:left;
-   width:10%;   
-   padding:0px;
-   float:left;
+	text-align:left;
+	width:10%;	
+	padding:0px;
+	float:left;
 }
 
 #suggestMovie #image img{
-   width:30%;
-   height:auto;
+	width:30%;
+	height:auto;
 }

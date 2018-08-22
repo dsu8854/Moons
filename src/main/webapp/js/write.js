@@ -19,18 +19,13 @@ $(document).ready(function(){
 			$('#header_background_img').val("");
 			console.log(files[0]);
 		});
-		
-		
-		
-		
-		
+
 		$('#btn_delete').on('click', function(){ 
 			$('.service_header').removeAttr('style');
 			$('.glyphicon').css({"color":"black"});
 			$('.background-cover').css({"background-color":"rgba(0, 0, 0, 0)"});
 			$('.cover_title').css({"color":"black"});
 			$('.cover_subtitle').css({"color":"black"});
-			
 		});
 		
 		$("#upfile1").click(function(){

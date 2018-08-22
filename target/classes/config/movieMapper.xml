@@ -5,10 +5,10 @@
 
 <mapper namespace="movie">
 	<select id="commlist" parameterType="String" resultType="dto.CommentDTO">
-		select *
-        from moons_comment
-		where comment_movie=#{movie}
-		order by comment_date desc
+		select c.*,u.user_photo, u.user_nickname
+        from moons_comment c, moons_user u
+		where c.user_code=u.user_code and c.comment_movie=#{movie}
+		order by c.comment_date desc
 	</select>
 	
 	<insert id="commins" parameterType="dto.CommentDTO">

@@ -13,4 +13,5 @@ public interface BoardDAO {
 	public int selectShareMethod(BoardDTO bdto);
 	public void insertShareMethod(BoardDTO bdto);
 	public void deleteShareMethod(BoardDTO bdto);
+	public int selectWriterMethod(BoardDTO bdto);
 }//end interface

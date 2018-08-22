@@ -55,7 +55,8 @@ CREATE TABLE moons_notice (
 	reply_num     NUMBER NULL,     -- 관련리플번호
 	notice_type   NUMBER NOT NULL, -- 알림유형
 	notice_amount NUMBER NULL,     -- 후원금액
-	notice_date   DATE   NOT NULL  -- 날짜
+	notice_date   DATE   NOT NULL, -- 날짜
+	notice_state  NUMBER NOT NULL  -- 알림 상태
 );
 
 -- reply
@@ -82,7 +83,8 @@ CREATE TABLE moons_dm (
 	user_code   NUMBER     NULL,     -- 유저식별코드
 	dm_receiver NUMBER     NULL,     -- 받는사람
 	dm_content  VARCHAR2(2000) NOT NULL, -- 메세지내용
-	dm_date     DATE       NOT NULL  -- 날짜
+	dm_date     DATE       NOT NULL,  -- 날짜
+	dm_state	NUMBER	   NOT NULL  -- 상태
 );
 
 -- board
@@ -423,7 +425,7 @@ create or replace trigger notice_follow
 after insert on moons_follow
 for each row
   begin
-	insert into moons_notice(user_code,notice_actor,notice_type,notice_date) values(:new.user_code,:new.follow_following,1,sysdate);
+	insert into moons_notice(user_code,notice_actor,notice_type,notice_date,notice_state) values(:new.user_code,:new.follow_following,1,sysdate,1);
   end;
 /
 
@@ -444,7 +446,7 @@ for each row
   	share_actor NUMBER;
   begin
 	select user_code into share_actor from moons_board where board_num=:new.board_num;
-	insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date) values(share_actor,:new.user_code,:new.board_num,2,sysdate);
+	insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date,notice_state) values(share_actor,:new.user_code,:new.board_num,2,sysdate,1);
 	update moons_board set board_share = board_share+1 where board_num=:new.board_num;
   end;
 /
@@ -470,7 +472,7 @@ for each row
   	like_actor NUMBER;
   begin
 	select user_code into like_actor from moons_board where board_num=:new.board_num;
-	insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date) values(like_actor,:new.user_code,:new.board_num,3,sysdate);
+	insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date,notice_state) values(like_actor,:new.user_code,:new.board_num,3,sysdate,1);
 	update moons_board set board_like = board_like+1 where board_num=:new.board_num;
   end;
 /
@@ -496,7 +498,7 @@ for each row
   	reply_actor NUMBER;
   begin	  
 	select user_code into reply_actor from moons_board where board_num=:new.board_num;  
-	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,4,sysdate);
+	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,4,sysdate,1);
 	update moons_board set board_reply = board_reply+1 where board_num=:new.board_num;
   end;
 /
@@ -522,7 +524,7 @@ for each row
   	reply_actor NUMBER;
   begin	  
 	select user_code into reply_actor from moons_reply where board_num=:new.board_num and reply_ref=:new.reply_ref;
-	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,5,sysdate);
+	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,5,sysdate,1);
 	update moons_board set board_reply = board_reply+1 where board_num=:new.board_num;
   end;
 /
@@ -629,14 +631,15 @@ select * from moons_user;
 select * from user_triggers;
 
 insert into moons_follow values(1,2);
-
 insert into moons_follow values(9,1);
 insert into moons_like values(1,13,sysdate);
 insert into moons_like values(1,14,sysdate);
 insert into moons_board values(moons_board_num_seq.nextval,1,'신과함께','재미있네요','십점 만점에 백점 드립니다.',0,0,sysdate,'#하정우 #마동석');
 insert into moons_share values(2,1,sysdate);
 insert into moons_reply values(moons_reply_num_seq.nextval,1,2,'퍼가요',sysdate,0,0);
+insert into moons_dm values(2,1,'안녕',sysdate,1);
 
+delete from moons_dm;
 delete from moons_user;
 delete from moons_board;
 delete from moons_follow;
@@ -685,3 +688,34 @@ select f.user_code, f.checkFollow,
 														 		  from moons_follow
 														 		  where user_code=1)) f, moons_user u
 		where u.user_code=f.user_code
+
+select dm_receiver, user_nickname, user_photo, dm_count
+from(select distinct case when d.user_code=2 then d.dm_receiver else d.user_code end as dm_receiver, 
+		u.user_nickname, u.user_photo, 
+		(select count(*) from moons_dm where user_code=d.user_code and dm_receiver=2 and dm_state=1) as dm_count,
+		row_number() over(partition by (case when d.user_code=2 then d.dm_receiver else d.user_code end) order by (case when d.user_code=2 then d.dm_receiver else d.user_code end)) as cnt
+	 from(select distinct user_code, dm_receiver
+		  from moons_dm
+	 	  where user_code=2 or (user_code!=2 and user_code in (select distinct user_code
+														  	   from moons_dm
+														  	   where dm_receiver=2))) d, moons_user u
+	 where decode(d.user_code,1,d.dm_receiver,d.user_code) like u.user_code)
+where cnt=1;
+
+select dm_receiver, user_nickname, user_photo, dm_count
+		from(select distinct case when d.user_code=2 then d.dm_receiver else d.user_code end as dm_receiver, 
+					u.user_nickname, u.user_photo, 
+					(select count(*) from moons_dm where user_code=d.user_code and dm_receiver=2 and dm_state=1) as dm_count,
+					row_number() over(partition by (case when d.user_code=1 then d.dm_receiver else d.user_code end) order by (case when d.user_code=2 then d.dm_receiver else d.user_code end)) as cnt
+	 		 from(select distinct user_code, dm_receiver
+		  		  from moons_dm
+	 	  		  where user_code=2 or (user_code!=2 and user_code in (select distinct user_code
+														  	   		   						 from moons_dm
+														  	   		   						 where dm_receiver=2))) d, moons_user u
+	 		 where decode(d.user_code,2,d.dm_receiver,d.user_code) like u.user_code)
+		where cnt=1;
+-- case d.user_code when 1 then d.dm_receiver else d.user_code
+--d.user_code=1 ? d.dm_receiver=u.user_code : 1==1
+--&& d.user_code!=1 ? d.user_code=u.user_code : 1==1
+-- d.user_code=1 ? d.dm_receiver=u.user_code : d.user_code=u.user_code
+--case when d.user_code=1 then where d.dm_receiver=u.user_code else where d.user_code=u.user_code

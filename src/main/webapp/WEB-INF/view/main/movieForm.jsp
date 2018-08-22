@@ -48,23 +48,16 @@
 	</div>
 	<div class="comment_list">
 		<c:forEach var="commdto" items="${commList}" >
-			<table class="comment">
-				<tr>
-					<td rowspan="2" width="70px">
-						<img src="images/no_photo.png" />
-					</td>
-					<td height="20px">
-						<span id="comment_name">${commdto.user_code}</span>&nbsp;&nbsp;
-						<span id="comment_date">${commdto.comment_date }</span>
-					</td>
-				</tr> 
-				<tr>
-					<td>
-					 ${commdto.comment_content }
-					</td>
-				</tr>
-			</table>
-			<br/>
+			<div class="comment">
+				<img src="${commdto.user_photo}" />
+				<div id="content_box">
+					<p id="comment_info">
+						<span id="comment_name">${commdto.user_nickname}</span>&nbsp;&nbsp;
+						<span id="comment_date">${commdto.comment_date }</span><br/>
+					</p>
+					<p id="comment_content">${commdto.comment_content }</p>
+				</div>
+			</div>
 		</c:forEach>
 	</div>
 </div>

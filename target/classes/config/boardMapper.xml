@@ -58,4 +58,8 @@
 	<select id="selOne" parameterType="dto.BoardDTO" resultType="dto.BoardDTO">
 		select * from moons_board where board_num=#{board_num}
 	</select>
+	
+	<select id="selWriter" parameterType="dto.BoardDTO" resultType="int">
+		select user_code from moons_board where board_num=#{board_num}
+	</select>
 </mapper>   

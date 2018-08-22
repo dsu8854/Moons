@@ -7,5 +7,6 @@ import dto.NoticeDTO;
 
 public interface NoticeService {
 	public List<NoticeDTO> noticeListProcess(Map<String, Integer> map);
-	public void noticeReadCheckProcess(int user_code);
+	public void readNoticeProcess(int user_code);
+	public int selectNoticeCountProcess(int user_code);
 }

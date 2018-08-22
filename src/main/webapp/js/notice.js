@@ -12,12 +12,12 @@ $(document).ready(function(){
 	contentProcess();
 	
 	//읽음체크를 위한 이벤트
-	$.ajax({
+	/*$.ajax({
 		type:'GET',
 		dataType:'json',
 		url:'noticelistopen.do?start='+0+'&read='+read,
 		success:noticelistMessage
-	});
+	});*/
 	
 	//스크롤 최하단이벤트
 	var start=0;
@@ -44,14 +44,14 @@ $(document).ready(function(){
 
 function noticelistMessage(data){
 	$.each(data,function(index, value){
-		var str='<tr><td><img src="images/no_photo.png" /></td><td>'
-				+'<input type="hidden" id="actor" value="'+value.notice_actor+'" />'
+		var str='<tr><td><img src="images/'+value.user_photo+'" /></td><td>'
+		+'<input type="hidden" id="actor" value="'+value.user_nickname+'" />'
 				+'<input type="hidden" id="type" value="'+value.notice_type+'" />'
 				+'<input type="hidden" id="amount" value="'+value.notice_amount+'" />'
 				+'<input type="hidden" id="read" value="'+value.notice_read+'" />'
 				+'<a href="#" id="notice_content"> </a><br/>'
 				+'<span id="notice_date">'+value.notice_date+'</span></td></tr>';
-		$('.notice').append(str);	
+		$('.notice').append(str);
 	});	 
 	
 	contentProcess();

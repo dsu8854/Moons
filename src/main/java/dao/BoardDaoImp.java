@@ -53,4 +53,9 @@ public class BoardDaoImp implements BoardDAO{
 	public void deleteShareMethod(BoardDTO bdto) {
 		boardSqlSession.delete("board.delShare",bdto);
 	}
+
+	@Override
+	public int selectWriterMethod(BoardDTO bdto) {
+		return boardSqlSession.selectOne("board.selWriter",bdto);
+	}
 }//end class

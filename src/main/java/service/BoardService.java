@@ -14,6 +14,7 @@ public interface BoardService {
 	public int selectShareProcess(BoardDTO bdto);
 	public void insertShareProcess(BoardDTO bdto);
 	public void deleteShareProcess(BoardDTO bdto);
+	public int selectWriterProcess(BoardDTO bdto);
 }//end interface
 
 
