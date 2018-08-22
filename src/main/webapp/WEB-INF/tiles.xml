@@ -50,6 +50,10 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/follower.jsp" />
 	</definition>
 	
+	<definition name="paymentPage" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paymentmain.jsp" />
+	</definition>
+	
 	<definition name="write" template="/WEB-INF/view/template/layoutWrite.jsp">
 		<put-attribute name="title" value="Moons" />
 		<put-attribute name="body" value="/WEB-INF/view/main/write.jsp" />
@@ -91,4 +95,5 @@
 	<definition name="findSuccess" extends="intro">
 		<put-attribute name="body" value="/WEB-INF/view/main/findSuccess.jsp" />
 	</definition>
+
 </tiles-definitions>

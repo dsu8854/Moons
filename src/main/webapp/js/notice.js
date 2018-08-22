@@ -11,14 +11,6 @@ $(document).ready(function(){
 	//////////notice /////////////
 	contentProcess();
 	
-	//읽음체크를 위한 이벤트
-	$.ajax({
-		type:'GET',
-		dataType:'json',
-		url:'noticelistopen.do?start='+0+'&read='+read,
-		success:noticelistMessage
-	});
-	
 	//스크롤 최하단이벤트
 	var start=0;
 	$(window).scroll(function() { 

@@ -34,6 +34,15 @@ DROP TABLE moons_board;
 -- member
 DROP TABLE moons_user;
 
+-- point
+CREATE TABLE moons_point (
+	point_num      NUMBER NOT NULL, -- num
+	point_donater  NUMBER NULL,     -- 유저식별코드
+	point_receiver NUMBER NULL,     -- 유저식별코드2
+	point_donate   NUMBER NOT NULL DEFAULT 0, -- 후원한금액
+	point_date     DATE   NOT NULL  -- 날짜
+);
+
 -- scrap
 CREATE TABLE moons_scrap (
 	user_code  NUMBER NULL,     -- 유저식별코드

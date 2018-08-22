@@ -108,6 +108,10 @@
 		<property name="ratingSqlSession" ref="sqlSession" />
 	</bean>
 	
+	<bean id ="pointDao" class="dao.PointDaoImp">
+		<property name="pointSqlSession" ref="sqlSession"></property>
+	</bean>
+	
 	<!-- [8] Service 빈 선언 -->
 	<bean id="userService" class="service.UserServiceImp">
 		<property name="userDao" ref="userDao" />
@@ -133,6 +137,10 @@
 		<property name="ratingDao" ref="ratingDao" />
 	</bean>
 	
+	<bean id="pointService" class="service.PointServiceImp">
+		<property name="pointDao" ref="pointDao" />
+	</bean>
+	
 	<bean class="controller.UserController" />
 	<bean class="controller.MailController" />
 	<bean class="controller.BoardController" />
@@ -141,6 +149,7 @@
 	<bean class="controller.MovieController" />
 	<bean class="controller.NoticeController" />
 	<bean class="controller.SearchController" />
+	<bean class="controller.PaymentController" />
 	
 	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<property name="definitions">

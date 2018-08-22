@@ -36,13 +36,21 @@
 
 	//WebSocket이 연결된 경우 호출되는 함수
 	function onOpen() {
-		webSocket.send('1|' + user_code);
-
-		if (current_page.indexOf('dmRoom.do') != -1)
-			enterDm();
-		else if (prev_page.indexOf('dmRoom.do') != -1)
-			leaveDm();
+	webSocket.send('1|'+user_code);
+		
+	if(current_page.indexOf('dmRoom.do')!=-1)
+		enterDm();
+	else if(prev_page.indexOf('dmRoom.do')!=-1)
+		leaveDm();
+	else if(prev_page.indexOf('notice.do')!=-1){
+		$.ajax({
+			type:'GET',
+			dataType:'json',
+			url:'noticeread.do',
+			//success:noticelistMessage
+		});
 	}
+}
 
 	function onClose() {
 		webSocket.send('2|' + user_code);
