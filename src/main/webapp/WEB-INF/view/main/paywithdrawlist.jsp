@@ -2,44 +2,24 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="js/payment.js"></script> 
+<script src="js/withdraw.js"></script> 
 <link rel="stylesheet" href="css/payment.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <input type="hidden" id="user_code" value=${user_code }/>
 
+<div class="withdraw_menu">
+	<ul>
+		<li id="paywithdraw">인출신청</li>
+		<li id="paywithdrawlist" value="on">인출내역</li>
+	</ul>
+</div>
+
 <div class="payMainWrap">
-	<div id="payBox">
-		<div id="myInfo">
-			<img src="${user_photo }" />
-		</div>
-		<div id="pointHeader">
-			<span>사용가능한 포인트 </span><br/>
-			<span id="myPoint">
-				<fmt:formatNumber value="${user_point }" pattern="#,###"/> P
-			</span><br/><br/>
-			<input type="button" class="paymentBtn" id="payCharge" value="충전" />
-			<input type="button" class="paymentBtn" id="payWithdraw" value="인출" />
-		</div>
-		<!-- <div id="pointWithdraw">
-			<a href="#">인출하기(>)</a>
-		</div> -->
-	</div><br/>
-	<div id="pointHeaderCal">
-		<ul>
-			<li>월</li>
-			<li>월</li>
-			<li>월</li>
-			<li>월</li>
-			<li>월</li>
-			<li>월</li>
-		</ul>
-		
-		<input type="text" class="calRange" id="getdateprev" readonly="readonly" size="8" value="">~
-		<input type="text" class="calRange" id="getdate" size="8" value="" />
-		<input type="button" class="pointCalBtn" id="pointCalBtn" value="적용" />
-	</div>
-	
-	<div id="pointUse" class="minititle"> 포인트 사용 내역 </div><br/><br/>
+	<div id="pointUse"> 포인트 사용 내역 </div><br/><br/>
 	<table id="pointTable">
 		<c:forEach items="${pointList }" var="pdto">
 		<tr>

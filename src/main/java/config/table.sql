@@ -1,3 +1,31 @@
+insert into moons_withdraw values(1,1,'테스트','123456-1234567',)
+
+-- withdraw
+CREATE TABLE moons_withdraw (
+	withdraw_num         NUMBER        NOT NULL, -- num
+	user_code            NUMBER        NULL,     -- 유저
+	withdraw_name        VARCHAR2(20)  NOT NULL, -- 실명
+	withdraw_identitynum VARCHAR2(13)  NOT NULL, -- 주민등록번호
+	withdraw_amount      NUMBER        DEFAULT 0, -- 입금액
+	withdraw_bank        VARCHAR2(20)  NOT NULL, -- 은행
+	withdraw_account     VARCHAR2(100) NOT NULL, -- 계좌번호
+	withdraw_holder      VARCHAR2(20)  NOT NULL, -- 예금주
+	withdraw_date        DATE          NOT NULL, -- 날짜
+	withdraw_state       NUMBER        NOT NULL  -- 신청상태
+);
+
+
+select b.*
+from (select rownum rm, a.*
+	from (select p.*, u.user_nickname
+		from moons_point p, moons_user u
+		where ((p.point_donater=1 and u.user_code=p.point_receiver) or (p.point_receiver=1 and u.user_code=p.point_donater))
+			and ( point_date<'2018-8-1' and point_date>='2018-9-1')
+		order by point_date desc)a)b
+where rm>0 and rm<=10 
+where rm>#{start} and rm<=#{start}+10
+
+
 select b.*
 from (select rownum rm, a.*
 	from (select p.*, u.user_nickname
@@ -11,8 +39,8 @@ select * from moons_user
 
 
 update moons_user
-set user_nickname='테스트2'
-where user_code=2
+set user_point=4000
+where user_code=1
 -- point
 CREATE TABLE moons_point (
 	point_num      NUMBER NOT NULL, -- num
@@ -73,6 +101,8 @@ insert into moons_payment values (2,1,0,1300,sysdate);
 
 insert into moons_point values(1,1,2,1000,sysdate);
 insert into moons_point values(1,2,1,1000,sysdate);
+
+insert into moons_point values(1,1,2,1000,'2018-04-03');
 
 select m.user_code, 
 		(select r.point_donate

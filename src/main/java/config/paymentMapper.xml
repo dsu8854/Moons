@@ -9,8 +9,13 @@
 		from (select rownum rm, a.*
 			from (select p.*, u.user_nickname
 				from moons_point p, moons_user u
-				where (p.point_donater=1 and u.user_code=p.point_receiver) or (p.point_receiver=1 and u.user_code=p.point_donater)
+				where ((p.point_donater=#{user_code} and u.user_code=p.point_receiver) or (p.point_receiver=#{user_code} and u.user_code=p.point_donater))
+				<![CDATA[and ( point_date>=#{startterm} and point_date<#{endterm})]]>
 				order by point_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
+	<insert id="withdrawins" parameterType="dto.WithdrawDTO">
+		insert into moons_withdraw
+		values (1,#{user_code},#{withdraw_name},#{withdraw_identitynum},#{withdraw_amount},#{withdraw_bank},#{withdraw_account},#{withdraw_holder},sysdate,0)
+	</insert>
 </mapper> 

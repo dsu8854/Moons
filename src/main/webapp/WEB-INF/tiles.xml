@@ -53,6 +53,15 @@
 	<definition name="paymentPage" extends="index">
 		<put-attribute name="body" value="/WEB-INF/view/main/paymentmain.jsp" />
 	</definition>
+	<definition name="paywithdraw" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paywithdraw.jsp" />
+	</definition>
+	<definition name="paywithdrawlist" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paywithdrawlist.jsp" />
+	</definition>
+	<definition name="paycharge" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paycharge.jsp" />
+	</definition>
 	
 	<definition name="write" template="/WEB-INF/view/template/layoutWrite.jsp">
 		<put-attribute name="title" value="Moons" />
