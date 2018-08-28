@@ -7,7 +7,7 @@
 
 .menubar{
 	padding:1% 0 0 1%;    
-	display: flex;    
+	display: flex;
 }
 
 .menubarBtn {
@@ -50,7 +50,7 @@
 	right: 0;
 }
 
-.noticeArea, .writeArea, .messageArea, .profileArea {
+.noticeArea, .messageArea, .paymentArea {
 	position: relative;
 	float: left;
 	margin: 0 4% 0 0;
@@ -86,7 +86,7 @@
     padding: 1px 3px;
 }
 
-#noticeBtn, #writeBtn, #messageBtn, #profileBtn, #exitBtn{
+#noticeBtn, #messageBtn, #paymentBtn, #profileBtn{
 	width: 80px;   
     height: 35px;    
    	/* margin:15% 0 0 0 ; */            

@@ -36,7 +36,7 @@ public class UserController {
 	/* NaverLoginBO */
 	@Autowired
 	private NaverLoginBO naverLoginBO;
-
+	
 	@Autowired
 	private KakaoLoginBO kakaoLoginBO;
 	
@@ -332,7 +332,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/profile.do")
-	public String profile() {
+	public String profile(Model model, HttpSession session) {
+		int user_code = (Integer) session.getAttribute("user_code");
+		
+		model.addAttribute("userInfo", userService.selectUpdateInfoProcess(user_code));
 		return "profile";
 	}
 
@@ -340,7 +343,7 @@ public class UserController {
 	public String updateInfoForm(Model model, HttpSession session) {
 		int user_code = (Integer) session.getAttribute("user_code");
 		
-		model.addAttribute("dto", userService.selectInfoProcess(user_code)); // id에 해당하는 레코드값을 가져온다.
+		model.addAttribute("dto", userService.selectAllInfoProcess(user_code)); // id에 해당하는 레코드값을 가져온다.
 		return "updateInfoForm";
 		// 업데이트시 첨부파일을 생략해서 업데이트 해야된다.
 	}
@@ -365,11 +368,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/follow.do")					// 팔로워 페이지 이동
-	public String followList(Model model,HttpSession session) {
-		int user_code = (Integer) session.getAttribute("user_code");
+	public String followList(Model model, int user_code) {
+		/*int user_code = (Integer) session.getAttribute("user_code");*/
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
-			
+		
 		model.addAttribute("followList",userService.selectFollowListProcess(udto)); // code에 해당하는 팔로워할 유저들 보여주기 
 		model.addAttribute("followCount",userService.followCountProcess(udto));		// 팔로워 인원수 
 		
@@ -377,8 +380,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/follower.do")						// 팔로잉 페이지로 이동
-	public String followerList(Model model,HttpSession session) {
-		int user_code = (Integer) session.getAttribute("user_code");
+	public String followerList(Model model, int user_code) {
+		/*int user_code = (Integer) session.getAttribute("user_code");*/
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
 		
@@ -416,5 +419,15 @@ public class UserController {
 		} catch(Exception e) {
 			return false;
 		}
+	}
+	
+	@RequestMapping(value="/about.do")
+	public String about() {
+		return "about";
+	}
+	
+	@RequestMapping(value="/privacy.do")
+	public String privacy() {
+		return "privacy";
 	}
 }// end class

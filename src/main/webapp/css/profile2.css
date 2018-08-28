@@ -1,0 +1,256 @@
+body {
+	/* width: 1500px; */
+	/* background-color: purple; */
+	height: 100%;
+}
+
+.wrap {
+	margin-top: 50px;
+}
+
+.header {
+	background-color: blue;
+	margin-bottom: 50px;
+	padding-bottom: 50px;
+}
+
+#main_inner:before, #main_inner:after {
+	box-sizing: border-box;
+	claer: both;
+}
+
+#content {
+	position: relative;
+	overflow: hidden;
+}
+
+#content_width {
+	position: relative;
+	margin-left: 7%;
+	margin-right: 7%;
+}
+
+/*프로필 1번째 창*/
+#content_h1 {
+	position: relative;
+	height: 250px;
+	border: 1px solid blue;
+}
+
+#my_profil {
+	text-align: center;
+	font-size: 15px;
+	font-style: italic;
+	color: silver;
+}
+
+#my_profil_pic1 {
+	display: inline-block;		/* a요소 이미지 크기에 맞추기 */
+	margin: 0;
+	width: 0;
+	height: 0;
+	
+}
+
+.my_image {
+	border: 1px solid blue;
+	margin-left: 20px;
+	width: 150px;
+	height: 150px;
+	border-radius: 75px; /* 이미지 반크기만큼 반경을 잡기*/
+}
+
+/* 수정,팔로우,팔로잉 */
+#my_btn1 {
+	float: right;
+	margin-right: 10px;
+	padding: 10px;
+	background-color: teal;
+}
+
+#my_btn2 {
+	float: right;
+	padding: 10px;
+	margin-right: 10px;
+}
+
+#my_btn3 {
+	float: right;
+	padding: 10px;
+	margin-right: 10px;
+}
+
+#back {
+	float :right;
+	padding:10px;
+	margin-right:10px;
+}
+
+/* 정리 글  */
+div {
+	font-family: inherit;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style-type: none;
+}
+
+.clearfix {
+	zoom: 1;
+}
+
+.my_ul1 {
+	border-left: 1px solid #000000;
+}
+
+.my_profil_menu {
+	clear: right;
+	padding-left: 201px;
+	width: 649px;
+}
+
+._profil_display1 {
+	display: inline-block;
+}
+
+._9rx {
+	padding: 0;
+}
+
+._6-6 {
+	background-color: aqua;
+	border-right: 1px solid #000000;
+	float: left;
+	font-size: 14px;
+	font-weight: 600;
+	height: 43px;
+	line-height: 3.05;
+	padding: 0 17px;
+	position: relative;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.img_1 {
+	margin-right: 3px;
+}
+
+.list_1 {
+	cursor: pointer;
+	display: none;
+	font-size: 9px;
+}
+
+.list_2 {
+	cursor: pointer;
+	display: none;
+	font-size: 9px;
+}
+
+
+
+#select_all {
+	
+	font-size:10px;
+	
+}
+
+a {
+	color: #365899;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.sp_KQh5j0Ivz87.sx_8f2293 {
+	width: 8px;
+	height: 5px;
+	background-position: -13px -483px;
+}
+
+/*프로필 3번째 창*/
+#content_h3 {
+	margin: 20px 0px 20px 0px;
+	float: left;
+	height:100%;
+	padding-left: 10px;
+	width: 650px;
+	border: 1px solid blue;
+}
+
+/* profil.css */
+
+.personinfo_1 {
+	margin: 60px 20px 20px 100px;
+	
+	
+}
+.alert_1 {
+	float: left;
+	width: 413px;
+	margin-top: 20px;
+	margin-left: 20px;
+	border : 2px solid black;
+}
+
+
+.personinfo_2 {
+	width: 500px;
+	height :50px;
+	border: 2px solid black;
+	padding-top:5px;
+}
+
+.personinfo_3 {
+	line-height: 40px;
+	padding-left: 10px;
+	text-align: left;
+	
+	width :100px;
+	height: 40px;
+	border: 2px solid aqua;
+	margin-left:20px;
+	
+	float: left;
+}
+
+.personinfo_4 {
+	
+	vertical-align:middle;
+	
+	margin-left:20px;
+	margin-right:10px;
+	width :330px;
+	height: 40px;
+	border: 2px solid aqua;
+	float: left;
+	
+}
+
+.personinfo_5 {
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
+
+.list_3 {
+	margin-top: 20px;
+	margin-left: 10px;
+	text-align: center;
+	font-size: 12px;
+}
+
+.list_4 {
+	margin-left:100px;
+	font-size:12px;
+	
+}
+
+.select_info1 { /* 알림창  */
+	font-size: 10px;
+}

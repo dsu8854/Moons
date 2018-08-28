@@ -98,7 +98,9 @@ CREATE TABLE moons_board (
     board_share   NUMBER        DEFAULT 0, -- 공유된 수
     board_reply   NUMBER        DEFAULT 0, -- 댓글 수
 	board_date    DATE          NOT NULL, -- 날짜
-	board_hashtag VARCHAR2(1000)    NULL      -- 해시태그
+	board_hashtag VARCHAR2(1000)    NULL,      -- 해시태그
+	board_photo	  VARCHAR2(200) NULL,	-- 대표 이미지
+	board_privacy NUMBER		NOT NULL
 );
 
 -- board
@@ -175,6 +177,39 @@ CREATE TABLE moons_like (
    board_num  NUMBER NULL,     -- num
    like_date DATE   NOT NULL  -- 날짜
 );
+
+-- point
+CREATE TABLE moons_point (
+   point_num      NUMBER NOT NULL, -- num
+   point_donater  NUMBER NOT NULL,     -- 유저식별코드
+   point_receiver NUMBER NOT NULL,     -- 유저식별코드2
+   point_donate   NUMBER DEFAULT 0, -- 후원한금액
+   point_date     DATE   NOT NULL  -- 날짜
+);
+
+-- point
+ALTER TABLE moons_point
+	ADD
+		CONSTRAINT PK_moons_point -- point 기본키
+		PRIMARY KEY (
+			point_num -- num
+		);
+
+CREATE TABLE moons_file (
+   board_num	  NUMBER	NULL,
+   file_name	  VARCHAR2(200) NOT NULL
+);
+
+-- file
+ALTER TABLE moons_file
+	ADD
+		CONSTRAINT FK_moons_board_TO_moons_file -- board -> file
+		FOREIGN KEY (
+			board_num -- 게시물번호
+		)
+		REFERENCES moons_board ( -- board
+			board_num -- num
+		);
 
 -- scrap
 ALTER TABLE moons_scrap
@@ -396,6 +431,28 @@ ALTER TABLE moons_like
          board_num -- num
       );
       
+-- point
+ALTER TABLE moons_point
+	ADD
+		CONSTRAINT FK_moons_user_TO_moons_point -- member -> point
+		FOREIGN KEY (
+			point_donater -- 유저식별코드
+		)
+		REFERENCES moons_user ( -- member
+			user_code -- 유저식별코드
+		);
+
+-- point
+ALTER TABLE moons_point
+	ADD
+		CONSTRAINT FK_moons_user_TO_moons_point2 -- member -> point2
+		FOREIGN KEY (
+			point_receiver -- 유저식별코드2
+		)
+		REFERENCES moons_user ( -- member
+			user_code -- 유저식별코드
+		);      
+		
 create sequence moons_user_code_seq
 start with 1 
 increment by 1
@@ -419,6 +476,15 @@ start with 1
 increment by 1
 nocache
 nocycle;
+
+create sequence moons_point_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+------------------------------------------------------------------
+------------------------------------------------------------------ 여기까지
 
 -- 팔로우 받았을 때 알림 추가
 create or replace trigger notice_follow
@@ -552,19 +618,17 @@ for each row
   end;
 /
 */
-/*
 -- 누군가가 나한테 후원했을 때 알림 추가 (나중에)
-create or replace trigger notice_payment_profile
-after update of moons_point on moons_user
+create or replace trigger notice_payment_donate
+after insert on moons_point
 for each row
-  declare
-  	reply_actor NUMBER;
-  begin	  
-	select user_code into reply_actor from moons_reply where board_num=:new.board_num and reply_ref=:new.reply_ref;
-	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,7,sysdate);
+  begin
+	insert into moons_notice(user_code,notice_actor,notice_type,notice_amount,notice_date,notice_state) values(:new.point_receiver,:new.point_donater,7,:new.point_donate,sysdate,1);
+	update moons_user set user_point=user_point+:new.point_donate where user_code=:new.point_receiver;
+	update moons_user set user_point=user_point-:new.point_donate where user_code=:new.point_donater;
   end;
 /
-*/
+
 /*
 -- 누군가가 내 글에 후원했을 때 알림 추가 (나중에)
 create or replace trigger notice_payment_board
@@ -576,12 +640,11 @@ for each row
 /
 */
 -- 포인트를 충전했을 때 결제내역 추가
-create or replace trigger deposit
-after update of user_point on moons_user
+create or replace trigger notice_payment_charge
+after insert on moons_payment
 for each row
-when(new.user_point > old.user_point)
   begin
-	insert into moons_payment(payment_num,user_code,payment_deposit,payment_date) values(moons_payment_num_seq.nextval,:new.user_code,:new.user_point-:old.user_point,sysdate);
+	update moons_user set user_point=user_point+:new.payment_deposit where user_code=:new.user_code;
   end;
 /
 
@@ -594,6 +657,16 @@ when(new.user_point < old.user_point)
 	insert into moons_payment(payment_num,user_code,payment_withdraw,payment_date) values(moons_payment_num_seq.nextval,:new.user_code,:old.user_point-:new.user_point,sysdate);
   end;
 /
+
+create or replace trigger board_file_delete
+after delete on moons_board
+for each row
+  begin
+	delete from moons_file where board_num=:old.board_num;
+  end;
+/
+------------------------------------------------------------------
+------------------------------------------------------------------ 여기까지
 
 -- 트리거 진행상황
 <알림 테이블 추가>
@@ -614,6 +687,7 @@ drop sequence moons_user_code_seq;
 drop sequence moons_board_num_seq;
 drop sequence moons_reply_num_seq;
 drop sequence moons_payment_num_seq;
+drop sequence moons_point_num_seq;
 
 select * from moons_scrap;
 select * from moons_follow;
@@ -622,6 +696,7 @@ select * from moons_reply;
 select * from moons_dm;
 select * from moons_share;
 select * from moons_payment;
+select * from moons_point;
 select * from moons_comment;
 select * from moons_rating;
 select * from moons_like;
@@ -629,6 +704,8 @@ select * from moons_board;
 select * from moons_user;
 
 select * from user_triggers;
+
+drop trigger notice_payment
 
 insert into moons_follow values(1,2);
 insert into moons_follow values(9,1);
@@ -643,14 +720,13 @@ delete from moons_dm;
 delete from moons_user;
 delete from moons_board;
 delete from moons_follow;
+delete from moons_payment;
 delete from moons_reply;
 delete from moons_like;
 delete from moons_share;
-delete from moons_notice where notice_type=2;
-
+delete from moons_notice where notice_type=7;
 delete from moons_user where user_code=6;
-
-select sysdate from dual
+delete from moons_point;
 
 -- 노티스 중복 제거
 DELETE FROM moons_notice
@@ -672,50 +748,28 @@ where follow_following = 1 and user_code not in (select follow_following
 											 from moons_follow
 											 where user_code=1)
 											 
-select f.user_code, f.checkFollow,
-	   u.user_photo, u.user_nickname, u.user_introduce
-		from
-		(
-		select user_code, 1 as checkFollow
-		from moons_follow
-		where follow_following=1 and user_code in (select follow_following
-											 		 		  from moons_follow
-											 		 		  where user_code=1)
-		union
-		select user_code, 0 as checkFollow
-		from moons_follow
-		where follow_following=1 and user_code not in (select follow_following
-														 		  from moons_follow
-														 		  where user_code=1)) f, moons_user u
-		where u.user_code=f.user_code
-
-select dm_receiver, user_nickname, user_photo, dm_count
-from(select distinct case when d.user_code=2 then d.dm_receiver else d.user_code end as dm_receiver, 
-		u.user_nickname, u.user_photo, 
-		(select count(*) from moons_dm where user_code=d.user_code and dm_receiver=2 and dm_state=1) as dm_count,
-		row_number() over(partition by (case when d.user_code=2 then d.dm_receiver else d.user_code end) order by (case when d.user_code=2 then d.dm_receiver else d.user_code end)) as cnt
-	 from(select distinct user_code, dm_receiver
-		  from moons_dm
-	 	  where user_code=2 or (user_code!=2 and user_code in (select distinct user_code
-														  	   from moons_dm
-														  	   where dm_receiver=2))) d, moons_user u
-	 where decode(d.user_code,1,d.dm_receiver,d.user_code) like u.user_code)
-where cnt=1;
-
-select dm_receiver, user_nickname, user_photo, dm_count
-		from(select distinct case when d.user_code=2 then d.dm_receiver else d.user_code end as dm_receiver, 
-					u.user_nickname, u.user_photo, 
-					(select count(*) from moons_dm where user_code=d.user_code and dm_receiver=2 and dm_state=1) as dm_count,
-					row_number() over(partition by (case when d.user_code=1 then d.dm_receiver else d.user_code end) order by (case when d.user_code=2 then d.dm_receiver else d.user_code end)) as cnt
-	 		 from(select distinct user_code, dm_receiver
-		  		  from moons_dm
-	 	  		  where user_code=2 or (user_code!=2 and user_code in (select distinct user_code
-														  	   		   						 from moons_dm
-														  	   		   						 where dm_receiver=2))) d, moons_user u
-	 		 where decode(d.user_code,2,d.dm_receiver,d.user_code) like u.user_code)
-		where cnt=1;
--- case d.user_code when 1 then d.dm_receiver else d.user_code
---d.user_code=1 ? d.dm_receiver=u.user_code : 1==1
---&& d.user_code!=1 ? d.user_code=u.user_code : 1==1
--- d.user_code=1 ? d.dm_receiver=u.user_code : d.user_code=u.user_code
---case when d.user_code=1 then where d.dm_receiver=u.user_code else where d.user_code=u.user_code
+		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag,
+		user_nickname, user_photo,
+		(select case when count(*) > 0 then 1 else 0 end 
+        from moons_like
+		where user_code=1 and board_num=m.board_num) as isLike,
+		(select case when count(*) > 0 then 1 else 0 end 
+        from moons_share
+		where user_code=1 and board_num=m.board_num) as isShare
+		from moons_board m, moons_user u
+		where m.user_code=u.user_code and m.user_code=1
+		order by board_date desc	
+		
+		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+		u.user_nickname, u.user_photo, u.user_introduce,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_like
+		 where user_code=1 and board_num=m.board_num) as isLike,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_share
+		 where user_code=1 and board_num=m.board_num) as isShare
+		from moons_board m, moons_user u
+		where board_num=16 and m.user_code=u.user_code
+		

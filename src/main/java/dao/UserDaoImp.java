@@ -73,8 +73,18 @@ public class UserDaoImp implements UserDAO {
 	}
 
 	@Override
+	public UserDTO selectAllInfoMethod(int user_code) {
+		return userSqlSession.selectOne("user.selAllInfo", user_code);
+	}
+	
+	@Override
 	public UserDTO selectInfoMethod(int user_code) {
 		return userSqlSession.selectOne("user.selInfo", user_code);
+	}
+	
+	@Override
+	public UserDTO selectUpdateInfoMethod(int user_code) {
+		return userSqlSession.selectOne("user.selUptInfo", user_code);
 	}
 	
 	@Override

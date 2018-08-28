@@ -37,6 +37,7 @@
 	width: 140px;
 	height: 140px;
 	border-radius: 70px; /* 이미지 반크기만큼 반경을 잡기*/
+	cursor: pointer;
 }
 
 /* 프로필 닉네임 */
