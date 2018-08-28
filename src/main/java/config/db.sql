@@ -16,8 +16,11 @@ DROP TABLE moons_dm;
 -- share
 DROP TABLE moons_share;
 
--- payment
-DROP TABLE moons_payment;
+-- charge
+DROP TABLE moons_charge;
+
+-- withdraw
+DROP TABLE moons_withdraw;
 
 -- 한줄평
 DROP TABLE moons_comment;
@@ -33,6 +36,22 @@ DROP TABLE moons_board;
 
 -- member
 DROP TABLE moons_user;
+
+drop sequence moons_user_code_seq;
+drop sequence moons_board_num_seq;
+drop sequence moons_reply_num_seq;
+drop sequence moons_point_num_seq;
+drop sequence moons_charge_num_seq;
+drop sequence moons_withdraw_num_seq;
+
+-- point
+CREATE TABLE moons_point (
+	point_num      NUMBER NOT NULL, -- num
+	point_donater  NUMBER NULL,     -- 유저식별코드
+	point_receiver NUMBER NULL,     -- 유저식별코드2
+	point_donate   NUMBER NOT NULL DEFAULT 0, -- 후원한금액
+	point_date     DATE   NOT NULL  -- 날짜
+);
 
 -- scrap
 CREATE TABLE moons_scrap (
@@ -139,23 +158,6 @@ ALTER TABLE moons_user
 			user_code -- 유저식별코드
 		);
 
--- payment
-CREATE TABLE moons_payment (
-	payment_num      NUMBER NOT NULL, -- num
-	user_code        NUMBER NULL,     -- 유저
-	payment_deposit  NUMBER DEFAULT 0, -- 입금액
-	payment_withdraw NUMBER DEFAULT 0, -- 출금액
-	payment_date     DATE   NOT NULL  -- 날짜
-);
-
--- payment
-ALTER TABLE moons_payment
-	ADD
-		CONSTRAINT PK_moons_payment -- payment 기본키
-		PRIMARY KEY (
-			payment_num -- num
-		);
-
 -- 한줄평
 CREATE TABLE moons_comment (
 	user_code       NUMBER        NULL,     -- 유저식별코드
@@ -199,6 +201,44 @@ CREATE TABLE moons_file (
    board_num	  NUMBER	NULL,
    file_name	  VARCHAR2(200) NOT NULL
 );
+
+-- 충전
+CREATE TABLE moons_charge (
+	charge_num    NUMBER NOT NULL, -- num
+	user_code     NUMBER NULL,     -- 유저
+	charge_amount NUMBER DEFAULT 0, -- 입금액
+	charge_date   DATE   NOT NULL  -- 날짜
+);
+
+-- 충전
+ALTER TABLE moons_charge
+	ADD
+		CONSTRAINT PK_moons_charge -- 충전 기본키
+		PRIMARY KEY (
+			charge_num -- num
+		);
+		
+-- withdraw
+CREATE TABLE moons_withdraw (
+	withdraw_num         NUMBER        NOT NULL, -- num
+	user_code            NUMBER        NULL,     -- 유저
+	withdraw_name        VARCHAR2(20)  NOT NULL, -- 실명
+	withdraw_identitynum VARCHAR2(15)  NOT NULL, -- 주민등록번호
+	withdraw_amount      NUMBER        DEFAULT 0, -- 출금액
+	withdraw_bank        VARCHAR2(20)  NOT NULL, -- 은행
+	withdraw_account     VARCHAR2(100) NOT NULL, -- 계좌번호
+	withdraw_holder      VARCHAR2(20)  NOT NULL, -- 예금주
+	withdraw_date        DATE          NOT NULL, -- 날짜
+	withdraw_state       NUMBER        NOT NULL  -- 신청상태
+);		
+
+-- withdraw
+ALTER TABLE moons_withdraw
+	ADD
+		CONSTRAINT PK_moons_withdraw -- withdraw 기본키
+		PRIMARY KEY (
+			withdraw_num -- num
+		);
 
 -- file
 ALTER TABLE moons_file
@@ -376,10 +416,10 @@ ALTER TABLE moons_share
 			user_code -- 유저식별코드
 		);
 
--- payment
-ALTER TABLE moons_payment
+-- 충전
+ALTER TABLE moons_charge
 	ADD
-		CONSTRAINT FK_moons_user_TO_moons_payment -- member -> payment
+		CONSTRAINT FK_moons_user_TO_moons_charge -- member -> 충전
 		FOREIGN KEY (
 			user_code -- 유저
 		)
@@ -452,6 +492,17 @@ ALTER TABLE moons_point
 		REFERENCES moons_user ( -- member
 			user_code -- 유저식별코드
 		);      
+
+-- withdraw
+ALTER TABLE moons_withdraw
+	ADD
+		CONSTRAINT FK_moons_user_TO_moons_withdraw -- member -> withdraw
+		FOREIGN KEY (
+			user_code -- 유저
+		)
+		REFERENCES moons_user ( -- member
+			user_code -- 유저식별코드
+		);		
 		
 create sequence moons_user_code_seq
 start with 1 
@@ -471,13 +522,19 @@ increment by 1
 nocache
 nocycle;
 
-create sequence moons_payment_num_seq
+create sequence moons_point_num_seq
 start with 1 
 increment by 1
 nocache
 nocycle;
 
-create sequence moons_point_num_seq
+create sequence moons_charge_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+create sequence moons_withdraw_num_seq
 start with 1 
 increment by 1
 nocache
@@ -640,16 +697,17 @@ for each row
 /
 */
 -- 포인트를 충전했을 때 결제내역 추가
-create or replace trigger notice_payment_charge
-after insert on moons_payment
+create or replace trigger notice_charge
+after insert on moons_charge
 for each row
   begin
-	update moons_user set user_point=user_point+:new.payment_deposit where user_code=:new.user_code;
+	update moons_user set user_point=user_point+:new.charge_amount where user_code=:new.user_code;
   end;
 /
 
+-- 여기 수정 요망
 -- 포인트를 환전했을 때 결제내역 추가
-create or replace trigger withdraw
+create or replace trigger notice_withdraw
 after update of user_point on moons_user
 for each row
 when(new.user_point < old.user_point)
@@ -658,6 +716,7 @@ when(new.user_point < old.user_point)
   end;
 /
 
+-- 게시글 삭제 시 안에서 사용된 파일들 삭제
 create or replace trigger board_file_delete
 after delete on moons_board
 for each row
@@ -681,13 +740,6 @@ for each row
 
 deposit		포인트를 충전했을 때 결제내역 추가
 withdraw		포인트를 환전했을 때 결제내역 추가
-
-
-drop sequence moons_user_code_seq;
-drop sequence moons_board_num_seq;
-drop sequence moons_reply_num_seq;
-drop sequence moons_payment_num_seq;
-drop sequence moons_point_num_seq;
 
 select * from moons_scrap;
 select * from moons_follow;

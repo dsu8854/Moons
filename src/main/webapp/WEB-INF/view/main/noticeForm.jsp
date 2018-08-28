@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 <script src="js/notice.js"></script> 
 <link rel="stylesheet" href="css/notice.css">
 <div id="notice_setting">
@@ -19,7 +21,11 @@
 	<c:forEach items="${notice_list}" var="ndto">
 			<tr>
 				<td>
+<<<<<<< HEAD
 					<img src="images/${ndto.user_photo }" />
+=======
+					<img src="${ndto.user_photo }" />
+>>>>>>> 107cdcc144efa57d361754cbafd6faface29aefd
 				</td>
 				<td>
 					<input type="hidden" id="actor" value="${ndto.user_nickname }" />
@@ -27,7 +33,6 @@
 					<input type="hidden" id="amount" value="${ndto.notice_amount }" />
 					<input type="hidden" id="read" value="${ndto.notice_read }" />
 					<a href="#" id="notice_content"> </a><br/>
-					<!-- <span id="notice_content"></span> -->
 					<span id="notice_date">${ndto.notice_date }</span>
 				</td>
 			</tr>

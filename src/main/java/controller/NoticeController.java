@@ -32,7 +32,8 @@ public class NoticeController {
 		map.put("start", 0);
 		
 		model.addAttribute("notice_list",noticeService.noticeListProcess(map));
-		return "notice";
+		System.out.println("notice:"+noticeService.noticeListProcess(map).size());
+		return "notice"; 
 	}
 	
 	@RequestMapping("/noticelistopen.do")
@@ -49,7 +50,7 @@ public class NoticeController {
 		}
 		return noticeService.noticeListProcess(map);
 	}
-	
+
 	@RequestMapping("/noticeRead.do")
 	@ResponseBody
 	public void noticeRead(HttpSession session) {

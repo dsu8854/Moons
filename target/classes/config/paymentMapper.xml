@@ -9,22 +9,43 @@
 		from (select rownum rm, a.*
 			from (select p.*, u.user_nickname
 				from moons_point p, moons_user u
-				where (p.point_donater=#{user_code} and u.user_code=p.point_receiver) or (p.point_receiver=#{user_code} and u.user_code=p.point_donater)
+				where ((p.point_donater=#{user_code} and u.user_code=p.point_receiver) or (p.point_receiver=#{user_code} and u.user_code=p.point_donater))
+				<![CDATA[and ( point_date>=#{startterm} and point_date<#{endterm})]]>
 				order by point_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
-	</select>
-	
-	<select id="selPoint" parameterType="int" resultType="int">
-		select user_point
-		from moons_user
-		where user_code=#{user_code}
 	</select>
 	
 	<insert id="donate" parameterType="dto.PointDTO">
 		insert into moons_point values(moons_point_num_seq.nextval,#{point_donater},#{point_receiver},#{point_donate},sysdate)
 	</insert> 
+
+	<select id="withdrawlist" parameterType="map" resultType="dto.WithdrawDTO">
+		select b.*
+		from (select rownum rm, a.*
+			from (select *
+				from moons_withdraw
+				where user_code=#{user_code}
+				order by withdraw_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
 	
-	<insert id="charge" parameterType="dto.PaymentDTO">
-		insert into moons_payment values(moons_payment_num_seq.nextval,#{user_code},#{payment_deposit},0,sysdate)
+	<insert id="withdrawins" parameterType="dto.WithdrawDTO">
+		insert into moons_withdraw
+		values (moons_withdraw_num_seq.nextval,#{user_code},#{withdraw_name},#{withdraw_identitynum},#{withdraw_amount},#{withdraw_bank},#{withdraw_account},#{withdraw_holder},sysdate,0)
+	</insert>
+	
+	<select id="chargelist" parameterType="map" resultType="dto.ChargeDTO">
+		select b.*
+		from (select rownum rm, a.*
+			from (select *
+				from moons_charge
+				where user_code=#{user_code}
+				order by charge_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
+	
+	<insert id="chargeins" parameterType="dto.ChargeDTO">
+		insert into moons_charge
+		values(moons_charge_num_seq.nextval,#{user_code},#{charge_amount},sysdate)
 	</insert>
 </mapper> 

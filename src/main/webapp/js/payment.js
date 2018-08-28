@@ -1,7 +1,17 @@
 $(document).ready(function(){
+	$('#payCharge').on('click',function(){
+		location.href='paycharge.do';
+	});
+	$('#payWithdraw').on('click',function(){
+		location.href='paywithdraw.do';
+	});
 	
-	/////////달력부분///////////
+	var start=0;
+	/////////달력세팅///////////
 	var date = new Date();
+	var month;
+	var startterm;
+	var endterm;
 	//한달전
 	var dateprev = new Date();
 	dateprev.setDate(dateprev.getDate()-30);
@@ -11,50 +21,20 @@ $(document).ready(function(){
 	$('#getdate').val(date.getFullYear()+'-'
 			+(date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1))+'-'
 			+(date.getDate()<10?'0'+date.getDate():date.getDate()));
-	
-	/*$('#getdateprev').datepicker({
-		altField : '#getdateprev',
-		dateFormat: 'yy-mm-dd'
-	});
-	
+
+	startterm=$('#getdateprev').val();
+	endterm=$('#getdate').val();
+
 	$('#getdate').datepicker({
 		altField : '#getdate',
 		dateFormat: 'yy-mm-dd'
-	});*/
-	
-	/*$('#getdateprev').datepicker({
-		dateFormat: 'yy-mm-dd',
-		maxDate: 0,
-		onClose: function() {
-			$(selector2).datepicker({
-				dateFormat: 'yy-mm-dd',
-				minDate: new Date(),
-				maxDate: 0
-		    });
-		});
-	});*/
-	
-	$("#getdateprev").datepicker({
-		numberOfMonths: 2,
-		onSelect: function(selected) {
-			$("#getdate").datepicker("option","minDate", selected)
-		}
 	});
 	
-	$("#getdate").datepicker({
-		numberOfMonths: 2,
-		onSelect: function(selected) {
-			$("#getdateprev").datepicker("option","maxDate", selected)
-		}
+	$('#getdateprev').datepicker({
+	      altField : '#getdateprev',
+	      dateFormat: 'yy-mm-dd'
 	});
 	
-	$('#getdate').on('change',function(){
-		dateprev=new Date($('#getdate').val());
-		dateprev.setDate(dateprev.getDate()-30);
-		$('#getdateprev').val(dateprev.getFullYear()+'-'
-				+(dateprev.getMonth()<10?'0'+(dateprev.getMonth()+1):(dateprev.getMonth()+1))+'-'
-				+(dateprev.getDate()<10?'0'+dateprev.getDate():dateprev.getDate()));
-	});
 	///////////달력 끝////////
 	
 	$('#chargeBtn').on('click',function(){
@@ -67,57 +47,50 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	/*$('[type=button]').on('click',function(){
-		if($(this).index()==0){
-			$('form').attr('action','payhistory.do')
-			$('form').submit();
-		}else if($(this).index()==1){
-			$('form').attr('action','paycharge.do')
-			$('form').submit();
-		}else if($(this).index()==2){
-			$('form').attr('action','paywithdraw.do')
-			$('form').submit();
-		}
-	});*/
-	
-	/*$('#week').on('click',function(){
-		$.ajax({
-			type:'GET',
-			dataType:'json',
-			url:'pointListOpen.do?start='+start=0,
-			success:pointlistMessage
-		});
-	});*/
-	
-	$('#term').on('click',function(){
-		if($('#pointCal').css('display')=='none'){   
-	        $('#pointCal').show();
-	    } else {   
-	        $('#pointCal').hide();
-	    }
-	});
-	
 	//달력부분
 	var prev=$(this);
 	$('#pointHeaderCal li').on('click',function(){
-		prev.css({'backgroundColor':'#ffffff','color':'#333333'});
-		$(this).css({'backgroundColor':'#007399','color':'#ffffff'});
-		prev=$(this);
+	      start=0;
+	      prev.css({'backgroundColor':'#ffffff','color':'#333333'});
+	      $(this).css({'backgroundColor':'#007399','color':'#ffffff'});
+	      prev=$(this);
+	      
+	      month=$(this).text().substring(0, $(this).text().length-1);
+	      startterm =date.getFullYear()+'-'+(month<10?'0'+month:month)+'-01';
+	      endterm = date.getFullYear()+'-'+ (Number(month)+1<10?'0'+(Number(month)+1):Number(month)+1) +'-01';
+	      $('#getdateprev').val(startterm);
+	      $('#getdate').val(endterm);
+	      
+	      $('#pointTable').empty();
+	      $.ajax({
+	         type:'GET',
+	         dataType:'json',
+	         url:'pointListOpen.do?start='+start+'&startterm='+startterm+'&endterm='+endterm,
+	         success:pointlistMessage
+	      });
 	});
 	
-	/*$('#pointHeaderCal li').each(function(index,value){
-		$(value).text(date.getMonth()+1-(6-$(value).index()-1)+"월");
-	});*/
-	
-	var start=0;
-	$('.addView').on('click',function(){
-		start+=8;
+	$('#pointCalBtn').on('click',function(){
+		start=0;
+		$('#pointTable').empty();
 		$.ajax({
 			type:'GET',
 			dataType:'json',
-			url:'pointListOpen.do?start='+start,
+			url:'pointListOpen.do?start='+start+'&startterm='+$('#getdateprev').val()+'&endterm='+$('#getdate').val(),
 			success:pointlistMessage
 		});
+	});
+	///달력지정부분끝
+	
+	//더보기
+	$('.addView').on('click',function(){
+	      start+=8;
+	      $.ajax({
+	         type:'GET',
+	         dataType:'json',
+	         url:'pointListOpen.do?start='+start+'&startterm='+$('#getdateprev').val()+'&endterm='+$('#getdate').val(),
+	         success:pointlistMessage
+	      });
 	});
 });
 

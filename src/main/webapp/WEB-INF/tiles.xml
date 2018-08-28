@@ -51,19 +51,27 @@
 	</definition>
 	
 	<definition name="paymentPage" extends="index">
-		<put-attribute name="body" value="/WEB-INF/view/main/paymentMain.jsp"/>
-	</definition>
-	
-	<definition name="paymentHistory" extends="index">
-		<put-attribute name="body" value="/WEB-INF/view/main/paymentHistory.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/view/main/paymentmain.jsp" />
 	</definition>
 	
 	<definition name="donateForm" extends="index">
 		<put-attribute name="body" value="/WEB-INF/view/main/donateForm.jsp"/>
 	</definition>
 	
-	<definition name="chargeForm" extends="index">
-		<put-attribute name="body" value="/WEB-INF/view/main/chargeForm.jsp"/>
+	<definition name="paywithdraw" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paywithdraw.jsp" />
+	</definition>
+	
+	<definition name="paywithdrawlist" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paywithdrawlist.jsp" />
+	</definition>
+	
+	<definition name="paycharge" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paycharge.jsp" />
+	</definition>
+	
+	<definition name="paychargelist" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paychargelist.jsp" />
 	</definition>
 	
 	<definition name="about" extends="index">

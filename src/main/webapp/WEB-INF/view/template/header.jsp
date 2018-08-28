@@ -45,7 +45,7 @@
 		if(current_page.indexOf('notice.do') != -1)
 			readNotice();
 	}
-
+	
 	function onClose() {
 		webSocket.send('2|' + user_code);
 		webSocket.close();

@@ -6,7 +6,6 @@
  
 body{
 	text-align:center;
-	background-color: #f0f0f0;
 }
 a:link, a:visited, a:hover, a:active {
 	font-style: normal;
@@ -71,6 +70,7 @@ a:link, a:visited, a:hover, a:active {
 	height:80px;
 	text-align:left;
 	text-indent: 20px;
+	vertical-align: middle;
 }
 .notice td:nth-of-type(2){
 	width:100%;

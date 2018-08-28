@@ -108,8 +108,8 @@
 		<property name="ratingSqlSession" ref="sqlSession" />
 	</bean>
 	
-	<bean id ="pointDao" class="dao.PointDaoImp">
-		<property name="pointSqlSession" ref="sqlSession" />
+	<bean id ="paymentDao" class="dao.PaymentDaoImp">
+		<property name="paymentSqlSession" ref="sqlSession"></property>
 	</bean>
 	
 	<!-- [8] Service 빈 선언 -->
@@ -137,8 +137,8 @@
 		<property name="ratingDao" ref="ratingDao" />
 	</bean>
 	
-	<bean id="pointService" class="service.PointServiceImp">
-		<property name="pointDao" ref="pointDao" />
+	<bean id="paymentService" class="service.PaymentServiceImp">
+		<property name="paymentDao" ref="paymentDao" />
 	</bean>
 	
 	<bean class="controller.UserController" />
