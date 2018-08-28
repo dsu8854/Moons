@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import dao.PaymentDAO;
+import dto.ChargeDTO;
 import dto.PointDTO;
 import dto.WithdrawDTO;
 
@@ -15,7 +16,7 @@ public class PaymentServiceImp implements PaymentService{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void setPointDao(PaymentDAO paymentDao) {
+	public void setPaymentDao(PaymentDAO paymentDao) {
 		this.paymentDao = paymentDao;
 	}
 	
@@ -28,6 +29,21 @@ public class PaymentServiceImp implements PaymentService{
 	public void withdrawinsertProcess(WithdrawDTO wdto) {
 		paymentDao.withdrawinsertMethod(wdto);
 		
+	}
+
+	@Override
+	public List<WithdrawDTO> withdrawListProcess(Map<String, String> map) {
+		return paymentDao.withdrawListMethod(map);
+	}
+
+	@Override
+	public List<ChargeDTO> chargeListProcess(Map<String, String> map) {
+		return paymentDao.chargeListMethod(map);
+	}
+
+	@Override
+	public void chargeInsertProcess(ChargeDTO cdto) {
+		paymentDao.chargeInsertMethod(cdto);
 	}
 
 }

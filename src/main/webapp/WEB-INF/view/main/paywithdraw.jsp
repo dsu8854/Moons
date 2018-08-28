@@ -11,7 +11,7 @@
 
 <input type="hidden" id="user_code" value=${user_code }/>
 
-	<div class="withdraw_menu">
+	<div class="payment_menu" id="withdraw_menu">
 		<ul>
 			<li id="paywithdraw" value="on">인출신청</li>
 			<li id="paywithdrawlist">인출내역</li>
@@ -37,8 +37,8 @@
 		<tr>
 			<th>주민등록번호</th>
 			<td> 
-				<input type="text" size="5" name="identitynum0" id="identitynum0" style="width:90px;"/> -
-				<input type="text" size="5" name="identitynum1" id="identitynum1" style="width:90px;"/> 
+				<input type="text" size="5" name="identitynum0" id="identitynum0" maxlength="6" style="width:90px;"/> -
+				<input type="text" size="5" name="identitynum1" id="identitynum1" maxlength="7" style="width:90px;"/> 
 			</td>
 		</tr>
 		<tr>

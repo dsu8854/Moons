@@ -14,8 +14,34 @@
 				order by point_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
+	
+	<select id="withdrawlist" parameterType="map" resultType="dto.WithdrawDTO">
+		select b.*
+		from (select rownum rm, a.*
+			from (select *
+				from moons_withdraw
+				where user_code=#{user_code}
+				order by withdraw_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
+	
 	<insert id="withdrawins" parameterType="dto.WithdrawDTO">
 		insert into moons_withdraw
-		values (1,#{user_code},#{withdraw_name},#{withdraw_identitynum},#{withdraw_amount},#{withdraw_bank},#{withdraw_account},#{withdraw_holder},sysdate,0)
+		values (3,#{user_code},#{withdraw_name},#{withdraw_identitynum},#{withdraw_amount},#{withdraw_bank},#{withdraw_account},#{withdraw_holder},sysdate,0)
+	</insert>
+	
+	<select id="chargelist" parameterType="map" resultType="dto.ChargeDTO">
+		select b.*
+		from (select rownum rm, a.*
+			from (select *
+				from moons_charge
+				where user_code=#{user_code}
+				order by charge_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
+	
+	<insert id="chargeins" parameterType="dto.ChargeDTO">
+		insert into moons_charge
+		values(1,#{user_code},#{charge_amount},sysdate)
 	</insert>
 </mapper> 

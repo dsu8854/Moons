@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dto.ChargeDTO;
 import dto.PointDTO;
 import dto.UserDTO;
 import dto.WithdrawDTO;
@@ -78,32 +79,81 @@ public class PaymentController {
 	} 
 	
 	@RequestMapping("/paywithdrawprocess.do")
-	public String paywidthdrawproccess(Model model, HttpSession session) {
+	public String paywidthdrawinsertproccess(Model model, HttpSession session, 
+			String name, String identitynum0, String identitynum1, int point, String bank, String account, String holder) {
+		int user_code = (int) session.getAttribute("user_code");
+		WithdrawDTO wdto = new WithdrawDTO();
+		wdto.setUser_code(user_code);
+		wdto.setWithdraw_name(name);
+		wdto.setWithdraw_identitynum(identitynum1+'-'+identitynum1);
+		wdto.setWithdraw_amount(point);
+		wdto.setWithdraw_account(account);
+		wdto.setWithdraw_bank(bank);
+		wdto.setWithdraw_holder(holder);
+		paymentService.withdrawinsertProcess(wdto);
 		return "paywithdraw";
 	} 
 	
 	@RequestMapping("/paywithdrawlist.do")
 	public String paywidthdrawlist(Model model, HttpSession session) {
 		int user_code = (int) session.getAttribute("user_code");
-		/*Map<String, String> map= new HashMap<String, String>();
+		
+		Map<String, String> map= new HashMap<String,String>();
 		map.put("user_code",Integer.toString(user_code));
-		map.put("start", Integer.toString(start));
-		model.addAttribute("paywithdrawlist",Integer.toString(start));*/
+		map.put("start", "0");
+		model.addAttribute("withdrawlist", paymentService.withdrawListProcess(map));
 		return "paywithdrawlist";
 	} 
 	
-	@RequestMapping("/paycharge.do")
-	public String paycharge(Model model, HttpSession session, String name, String identitynum0, String identitynum1, 
-				int point, String bank, String account, String holder) {
+	@RequestMapping("/withdrawListOpen.do")
+	@ResponseBody
+	public List<WithdrawDTO> withdrawListProcess(HttpSession session, int start){
 		int user_code = (int) session.getAttribute("user_code");
-		WithdrawDTO wdto = new WithdrawDTO();
-		wdto.setUser_code(user_code);
-		wdto.setWithdraw_identitynum(identitynum1+'-'+identitynum1);
-		wdto.setAmount(point);
-		wdto.setWithdraw_account(account);
-		wdto.setWithdraw_bank(bank);
-		wdto.setWithdraw_holder(holder);
-		paymentService.withdrawinsertProcess(wdto);
+		Map<String, String> map= new HashMap<String, String>();
+		map.put("user_code",Integer.toString(user_code));
+		map.put("start", Integer.toString(start));
+		return paymentService.withdrawListProcess(map);
+	}
+	
+	@RequestMapping("/paycharge.do")
+	public String paycharge(Model model, HttpSession session) {
+		int user_code = (int) session.getAttribute("user_code");
+		
 		return "paycharge";
 	} 
+
+	@RequestMapping("/paychargeprocess.do")
+	@ResponseBody
+	public String paychargeprocess(Model model, HttpSession session, int charge) {
+		int user_code = (int) session.getAttribute("user_code");
+		ChargeDTO cdto = new ChargeDTO();
+		cdto.setUser_code(user_code);
+		cdto.setCharge_amount(charge);
+		System.out.println("^^~~~~~~");
+		//paymentService.chargeInsertProcess(cdto);
+		return "결제완료";
+	} 	
+	
+	@RequestMapping("/paychargelist.do")
+	public String paychargelist(Model model, HttpSession session) {
+		int user_code = (int) session.getAttribute("user_code");
+		
+		Map<String, String> map= new HashMap<String,String>();
+		map.put("user_code",Integer.toString(user_code));
+		map.put("start", "0");
+		model.addAttribute("chargelist", paymentService.chargeListProcess(map));
+		System.out.println(paymentService.chargeListProcess(map).size());
+		return "paychargelist";
+	} 
+	
+	@RequestMapping("/chargeListOpen.do")
+	@ResponseBody
+	public List<ChargeDTO> chargeListProcess(HttpSession session, int start){
+		int user_code = (int) session.getAttribute("user_code");
+		Map<String, String> map= new HashMap<String, String>();
+		map.put("user_code",Integer.toString(user_code));
+		map.put("start", Integer.toString(start));
+		System.out.println("listopen:"+paymentService.chargeListProcess(map).size());
+		return paymentService.chargeListProcess(map);
+	}
 }

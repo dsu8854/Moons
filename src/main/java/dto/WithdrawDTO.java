@@ -2,6 +2,8 @@ package dto;
 
 import java.util.Date;
 
+//paymentDao, paymentService에 포함
+
 /*
  -- withdraw
 CREATE TABLE moons_withdraw (
@@ -23,7 +25,7 @@ public class WithdrawDTO {
 	private int user_code;
 	private String withdraw_name;
 	private String withdraw_identitynum;
-	private int amount;
+	private int withdraw_amount;
 	private String withdraw_bank;
 	private String withdraw_account;
 	private String withdraw_holder;
@@ -67,12 +69,12 @@ public class WithdrawDTO {
 		this.withdraw_identitynum = withdraw_identitynum;
 	}
 
-	public int getAmount() {
-		return amount;
+	public int getWithdraw_amount() {
+		return withdraw_amount;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setWithdraw_amount(int withdraw_amount) {
+		this.withdraw_amount = withdraw_amount;
 	}
 
 	public String getWithdraw_bank() {

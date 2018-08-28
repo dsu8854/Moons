@@ -20,9 +20,6 @@
 			<input type="button" class="paymentBtn" id="payCharge" value="충전" />
 			<input type="button" class="paymentBtn" id="payWithdraw" value="인출" />
 		</div>
-		<!-- <div id="pointWithdraw">
-			<a href="#">인출하기(>)</a>
-		</div> -->
 	</div><br/>
 	<div id="pointHeaderCal">
 		<ul>

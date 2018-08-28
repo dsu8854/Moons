@@ -62,6 +62,9 @@
 	<definition name="paycharge" extends="index">
 		<put-attribute name="body" value="/WEB-INF/view/main/paycharge.jsp" />
 	</definition>
+	<definition name="paychargelist" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/paychargelist.jsp" />
+	</definition>
 	
 	<definition name="write" template="/WEB-INF/view/template/layoutWrite.jsp">
 		<put-attribute name="title" value="Moons" />

@@ -2,16 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="js/withdraw.js"></script> 
+<script src="js/charge.js"></script> 
 <link rel="stylesheet" href="css/payment.css">
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<input type="hidden" id="user_code" value=${user_code }/>
-
-	<div class="withdraw_menu">
+	<div class="payment_menu" id="charge_menu">
 		<ul>
 			<li id="paycharge" value="on">충전하기</li>
 			<li id="paychargelist">충전내역</li>
@@ -20,61 +18,45 @@
 	
 <div class="paychargeWrap">
 	<div class="minititle"> 충전하기 </div>
+	<br /><br /><br /><br />
+	<form id="chargeform">
+	<hr/>
 	<br /><br />
-	<p id="caution">
-	인출시 주의사항<br/>
-	어쩌구...ㅁㅁㅁㅁㅁ<br/>
-	ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
-	</p>
-	<form method="get" action="paywithdrawprocess.do">
-	<table id="withdrawTable">
-		<tr>
-			<th>실명</th>
-			<td>
-				<input type="text" size="10" name="name" id="name" />
-			</td>
-		</tr>
-		<tr>
-			<th>주민등록번호</th>
-			<td> 
-				<input type="text" size="5" name="identitynum0" id="identitynum0" style="width:90px;"/> -
-				<input type="text" size="5" name="identitynum1" id="identitynum1" style="width:90px;"/> 
-			</td>
-		</tr>
-		<tr>
-			<th>인출할 포인트</th>
-			<td> 
-				<input type="text" size="10" name="point" id="point" /> P
-				<font style="color:#cccccc;font-size:10pt;">*10,000원 이상부터 가능합니다.</font>
-			</td>
-		</tr>
-		<tr>
-			<th>은행</th>
-			<td>
-				<select name="bank">
-				    <option value="">은행선택</option>
-				    <option value="카카오뱅크">카카오뱅크</option>
-				    <option value="농협">농협</option>
-				    <option value="신한">신한은행</option>
-				    <option value="국민">국민은행</option>
-				    <option value="하나">하나은행</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<th>계좌번호</th>
-			<td> 
-				<input type="text" size="10" name="account" id="account" /> 
-				<font style="color:#cccccc;font-size:10pt;">'-'를 제외하고 입력해주세요.</font>
-			</td>
-		</tr>
-		<tr>
-			<th>예금주</th>
-			<td> 
-				<input type="text" size="10" name="holder" id="holder" /> 
-			</td>
-		</tr>
-	</table>
-	<input type="submit" class="paymentBtn" id="withdrawBtn" value="인출신청" />
+		<span class="chargetitle">충전 금액</span><br /><br />
+		<table id="chargeTable">
+			<tr>
+				<td width="30px"><input type="radio" name="charge" value="2000"/></td>
+				<td width="100px">2,000 P</td>
+				<td width="150px">2,000원</td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="charge" value="5000"/></td>
+				<td>5,000 P</td>
+				<td>5,000원</td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="charge" value="10000"/></td>
+				<td>10,000 P</td>
+				<td>10,000원</td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="charge" value="20000"/></td>
+				<td>20,000 P</td>
+				<td>20,000원</td>
+			</tr>
+		</table>
+		<br /><br />
+		<hr/>
+		<br /><br />
+		<p>
+			<span class="chargetitle">결제 수단</span><br /><br />
+			
+			<input type="radio" name="chargemethod" value="kakao" /> 카카오페이로 결제하기
+		</p>
+		<br /><br />
+		<hr/>
+		<input type="checkbox" id="agreement">위의 결제 내역에 동의합니다.
 	</form>
+	<br /><br />
+	<input type="submit" class="paymentBtn" id="chargeBtn" value="충전하기" />
 </div>

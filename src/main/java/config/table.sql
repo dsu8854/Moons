@@ -1,11 +1,25 @@
-insert into moons_withdraw values(1,1,'테스트','123456-1234567',)
+select * from MOONS_CHARGE
+
+CREATE TABLE moons_charge (
+	charge_num    NUMBER NOT NULL, -- num
+	user_code     NUMBER NULL,     -- 유저
+	charge_amount NUMBER NOT NULL DEFAULT 0, -- 입금액
+	charge_date   DATE   NOT NULL  -- 날짜
+);
+
+select * from moons_withdraw 
+order by sysdate desc
+
+insert into moons_withdraw values(2,1,'테스트3','123456-1234567','10000','국민은행','121212121','테스트3',sysdate,1)
+
+update MOONS_WITHDRAW set withdraw_state=1 where rownum<4 withdraw_date<'2018-08-26'
 
 -- withdraw
 CREATE TABLE moons_withdraw (
 	withdraw_num         NUMBER        NOT NULL, -- num
 	user_code            NUMBER        NULL,     -- 유저
 	withdraw_name        VARCHAR2(20)  NOT NULL, -- 실명
-	withdraw_identitynum VARCHAR2(13)  NOT NULL, -- 주민등록번호
+	withdraw_identitynum VARCHAR2(15)  NOT NULL, -- 주민등록번호
 	withdraw_amount      NUMBER        DEFAULT 0, -- 입금액
 	withdraw_bank        VARCHAR2(20)  NOT NULL, -- 은행
 	withdraw_account     VARCHAR2(100) NOT NULL, -- 계좌번호
@@ -13,7 +27,6 @@ CREATE TABLE moons_withdraw (
 	withdraw_date        DATE          NOT NULL, -- 날짜
 	withdraw_state       NUMBER        NOT NULL  -- 신청상태
 );
-
 
 select b.*
 from (select rownum rm, a.*

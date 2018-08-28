@@ -11,37 +11,38 @@
 
 <input type="hidden" id="user_code" value=${user_code }/>
 
-<div class="withdraw_menu">
+<div class="payment_menu" id="withdraw_menu">
 	<ul>
 		<li id="paywithdraw">인출신청</li>
 		<li id="paywithdrawlist" value="on">인출내역</li>
 	</ul>
 </div>
 
-<div class="payMainWrap">
-	<div id="pointUse"> 포인트 사용 내역 </div><br/><br/>
-	<table id="pointTable">
-		<c:forEach items="${pointList }" var="pdto">
+<div class="withdrawlistWrap">
+	<div id="withdrawUse" class="minititle"> 인출 신청 내역 </div><br/><br/>
+	<table id="withdrawlistTable">
 		<tr>
-			<c:choose>
-				<c:when test="${user_code==pdto.point_donater }">
-					<td width="450">
-					${pdto.user_nickname } 님에게 후원했습니다.
-					</td>
-					<td width="160" class="donatePoint">- ${pdto.point_donate }</td>
-				</c:when>
-				<c:when test="${user_code==pdto.point_receiver}">
-					<td width="450">
-					${pdto.user_nickname } 님으로부터 후원받았습니다.
-					</td>
-					<td width="160" class="receivePoint">+ ${pdto.point_donate }</td>
-				</c:when>
-				<c:otherwise>
-					ㅇㅇ
-				</c:otherwise>
-			</c:choose>
+			<th>신청인</th> <th>인출 금액</th> <th>은행</th> <th>계좌</th> <th>예금주</th> <th>신청일</th> <th>상태</th>
+		</tr>
+		<c:forEach items="${withdrawlist }" var="wdto">
+		<tr>
+			<td>${wdto.withdraw_name }</td>
+			<td>${wdto.withdraw_amount}</td>
+			<td>${wdto.withdraw_bank }</td>
+			<td>${wdto.withdraw_account}</td>
+			<td>${wdto.withdraw_holder }</td>
 			<td width="140">
-				<fmt:formatDate value="${pdto.point_date }" pattern="yyyy-MM-dd" />
+				<fmt:formatDate value="${wdto.withdraw_date }" pattern="yyyy-MM-dd" />
+			</td>
+			<td>
+				<c:choose>
+					<c:when test="${wdto.withdraw_state==0 }">
+						<font color="#cc0000">진행중</font>	
+					</c:when>
+					<c:when test="${wdto.withdraw_state==1 }">
+						<font color="#00b300">승인</font>
+					</c:when>
+				</c:choose>
 			</td>
 		</tr>
 		</c:forEach>
