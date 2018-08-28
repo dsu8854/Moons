@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<script src="js/croppie.js"></script>
+<link rel="stylesheet" href="css/croppie.css" />
 <script src="js/profile.js"></script>
 <link rel="stylesheet" href="css/profile.css">
 <script src="js/timeline.js"></script>
@@ -26,7 +28,7 @@
 						</p>
 						<p id="user_introduce">${userInfo.user_introduce}</p>
 					</div>
-					<a href="#" id="my_profil_pic1">  
+					<a href="javascript:fileBtnClick()" id="my_profil_pic1">
 						<c:choose>
 							<c:when test="${empty userInfo.user_photo}">
 								<img class="my_image" src="images/basic.png" />
@@ -35,6 +37,9 @@
 								<img class="my_image" src="images/${userInfo.user_photo }" />
 							</c:otherwise>
 						</c:choose>
+						<div style="display:none;">
+							<input type="file" id="upload"/>
+						</div>
 					</a>
 				</div>
 
