@@ -496,7 +496,7 @@ ALTER TABLE moons_point
 -- withdraw
 ALTER TABLE moons_withdraw
 	ADD
-		CONSTRAINT FK_moons_user_TO_moons_withdraw -- member -> withdraw
+		CONSTRAINT FK_moons_user_TO_withdraw -- member -> withdraw
 		FOREIGN KEY (
 			user_code -- 유저
 		)
@@ -676,7 +676,7 @@ for each row
 /
 */
 -- 누군가가 나한테 후원했을 때 알림 추가 (나중에)
-create or replace trigger notice_payment_donate
+create or replace trigger notice_donate
 after insert on moons_point
 for each row
   begin
@@ -697,7 +697,7 @@ for each row
 /
 */
 -- 포인트를 충전했을 때 결제내역 추가
-create or replace trigger notice_charge
+create or replace trigger point_charge
 after insert on moons_charge
 for each row
   begin
@@ -705,14 +705,12 @@ for each row
   end;
 /
 
--- 여기 수정 요망
 -- 포인트를 환전했을 때 결제내역 추가
-create or replace trigger notice_withdraw
-after update of user_point on moons_user
+create or replace trigger point_withdraw
+after insert on moons_withdraw
 for each row
-when(new.user_point < old.user_point)
   begin
-	insert into moons_payment(payment_num,user_code,payment_withdraw,payment_date) values(moons_payment_num_seq.nextval,:new.user_code,:old.user_point-:new.user_point,sysdate);
+	update moons_user set user_point=user_point-:new.withdraw_amount where user_code=:new.user_code;
   end;
 /
 
@@ -747,17 +745,17 @@ select * from moons_notice;
 select * from moons_reply;
 select * from moons_dm;
 select * from moons_share;
-select * from moons_payment;
 select * from moons_point;
 select * from moons_comment;
 select * from moons_rating;
 select * from moons_like;
 select * from moons_board;
 select * from moons_user;
+select * from moons_charge;
+select * from moons_withdraw;
+select * from moons_file;
 
 select * from user_triggers;
-
-drop trigger notice_payment
 
 insert into moons_follow values(1,2);
 insert into moons_follow values(9,1);
@@ -772,13 +770,14 @@ delete from moons_dm;
 delete from moons_user;
 delete from moons_board;
 delete from moons_follow;
-delete from moons_payment;
 delete from moons_reply;
 delete from moons_like;
 delete from moons_share;
 delete from moons_notice where notice_type=7;
 delete from moons_user where user_code=6;
 delete from moons_point;
+delete from moons_charge;
+delete from moons_withdraw;
 
 -- 노티스 중복 제거
 DELETE FROM moons_notice

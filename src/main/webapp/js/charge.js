@@ -83,12 +83,11 @@ function requestKakao(){
 	    	var msg = '결제가 완료되었습니다.\n';
 	        msg += '결제 금액 : ' + rsp.paid_amount;
 	        alert(msg);
-	        
 	        $.ajax({
 				url: 'paychargeprocess.do',
 				type: 'POST',
 				dataType: 'text',
-				data: '?charge='+$('input[name=charge]:checked').val(),
+				data: 'charge='+$('input[name=charge]:checked').val(),
 				success: function(res) {
 					if(res){
 						alert('충전 성공!');

@@ -69,7 +69,7 @@
 	</select>
 	
 	<select id="selInfo" parameterType="int" resultType="dto.UserDTO">
-		select user_code, user_id, user_nickname, user_photo, user_introduce
+		select user_code, user_id, user_nickname, user_photo, user_introduce, user_point
 		from moons_user
 		where user_code=#{user_code}
 	</select>

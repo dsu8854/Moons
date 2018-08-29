@@ -62,7 +62,6 @@ public class PaymentController {
 		model.addAttribute("user_photo",ulist.getUser_photo());
 		model.addAttribute("user_point",ulist.getUser_point());
 		
-		System.out.println("들어옵니까");
 		return "paymentPage";
 	} 
 	
@@ -96,10 +95,13 @@ public class PaymentController {
 		try {
 		pdto.setPoint_donater(user_code);
 		paymentService.donateProcess(pdto);
+		System.out.println("여기는 들어오니?");
 		WebSocketMessage<String> sendMsg = new TextMessage("5|"+pdto.getPoint_receiver());
+		System.out.println(sendMsg.getPayload());
 		WebSocketHandler handler = WebSocketHandler.getInstance();
-		if(handler.getUserList().get(String.valueOf(pdto.getPoint_receiver()))!=null)
+		if(handler.getUserList().get(String.valueOf(pdto.getPoint_receiver()))!=null) {
 			handler.handleMessage(handler.getUserList().get(String.valueOf(pdto.getPoint_receiver())), sendMsg);
+		}
 		return true;
 		}
 		catch(Exception e) {
@@ -159,7 +161,6 @@ public class PaymentController {
 	@RequestMapping("/paychargeprocess.do")
 	@ResponseBody
 	public boolean paychargeprocess(Model model, HttpSession session, int charge) {
-		System.out.println("충전금액 : " + charge);
 		int user_code = (int) session.getAttribute("user_code");
 		ChargeDTO cdto = new ChargeDTO();
 		cdto.setUser_code(user_code);

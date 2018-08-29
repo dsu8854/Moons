@@ -21,11 +21,7 @@
 	<c:forEach items="${notice_list}" var="ndto">
 			<tr>
 				<td>
-<<<<<<< HEAD
 					<img src="images/${ndto.user_photo }" />
-=======
-					<img src="${ndto.user_photo }" />
->>>>>>> 107cdcc144efa57d361754cbafd6faface29aefd
 				</td>
 				<td>
 					<input type="hidden" id="actor" value="${ndto.user_nickname }" />
