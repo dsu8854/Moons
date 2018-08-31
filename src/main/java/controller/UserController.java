@@ -1,10 +1,13 @@
 package controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,9 +17,11 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 
@@ -36,7 +41,7 @@ public class UserController {
 	/* NaverLoginBO */
 	@Autowired
 	private NaverLoginBO naverLoginBO;
-	
+
 	@Autowired
 	private KakaoLoginBO kakaoLoginBO;
 	
@@ -354,10 +359,14 @@ public class UserController {
 		udto.setUser_code(user_code);
 		
 		// 수정 후
-		userService.updateInfoProcess(udto, request); // request는 첨부파일을 가져오기 위해 사용
+		userService.updateInfoProcess(udto); // request는 첨부파일을 가져오기 위해 사용
 		
+		/*
 		if(udto.getUser_photo()!=null)
 			session.setAttribute("user_photo",userService.updateInfoProcess(udto, request));
+		*/
+		
+		
 		
 		return "redirect:/profile.do";
 	}// end updateProc()
@@ -429,5 +438,36 @@ public class UserController {
 	@RequestMapping(value="/privacy.do")
 	public String privacy() {
 		return "privacy";
+	}
+	
+	@RequestMapping(value="/uploadPhoto.do",method=RequestMethod.POST)
+	public String uploadPhoto(Model model, HttpSession session, HttpServletRequest request, MultipartFile image) {
+		int user_code = (Integer) session.getAttribute("user_code");
+		
+		String root = request.getSession().getServletContext().getRealPath("/");
+		
+		//C:\job\workspace_spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Moons\
+		String saveDirectory = root + "images" + File.separator;
+		
+		if (!image.isEmpty()) { // 수정파일 있을시
+			UUID random = UUID.randomUUID(); // 중복파일명을 처리하기 위해 난수값을 생성해서 받아온다.
+			String fileName = image.getOriginalFilename();
+
+			UserDTO udto = new UserDTO();
+			udto.setUser_code(user_code);
+			udto.setUser_photo(random + "_" + fileName); // dto에 수정한 첨부파일을 업로드에 맞춘다.
+			File ff = new File(saveDirectory, random + "_" + fileName);
+		
+
+			// 파일경로에 파일명으로 생성
+			try {
+				FileCopyUtils.copy(image.getInputStream(), new FileOutputStream(ff));
+				userService.updateProfilePhotoProcess(udto);
+				return "profile";
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return "profile";
 	}
 }// end class

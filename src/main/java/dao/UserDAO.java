@@ -27,4 +27,7 @@ public interface UserDAO {
 	public int followerCountMethod(UserDTO udto);		// 팔로워 수		
 	public void deleteFollowMethod(FollowDTO fdto);		// 팔로잉 취소
 	public void insertFollowMethod(FollowDTO fdto);		// 팔로우 신청
+	
+	public void updateProfilePhotoMethod(UserDTO udto);
+	
 }

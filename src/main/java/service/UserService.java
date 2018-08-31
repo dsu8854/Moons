@@ -21,7 +21,7 @@ public interface UserService {
 	public UserDTO selectUpdateInfoProcess(int user_code);
 	public String selectPhotoProcess(int user_code);
 	public String selectNickProcess(int user_code);
-	public String updateInfoProcess(UserDTO dto, HttpServletRequest request);
+	public void updateInfoProcess(UserDTO udto);
 
 	public List<FollowDTO> selectFollowListProcess(UserDTO udto);
 	public int followCountProcess(UserDTO udto);
@@ -29,4 +29,7 @@ public interface UserService {
 	public int followerCountProcess(UserDTO udto);
 	public void deleteFollowProcess(FollowDTO fdto);
 	public void insertFollowProcess(FollowDTO fdto);
+	
+	public void updateProfilePhotoProcess(UserDTO udto);
+	
 }

@@ -121,4 +121,10 @@ public class UserDaoImp implements UserDAO {
 	public void insertFollowMethod(FollowDTO fdto) {
 		userSqlSession.insert("user.insFollow",fdto);
 	}
+	
+	@Override
+	public void updateProfilePhotoMethod(UserDTO udto) {
+		userSqlSession.update("user.profile_photo",udto);
+	}
+	
 }

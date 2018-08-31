@@ -2,7 +2,7 @@ $(document).ready(function(){
 	var submenu1 = $("#u_0_16").next();
 	var submenu2 = $("#u_0_17").next();
 	var i = 0;
-	
+
 	$('.content_line').find('img').parent().remove();
 	
 	$('.board_grid_wrap').css({"display":"none"});				// 그리드 뷰 안보이기 
@@ -42,7 +42,7 @@ $(document).ready(function(){
 	$('#followListBtn').on('click',function(){
 		$('#profileForm').attr('action','follow.do').submit();
 	});
-	
+
 	$('#followerListBtn').on('click',function(){
 		$('#profileForm').attr('action','follower.do').submit();
 	});
@@ -113,4 +113,7 @@ $(document).ready(function(){
 	function(){
 		$(this).css({"opacity":"0"});
 	});
+	
+	
+	
 });

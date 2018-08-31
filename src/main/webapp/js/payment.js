@@ -21,7 +21,6 @@ $(document).ready(function(){
 	$('#getdate').val(date.getFullYear()+'-'
 			+(date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1))+'-'
 			+(date.getDate()<10?'0'+date.getDate():date.getDate()));
-
 	startterm=$('#getdateprev').val();
 	endterm=$('#getdate').val();
 
@@ -34,11 +33,11 @@ $(document).ready(function(){
 	      altField : '#getdateprev',
 	      dateFormat: 'yy-mm-dd'
 	});
-	
+
 	///////////달력 끝////////
 	
 	$('#chargeBtn').on('click',function(){
-		location.href='chargeForm.do';
+		location.href='paycharge.do';
 		return false;
 	});
 	
@@ -46,7 +45,7 @@ $(document).ready(function(){
 		location.href='donateForm.do?point_receiver=2';
 		return false;
 	});
-	
+
 	//달력부분
 	var prev=$(this);
 	$('#pointHeaderCal li').on('click',function(){

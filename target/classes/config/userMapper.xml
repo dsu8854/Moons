@@ -57,11 +57,8 @@
 		<if test="user_pass!=null">,user_pass=#{user_pass}</if>
 		,user_email=#{user_email}
 		,user_introduce=#{user_introduce}
-		<if test="user_photo!=null">,user_photo=#{user_photo}</if><!-- 수정파일이 없으면 안해준다. -->
-		where user_code=#{user_code}
 	</update>
-
-	<!-- id에 해당하는 레코드값 가져오기(리스트가 아닌?) -->
+	
 	<select id="selAllInfo" parameterType="int" resultType="dto.UserDTO">
 		select *
 		from moons_user
@@ -141,4 +138,11 @@
 		insert into moons_follow(user_code, follow_following)
 		values(#{user_code},#{follow_following})
 	</insert>
+	
+	<update id="profile_photo" parameterType="dto.UserDTO" >
+		update moons_user 
+		set user_photo=#{user_photo}
+		where user_code=#{user_code}
+	</update>
+	
 </mapper>

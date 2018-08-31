@@ -68,7 +68,7 @@
 	        WHERE SEQUENCE_NAME = 'MOONS_BOARD_NUM_SEQ'
 	    </selectKey>
 	</insert>
-	
+
 	<insert id="tempFile" parameterType="String">
 		insert into moons_file values(NULL,#{file_name})
 	</insert>
@@ -86,30 +86,7 @@
 	<delete id="delPost" parameterType="int">
 		delete from moons_board where board_num=#{board_num}
 	</delete>
-	
-	<!-- <update id="postFile" parameterType="hashmap">
-		update moons_file set board_num=#{board_num} where board_num is NULL and file_name in
-		<foreach collection="fileList" item="item" separator=";">
-			#{item}
-		</foreach>
-	</update> -->
-	
-	<!-- <insert id="postFile" parameterType="hashmap">
-		insert all
-        <foreach collection="fileList" item="item" separator=" ">
-            into moons_file values(NULL,#{item})            
-        </foreach>
-        select * from dual
-	</insert> -->
-	
-	<!-- <insert id="insImg" parameterType="dto.EditorImageDTO">
-		insert into editor_image values(imageUP_seq.nextval,#{content_type},#{file_name},#{file_path},sysdate,#{save_file_name},#{img_size})
-	</insert>
-	
-	<insert id="ins" parameterType="dto.BoardDTO">
-		insert into moons_board values(moons_board_num_seq.nextval,'123','movie',#{board_subject},#{board_content},0,0,sysdate,#{board_hashtag})
-	</insert> -->
-	
+
 	<select id="selDetail" parameterType="hashmap" resultType="dto.BoardDTO">
 		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
 		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,

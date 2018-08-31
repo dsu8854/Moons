@@ -51,7 +51,7 @@
 	</definition>
 	
 	<definition name="paymentPage" extends="index">
-		<put-attribute name="body" value="/WEB-INF/view/main/paymentmain.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/main/paymentMain.jsp" />
 	</definition>
 	
 	<definition name="donateForm" extends="index">

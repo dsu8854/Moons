@@ -31,6 +31,10 @@
 		$('#paymentBtn').on('click', function() {
 			location.href = "payment.do";
 		});
+		
+		$('#paymentBtn').on('click', function() {
+			location.href = "payment.do";
+		});
 	});
 
 	//WebSocket이 연결된 경우 호출되는 함수

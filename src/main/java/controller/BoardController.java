@@ -52,7 +52,7 @@ public class BoardController {
 		
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
-		
+
 		model.addAttribute("userInfo", userService.selectInfoProcess(user_code)); // 닉네임, 아이디, 사진, 자기소개
 		model.addAttribute("postCount", boardService.postCountProcess(user_code));
 		model.addAttribute("following", userService.followCountProcess(udto));

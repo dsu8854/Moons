@@ -61,7 +61,6 @@ public class PaymentController {
 		model.addAttribute("user_code",user_code);
 		model.addAttribute("user_photo",ulist.getUser_photo());
 		model.addAttribute("user_point",ulist.getUser_point());
-		
 		return "paymentPage";
 	} 
 	

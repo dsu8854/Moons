@@ -3,11 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.js"></script> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css"> -->
 <script src="js/croppie.js"></script>
-<link rel="stylesheet" href="css/croppie.css" />
-<script src="js/profile.js"></script>
+<link rel="stylesheet" href="css/croppie.css">
+
 <link rel="stylesheet" href="css/profile.css">
+
 <script src="js/timeline.js"></script>
+<script src="js/profile.js"></script>
+
+
 <div class="wrap">
 	<div id="main_inner">
 		<div id="content">
@@ -28,27 +37,37 @@
 						</p>
 						<p id="user_introduce">${userInfo.user_introduce}</p>
 					</div>
-					<a href="javascript:fileBtnClick()" id="my_profil_pic1">
+					
+					<input type="file" id="upload" accept="image/*" style="display:none;"/>
+					
+					<a href="" id="my_profil_pic1">  
 						<c:choose>
 							<c:when test="${empty userInfo.user_photo}">
 								<img class="my_image" src="images/basic.png" />
 							</c:when>
 							<c:otherwise>
-								<img class="my_image" src="images/${userInfo.user_photo }" />
+								<img class="my_image" src="images/${userInfo.user_photo}" />
 							</c:otherwise>
 						</c:choose>
-						<div style="display:none;">
-							<input type="file" id="upload"/>
-						</div>
 					</a>
+					
 				</div>
 
 			</div>
 		</div>
 	</div>
 </div>
-
-<div id="container">
+<input type="hidden" id="user_code" value="${userInfo.user_code}"/>
+<div class="col-1-2">
+	<div class="upload-msg"></div>
+	<div class="upload-demo-wrap">
+		<div id="upload-demo"></div>
+	</div>
+		<input type="button" id="profile_upload" value="선택하기" accept="image/*">
+		
+</div><!-- 클릭후 나오기 --> 
+	
+	
 	<ul class="tabs">
 		<li class="active" rel="tab1">프로필</li>
 		<li rel="tab2">개인정보</li>

@@ -20,40 +20,48 @@ body {
 }
 
 #content {
-	position: relative;
-	overflow: hidden;
+	/* position: relative;
+	overflow: hidden; */
 }
 
 #content_width {
-	position: relative;
+	/* position: relative;
 	margin-left: 7%;
-	margin-right: 7%;
+	margin-right: 7%; */
 }
 
 /*프로필 1번째 창*/
 #content_h1 {
-	position: relative;
-	height: 260px; 
-	/* border: 1px solid blue; */
-	margin-left: 20%; 
+	/*position: relative; 
+    
+     border: 1px solid blue; */
+     height: 260px;
+    margin-left: 460px;
 }
 
 #my_profil {
 	font-size: 17px;
-	font-style: italic;
-	color: silver;
-	margin-right: 37%;  
+    font-style: italic;
+    width: 50px;
+    margin-top: 20px;
+    
+    margin-left: 450px;
+    color: silver;
 	
 }
 
 #my_profil_pic1 {
-	float: left;
-    margin-top: 2%;
-    margin-left: 30%;
+	display: inline-block;	/* a요소 이미지 크기에 맞추기 */
+	float:left;  
+	margin-top: 29px;
+	margin-left: 400px;        
+	width: 0;
+	height: 0;
+	
 }
 
 .my_image {
-	border: 1px solid blue;
+	border: 2px solid #b9b9b9;
 	margin-left:1%;    
 	width: 200px;
 	height: 200px;         
@@ -168,16 +176,17 @@ td{
 }
 
 ul.tabs {
-    margin: 0;
-    padding: 0;
+    margin-left: 372.5px;
+    /* padding: 0; */
+    margin-right: 372.5px;
     float: left;
     list-style: none;
     height: 32px;
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
-    width: 100%;
-    font-family:"dotum";
-    font-size:12px;
+    width: 1175px;
+    font-family: "dotum";
+    font-size: 12px;
 }
 ul.tabs li {
     float: left;
@@ -200,9 +209,10 @@ ul.tabs li.active {
 .tab_container {
     border: 1px solid #eee;
     border-top: none;
+    margin-left: 372.5px;
     clear: both;
     float: left;
-    width: auto; 
+    width: auto;
     background: #FFFFFF;
 }
 .tab_content {
@@ -228,3 +238,69 @@ ul.tabs li.active {
 #passeditBtn{
 	margin: 2% 0 2% 0;  
 }
+
+
+
+
+/* croppie 추가 */
+.col-1-2 {
+	width:500px; 
+	height:500px;
+	z-index:2;
+    background: white;
+    border: 1px solid #ccc;
+    -moz-box-shadow: 0 0 3px #ccc;
+    -webkit-box-shadow: 0 0 3px #ccc;
+    box-shadow: 0 0 3px #ccc;
+    text-align: center;
+    display:none;
+    margin: 20px 710px 50px 710px;
+}
+
+#profile_upload {
+	display:none;
+	text-align: center;
+    margin-top: 50px;
+    width:225px;
+    z-index: 2;
+    display: inline-block;
+    background: white;
+    border: 1px solid #c0c0c0;
+    background-color: white;
+	cursor:pointer;
+}
+
+
+
+.upload-demo .upload-demo-wrap,
+.upload-demo .upload-result,
+.upload-demo.ready .upload-msg {
+    display: none;
+}
+.upload-demo.ready .upload-demo-wrap {
+    display: block;
+}
+.upload-demo.ready .upload-result {
+    display: inline-block;    
+}
+.upload-demo-wrap {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.upload-msg {
+    text-align: center;
+    padding: 50px;
+    font-size: 22px;
+    color: #aaa;
+    width: 260px;
+    margin: 50px auto;
+    border: 1px solid #aaa;
+}
+
+
+
+
+
+

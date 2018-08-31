@@ -28,7 +28,10 @@
 					<input type="hidden" name="board_subject" />
 					<input type="hidden" name="board_content" />
 					<input type="hidden" name="board_photo" />
+<<<<<<< HEAD
 					<input type="hidden" name="fileArray" />
+=======
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 				</form>
 			</div>
 				<div class="wrap_right_inner_modi" style="display: none">

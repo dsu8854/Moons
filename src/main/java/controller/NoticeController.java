@@ -50,7 +50,7 @@ public class NoticeController {
 		}
 		return noticeService.noticeListProcess(map);
 	}
-
+	
 	@RequestMapping("/noticeRead.do")
 	@ResponseBody
 	public void noticeRead(HttpSession session) {

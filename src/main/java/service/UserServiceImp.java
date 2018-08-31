@@ -96,8 +96,13 @@ public class UserServiceImp implements UserService {
 	}
 	
 	@Override
-	public String updateInfoProcess(UserDTO udto, HttpServletRequest request) {
-		// 기존 첨부파일
+	public void updateProfilePhotoProcess(UserDTO udto) {
+		 userDao.updateProfilePhotoMethod(udto);
+	}
+	
+	@Override
+	public void updateInfoProcess(UserDTO udto) {
+		/*// 기존 첨부파일
 		String filename = userDao.selectPhotoMethod(udto.getUser_code());
 
 		// 수정 첨부파일
@@ -109,8 +114,8 @@ public class UserServiceImp implements UserService {
 		//C:\job\workspace_spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Moons\
 		String saveDirectory = root + "images" + File.separator;
 		
-		/*System.out.println(saveDirectory);*/
 		
+		System.out.println(file.getName());
 		if (!file.isEmpty()) { // 수정파일 있을시
 			if (filename != null) { // 기존첨부파일이 있을시 지워야한다. 
 				File fe = new File(saveDirectory, filename);
@@ -129,10 +134,11 @@ public class UserServiceImp implements UserService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		userDao.updateInfoMethod(udto);		// 업데이트 실행 
 		
-		return udto.getUser_photo();	// 첨부파일 반환
+		/*return udto.getUser_photo();	// 첨부파일 반환*/	
+		
 	}
 
 	@Override

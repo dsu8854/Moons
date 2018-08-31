@@ -40,6 +40,7 @@ DROP TABLE moons_user;
 drop sequence moons_user_code_seq;
 drop sequence moons_board_num_seq;
 drop sequence moons_reply_num_seq;
+<<<<<<< HEAD
 drop sequence moons_point_num_seq;
 drop sequence moons_charge_num_seq;
 drop sequence moons_withdraw_num_seq;
@@ -52,6 +53,12 @@ CREATE TABLE moons_point (
 	point_donate   NUMBER NOT NULL DEFAULT 0, -- 후원한금액
 	point_date     DATE   NOT NULL  -- 날짜
 );
+=======
+drop sequence moons_payment_num_seq;
+
+
+
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 
 -- scrap
 CREATE TABLE moons_scrap (
@@ -197,6 +204,7 @@ ALTER TABLE moons_point
 			point_num -- num
 		);
 
+<<<<<<< HEAD
 CREATE TABLE moons_file (
    board_num	  NUMBER	NULL,
    file_name	  VARCHAR2(200) NOT NULL
@@ -251,6 +259,8 @@ ALTER TABLE moons_file
 			board_num -- num
 		);
 
+=======
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 -- scrap
 ALTER TABLE moons_scrap
 	ADD
@@ -492,6 +502,7 @@ ALTER TABLE moons_point
 		REFERENCES moons_user ( -- member
 			user_code -- 유저식별코드
 		);      
+<<<<<<< HEAD
 
 -- withdraw
 ALTER TABLE moons_withdraw
@@ -503,6 +514,8 @@ ALTER TABLE moons_withdraw
 		REFERENCES moons_user ( -- member
 			user_code -- 유저식별코드
 		);		
+=======
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 		
 create sequence moons_user_code_seq
 start with 1 
@@ -528,6 +541,7 @@ increment by 1
 nocache
 nocycle;
 
+<<<<<<< HEAD
 create sequence moons_charge_num_seq
 start with 1 
 increment by 1
@@ -535,6 +549,9 @@ nocache
 nocycle;
 
 create sequence moons_withdraw_num_seq
+=======
+create sequence moons_point_num_seq
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 start with 1 
 increment by 1
 nocache
@@ -676,7 +693,11 @@ for each row
 /
 */
 -- 누군가가 나한테 후원했을 때 알림 추가 (나중에)
+<<<<<<< HEAD
 create or replace trigger notice_donate
+=======
+create or replace trigger notice_payment_donate
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 after insert on moons_point
 for each row
   begin
@@ -697,11 +718,19 @@ for each row
 /
 */
 -- 포인트를 충전했을 때 결제내역 추가
+<<<<<<< HEAD
 create or replace trigger point_charge
 after insert on moons_charge
 for each row
   begin
 	update moons_user set user_point=user_point+:new.charge_amount where user_code=:new.user_code;
+=======
+create or replace trigger notice_payment_charge
+after insert on moons_payment
+for each row
+  begin
+	update moons_user set user_point=user_point+:new.payment_deposit where user_code=:new.user_code;
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
   end;
 /
 
@@ -725,6 +754,9 @@ for each row
 ------------------------------------------------------------------
 ------------------------------------------------------------------ 여기까지
 
+------------------------------------------------------------------
+------------------------------------------------------------------ 여기까지
+
 -- 트리거 진행상황
 <알림 테이블 추가>
 1. notice_follow		팔로우 받았을 때
@@ -739,12 +771,21 @@ for each row
 deposit		포인트를 충전했을 때 결제내역 추가
 withdraw		포인트를 환전했을 때 결제내역 추가
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 select * from moons_scrap;
 select * from moons_follow;
 select * from moons_notice;
 select * from moons_reply;
 select * from moons_dm;
 select * from moons_share;
+<<<<<<< HEAD
+=======
+select * from moons_payment;
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 select * from moons_point;
 select * from moons_comment;
 select * from moons_rating;
@@ -757,6 +798,11 @@ select * from moons_file;
 
 select * from user_triggers;
 
+<<<<<<< HEAD
+=======
+drop trigger notice_payment
+
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 insert into moons_follow values(1,2);
 insert into moons_follow values(9,1);
 insert into moons_like values(1,13,sysdate);
@@ -770,14 +816,18 @@ delete from moons_dm;
 delete from moons_user;
 delete from moons_board;
 delete from moons_follow;
+delete from moons_payment;
 delete from moons_reply;
 delete from moons_like;
 delete from moons_share;
 delete from moons_notice where notice_type=7;
 delete from moons_user where user_code=6;
 delete from moons_point;
+<<<<<<< HEAD
 delete from moons_charge;
 delete from moons_withdraw;
+=======
+>>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
 
 -- 노티스 중복 제거
 DELETE FROM moons_notice
