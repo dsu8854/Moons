@@ -145,6 +145,13 @@
 			<version>1.3.1</version>
 		</dependency>
 
+		<!-- Geocoder -->
+		<dependency>
+			<groupId>com.google.code.geocoder-java</groupId>
+			<artifactId>geocoder-java</artifactId>
+			<version>0.16</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>

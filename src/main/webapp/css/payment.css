@@ -1,0 +1,336 @@
+body{
+	text-align: center;
+	padding: 0px 0px 20px 0px;
+}
+
+.payMainWrap{
+	display: inline-block;
+	text-align: center;
+}
+
+#payBox{
+	display:inline-block;
+	position:relative;
+	margin: 50px 0px 0px 0px;
+	padding: 20px 0px 0px 50px;
+	background-color: #f0f0f0;
+	width:770px;
+	height: 210px;
+	border-bottom:1px solid #e0e0e0;
+	text-align: left;
+	
+}
+
+/* 유저 사진 */
+#myInfo{
+	display: inline-block;
+	margin:auto 10px;
+	width:199px;
+	height:195px;
+	text-align: center;
+}
+#myInfo img{
+	width:180px;
+	height: 180px;
+	margin: auto;
+}
+
+#pointHeader{
+	display: inline-block;
+	text-align:left;
+	font-size: 12px;
+	color:rgba(0,0,0,0.5);
+	vertical-align: top;
+	margin: 30px 0px 0px 0px;
+}
+
+#myPoint{
+	font-size:50px;
+	color:rgba(0,0,0,0.8);
+}
+
+.paymentBtn{
+	width:100px;
+	height:45px;
+	border:0px;
+	color:white;
+	background-color: #007399;
+	cursor: pointer;
+	margin: 0px;
+	padding: auto;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
+.paymentBtn:hover{
+	background-color: #004d66;
+	transition: background-color 0.3s;
+}
+
+#pointWithdraw{
+	display: inline-block;
+	width:80px;
+	height:190px;
+	font-size: 12px;
+	color:rgba(0,0,0,0.5);
+	vertical-align: top;
+	font-weight: bold;
+	text-align:right;
+	position: absolute;
+	top:20px;
+	right:20px;
+}
+
+#pointWithdraw a:hover, a:link, a:visited, a:active{
+	color:rgba(0,0,0,0.5);
+	text-decoration: none;
+}
+/********포인트 사용내역 기간별로보기 달력 div ********/
+#pointHeaderCal{
+	margin: 0px 0px 80px 0px;
+	padding:20px 0px 0px 0px;
+	width:820px;
+	height:50px;
+	background-color: #f0f0f0;
+	line-height: 50px;
+	text-align: center;
+}
+
+#pointHeaderCal ul{
+	display: inline-block;
+}
+
+#pointHeaderCal li{
+	float: left;
+	width:70px;
+	height:30px;
+	border:1px solid rgba(0,0,0,0.4);
+	border-left: 0px;
+	background-color: white;
+	font-size: 10px;
+	text-align:center;
+	line-height: 30px;
+	cursor: pointer;
+	color:#333333;
+}
+#pointHeaderCal li:nth-of-type(1){
+	border-left: 1px solid rgba(0,0,0,0.4);
+}
+
+#pointHeaderCal .calRange{
+	height:28px;
+	vertical-align: top;
+	border:1px solid rgba(0,0,0,0.4);
+	text-indent: 3px;
+}
+
+#pointHeaderCal .pointCalBtn{
+	width:50px;
+	height:32px;
+	border:1px solid rgba(0,0,0,0.4);
+	color:rgba(0,0,0,0.6);
+	background-color: rgba(0,0,0,0.1);
+	cursor: pointer;
+	margin: 0px;
+	padding: auto;
+	vertical-align: top;
+	font-size: 12px;
+}
+/********포인트 사용내역 기간별로보기 달력 div 끝********/
+
+/*포인트 사용 내역 소타이틀*/
+.minititle{
+	display:inline-block;
+	width:250px;
+	height:60px;
+	border:1px solid rgba(0,0,0,0.3);
+	border-radius: 30px;
+	line-height: 60px;
+	font-size:18px;
+	color:#666666;
+}
+
+/*포인트 사용내역 테이블 */
+
+#pointTable{
+	display: inline-block;
+	border:0px solid black;
+	border-collapse: collapse;
+	font-size:16px;
+}
+#pointTable tr:nth-of-type(1){
+	border-top: 1px solid #dddddd;
+}
+#pointTable tr{
+	height:60px;
+	border-bottom: 1px solid #dddddd;
+}
+#pointTable td{
+	padding:8px;
+	line-height: 80px;
+}
+#pointTable tr td:nth-of-type(3){
+	color:#888888;
+	font-size:14px;
+}
+#pointTable .receivePoint{color:#00b300;}
+#pointTable .donatePoint{color:#cc0000;}
+
+/* 더보기 */
+.addView{
+	display: inline-block;
+	width:800px;
+	height: 40px;
+	line-height: 40px;
+	background-color: #9fbfdf;
+	color: rgba(0,0,0,0.3);
+	cursor: pointer;
+}
+/********************************/
+
+.payment_menu{
+	width:100%;
+	height: 53px;
+	border-bottom: 1px solid #dddddd;
+	margin: 0px 0px 30px 0px;
+	padding:0px;
+}
+.payment_menu ul{
+	display:inline-block;
+	text-align: center;
+}
+
+.payment_menu li{
+	float:left;
+	width:120px;
+	height: 50px;
+	border-bottom:0px solid #33cccc;
+	line-height: 50px;
+	cursor:pointer;
+	margin: 0px;
+	transition: border ease 0.1s;
+}
+
+/*************paywithdraw.jsp*************/
+
+.paywithdrawWrap{
+	display: inline-block;
+	text-align: cetner;
+	font-size:15px;
+	border:1px solid #eeeeee;
+	padding:40px 0px;
+	margin: :30px;
+}
+
+#caution{
+	display:inline-block;
+	color:#aaaaaa;
+	font-size:13px;
+	width:80%;
+	border-bottom: 1px solid #eeeeee;
+	padding:10px 0px;
+}
+#withdrawTable{
+	width:600px;
+	margin:30px;
+}
+
+#withdrawTable tr{
+	height:50px;
+	line-height: 50px;
+}
+
+#withdrawTable th{
+	width:20%;
+}
+#withdrawTable td{
+	width:80%; 
+	text-align: left;
+	text-indent: 30px;
+	}
+#withdrawTable td, #withdrawTable th{
+}
+
+#withdrawTable input, select {
+	width:200px;
+	height: 30px;
+	border:0px;
+	border-bottom: 1px solid #444444;
+	text-indent: 10px;
+}
+
+/***********paywithdrawlist.jsp **************/
+.withdrawlistWrap{
+	display: inline-block;
+	width:70%;
+	border:1px solid #eeeeee;
+	padding: 50px 0px;
+}
+
+#withdrawlistTable{
+	margin: 30px 30px 0px 30px;
+	padding:30px;
+}
+
+#withdrawlistTable th{
+	width:100px;
+	border-top:1px solid #cccccc;
+	background-color: #f8f8f8;
+}
+
+#withdrawlistTable td,th{
+	height: 40px;
+	border:0px;
+	border-bottom:1px solid #cccccc;
+	line-height: 40px;
+}
+
+/**************paycharge*****************/
+.paychargeWrap{
+	display: inline-block;
+	width:30%;
+	border:1px solid #eeeeee;
+	padding: 50px 80px;
+}
+
+.paychargeWrap form{
+	text-align: left;
+}
+
+#chargeTable{
+	margin: 10px 5px;
+	padding:30px;
+}
+#chargeTable td{
+/* 	width:100px; */
+	height: 40px;
+	border:0px;
+	border-bottom:1px solid #cccccc;
+	line-height: 40px;
+}
+
+ .chargetitle {
+ 	line-height: 30px;
+	font-size:24px;
+	font-weight: bold;
+	color:#666666;
+ }
+ 
+ #chargeSuccess{
+ 	display: inline-block;
+ 	width:100%;
+ 	text-align:center;
+ 	font-size: 20pt;
+ 	color:#444444;
+ 	line-height: 24px;
+ }
+ 
+#withdrawlistTable {
+ 	margin: 10px auto;
+}
+#withdrawlistTable td, th{
+	width:250px;
+	height: 40px;
+	border:0px;
+	border-bottom:1px solid #cccccc;
+	line-height: 40px;
+}

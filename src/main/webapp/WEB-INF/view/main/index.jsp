@@ -161,25 +161,18 @@ $(document).ready(function() {
 			</div> 
 		</div>    
 	</div>
-	
-	<a href="http://www.naver.com" class="link_application #home_forwriter" target="_blank">
-				<img src="https://t1.daumcdn.net/brunch/static/test/new_pc_top/5.png" class="img_application">
-			</a> 
-	
-	
+		
 <footer id="dkFoot" class="foot_brunch">
 		<div class="inner_foot">
 			<div class="area_quotation">
-				<q class="txt_quotation">You can make anything by writing.</q>
-				<span class="txt_by">C.S.Lewis</span>
+				<q class="txt_quotation">A genius can't win one who does his best, a person who tries his best can't win the one who enjoys what he does.</q>
+				<span class="txt_by">MoonS</span>
 			</div>
 			<ul class="list_info">
-				<li><a href="/policy/terms" target="_blank" class="link_info">이용약관</a></li>
-				<li><a href="/policy/privacy" target="_blank" class="link_info privacy">개인정보 처리방침</a></li>
-				<li><a href="/policy/oppolicy" target="_blank" class="link_info">운영정책</a></li>
-				<li><a href="http://cs.kakao.com/helps?category=89&amp;locale=ko&amp;service=54" target="_blank" class="link_info">고객센터</a></li>
-				<li><a href="/contact" target="_blank" class="link_info">출간제안</a></li>
+				<li><a href="about.do" target="_blank" class="link_info">About MoonS</a></li>
+				<li><a href="privacy.do" target="_blank" class="link_info privacy">개인정보 처리방침</a></li>
+				<li><a href="contact.do" target="_blank" class="link_info">오시는길</a></li>
 			</ul>
-			<small class="txt_copyright"><a href="http://kakaocorp.com" class="link_corp" target="_blank">© Kakao Corp.</a></small>
+			<small class="txt_copyright"><a href="about.do" class="link_corp" target="_blank">© MoonS Corp.</a></small>
 		</div>
 	</footer>

@@ -23,8 +23,12 @@ public class NoticeServiceImp implements NoticeService{
 	}
 
 	@Override
-	public void noticeReadCheckProcess(int user_code) {
-		noticeDao.noticeReadCheckMethod(user_code);
+	public void readNoticeProcess(int user_code) {
+		noticeDao.readNoticeMethod(user_code);
 	}
-	
+
+	@Override
+	public int selectNoticeCountProcess(int user_code) {
+		return noticeDao.selectNoticeCountMethod(user_code);
+	}
 }

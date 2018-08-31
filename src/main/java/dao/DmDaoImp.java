@@ -36,6 +36,19 @@ public class DmDaoImp implements DmDAO{
 	public List<DmDTO> selectListMethod(DmDTO ddto) {
 		return dmSqlSession.selectList("dm.selList", ddto);
 	}
+
+	@Override
+	public int selectDmCountMethod(int user_code) {
+		return dmSqlSession.selectOne("dm.cntAll", user_code);
+	}
 	
-	
+	@Override
+	public int selectDmRoomCountMethod(DmDTO ddto) {
+		return dmSqlSession.selectOne("dm.cntRoom", ddto);
+	}
+
+	@Override
+	public void readDmMethod(DmDTO ddto) {
+		dmSqlSession.update("dm.readDm", ddto);
+	}
 }//end class

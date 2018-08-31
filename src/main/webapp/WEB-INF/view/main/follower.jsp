@@ -11,7 +11,17 @@
 	<c:forEach items="${followerList}" var="follower">
 		<div class="wrap_content">
 			<div class="content_photo">
-				<img src="images/${follower.user_photo}">
+				<c:choose>
+					<c:when test="${empty follower.user_photo}">
+						<img src="images/basic.png" class="follower_image">
+					</c:when>
+					<c:otherwise>
+						<img src="images/${follower.user_photo}" class="follower_image">
+					</c:otherwise>
+				</c:choose>
+				<form id="timelineForm" method="post">
+					<input type="hidden" name="user_code" value="${follower.follow_following }" />
+				</form>
 			</div>
 			<div class="content_nickname">${follower.user_nickname}</div>
 			<c:choose>

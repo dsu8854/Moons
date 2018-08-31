@@ -35,6 +35,8 @@ public class DmController {
 		int user_code = (int) session.getAttribute("user_code");		
 		ddto.setUser_code(user_code);
 
+		dmService.readDmProcess(ddto);
+		
 		model.addAttribute("nowUser", ddto.getUser_code());
 		model.addAttribute("dm_receiver", ddto.getDm_receiver());
 		model.addAttribute("yourInfo", dmService.selectYourInfoProcess(ddto));
@@ -54,5 +56,26 @@ public class DmController {
 		} else {
 			return null;
 		}
+	}
+	
+	@RequestMapping("/dmRead.do")
+	@ResponseBody
+	public void dmRead(DmDTO ddto) {
+		dmService.readDmProcess(ddto);
+	}
+	
+	@RequestMapping("/dmCount.do")
+	public @ResponseBody int dmCount(HttpSession session) {
+		int user_code = (int) session.getAttribute("user_code");
+		
+		return dmService.selectDmCountProcess(user_code);
+	}
+	
+	@RequestMapping("/dmRoomCount.do")
+	public @ResponseBody int dmRoomCount(HttpSession session, DmDTO ddto) {
+		int user_code = (int) session.getAttribute("user_code");
+		ddto.setUser_code(user_code);
+		
+		return dmService.selectDmRoomCountProcess(ddto);
 	}
 }

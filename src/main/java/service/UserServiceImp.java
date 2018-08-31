@@ -81,8 +81,18 @@ public class UserServiceImp implements UserService {
 	}
 	
 	@Override
+	public UserDTO selectAllInfoProcess(int user_code) {
+		return userDao.selectAllInfoMethod(user_code);
+	}
+	
+	@Override
 	public UserDTO selectInfoProcess(int user_code) {
 		return userDao.selectInfoMethod(user_code);
+	}
+	
+	@Override
+	public UserDTO selectUpdateInfoProcess(int user_code) {
+		return userDao.selectUpdateInfoMethod(user_code);
 	}
 	
 	@Override

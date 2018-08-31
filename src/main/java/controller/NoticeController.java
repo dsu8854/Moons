@@ -32,7 +32,8 @@ public class NoticeController {
 		map.put("start", 0);
 		
 		model.addAttribute("notice_list",noticeService.noticeListProcess(map));
-		return "notice";
+		System.out.println("notice:"+noticeService.noticeListProcess(map).size());
+		return "notice"; 
 	}
 	
 	@RequestMapping("/noticelistopen.do")
@@ -45,8 +46,23 @@ public class NoticeController {
 		System.out.println("read:"+read);
 		if(read.equals("y") || noticeService.noticeListProcess(map).size()==0) {
 			System.out.println("readcheck");
-			noticeService.noticeReadCheckProcess(user_code);
+			noticeService.readNoticeProcess(user_code);
 		}
 		return noticeService.noticeListProcess(map);
+	}
+
+	@RequestMapping("/noticeRead.do")
+	@ResponseBody
+	public void noticeRead(HttpSession session) {
+		int user_code = (int) session.getAttribute("user_code");
+		
+		noticeService.readNoticeProcess(user_code);
+	}
+	
+	@RequestMapping("/noticeCount.do")
+	public @ResponseBody int noticeCount(HttpSession session) {
+		int user_code = (int) session.getAttribute("user_code");
+		
+		return noticeService.selectNoticeCountProcess(user_code);
 	}
 }

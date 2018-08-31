@@ -25,6 +25,10 @@ public class NoticeDTO {
 	private Date notice_date;
 	private String notice_read;
 	
+	private String user_photo;
+	private String user_nickname;
+	private int notice_status;
+
 	public NoticeDTO() {
 
 	}
@@ -77,5 +81,27 @@ public class NoticeDTO {
 		this.notice_read = notice_read;
 	}
 	
+	public String getUser_photo() {
+		return user_photo;
+	}
 	
+	public void setUser_photo(String user_photo) {
+		this.user_photo = user_photo;
+	}
+	
+	public String getUser_nickname() {
+		return user_nickname;
+	}
+	
+	public void setUser_nickname(String user_nickname) {
+		this.user_nickname = user_nickname;
+	}
+	
+	public int getNotice_status() {
+		return notice_status;
+	}
+	
+	public void setNotice_status(int notice_status) {
+		this.notice_status = notice_status;
+	}
 }
