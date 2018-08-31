@@ -14,13 +14,14 @@ a:link, a:visited, a:hover, a:active {
 	font-size: 12px;
 	text-decoration: none;
 }
-.wrap{
+.noticeWrap{
 	display:inline-block;
 	text-align: center;
 	background-color: white;
 	width:60%;
 	padding: 0px 0px 50px 0px;
 	border-radius: 10px;
+	vertical-align: middle;
 }
 
 #notice_setting{
@@ -77,6 +78,9 @@ a:link, a:visited, a:hover, a:active {
 .notice img{
 	vertical-align: middle;
 	margin-right: 10px;
+	width: 30px;
+    height: 30px;
+	border-radius:50%;
 }
 .notice:nth-of-type(1){
 	border-top:1px solid #e0e0e0;

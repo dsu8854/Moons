@@ -33,20 +33,24 @@ body {
 /*프로필 1번째 창*/
 #content_h1 {
 	position: relative;
-	height: 250px;
-	border: 1px solid blue;
+	height: 260px; 
+	/* border: 1px solid blue; */
+	margin-left: 20%; 
 }
 
 #my_profil {
-	text-align: center;
-	font-size: 15px;
+	font-size: 17px;
 	font-style: italic;
 	color: silver;
+	margin-right: 37%;  
+	
 }
 
 #my_profil_pic1 {
-	display: inline-block;		/* a요소 이미지 크기에 맞추기 */
-	margin: 0;
+	display: inline-block;	/* a요소 이미지 크기에 맞추기 */
+	float:left;  
+	margin-top:2%;  
+	margin-left:30%;          
 	width: 0;
 	height: 0;
 	
@@ -54,13 +58,19 @@ body {
 
 .my_image {
 	border: 1px solid blue;
-	margin-left: 20px;
-	width: 150px;
-	height: 150px;
-	border-radius: 75px; /* 이미지 반크기만큼 반경을 잡기*/
+	margin-left:1%;    
+	width: 200px;
+	height: 200px;         
+	border-radius: 100px; /* 이미지 반크기만큼 반경을 잡기*/
 }
 
 /* 수정,팔로우,팔로잉 */
+#my_frm1{
+	float:right;  
+	margin-right: 35%;   
+	margin-top: 3%;     
+}
+
 #my_btn1 {
 	float: right;
 	margin-right: 10px;
@@ -72,185 +82,153 @@ body {
 	float: right;
 	padding: 10px;
 	margin-right: 10px;
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt; 
+}
+#followcount{
+	float: right;
+	/* padding: 10px; */ 
+	margin-top:27%;      
+    margin-right: -58px;
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt;
+}
+
+#followingcount{
+	float: right;
+	margin-top:27%;        
+    margin-right: -183px;
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt;
+}
+
+#user_introduce{
+	font-size: 14pt;
+	position: relative;
+    top: 190px;  
+    left: 511px;
 }
 
 #my_btn3 {
 	float: right;
 	padding: 10px;
-	margin-right: 10px;
+	margin-right: 25px; 
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt; 
 }
 
-#back {
-	float :right;
-	padding:10px;
-	margin-right:10px;
+
+#content_h2{ 
+	display: inline-block; 
+	margin: 1% 7% 0 0;  
+	text-align: left;         
+} 
+
+table, tr, td{
+	font-size: 15pt; 
+	padding:30px 10px 10px 10px;    
+	border-bottom: 1px dotted gray;   
+	width: 1162px;        
 }
 
-/* 정리 글  */
-div {
-	font-family: inherit;
+input{
+	font-size: 12pt;
+	padding: 5px; 
 }
 
-ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+#chargeBtn{
+	font-size: 10pt;
+	margin-left: 95px;   
 }
 
-li {
-	list-style-type: none;
+#tdone{
+	text-align: center;  
 }
 
-.clearfix {
-	zoom: 1;
-}
-
-.my_ul1 {
-	border-left: 1px solid #000000;
-}
-
-.my_profil_menu {
-	clear: right;
-	padding-left: 201px;
-	width: 649px;
-}
-
-._profil_display1 {
-	display: inline-block;
-}
-
-._9rx {
-	padding: 0;
-}
-
-._6-6 {
-	background-color: aqua;
-	border-right: 1px solid #000000;
-	float: left;
-	font-size: 14px;
-	font-weight: 600;
-	height: 43px;
-	line-height: 3.05;
-	padding: 0 17px;
-	position: relative;
-	vertical-align: middle;
-	white-space: nowrap;
-}
-
-.img_1 {
-	margin-right: 3px;
-}
-
-.list_1 {
-	cursor: pointer;
-	display: none;
-	font-size: 9px;
-}
-
-.list_2 {
-	cursor: pointer;
-	display: none;
-	font-size: 9px;
+#editBtn{
+	margin:3% 0 0 40%; 
 }
 
 
 
-#select_all {
-	
-	font-size:10px;
-	
-}
+/*//////////////////////////////////////////////////  */
 
-a {
-	color: #365899;
-	cursor: pointer;
-	text-decoration: none;
-}
 
-.sp_KQh5j0Ivz87.sx_8f2293 {
-	width: 8px;
-	height: 5px;
-	background-position: -13px -483px;
-}
-
-/*프로필 3번째 창*/
-#content_h3 {
-	margin: 20px 0px 20px 0px;
-	float: left;
-	height:100%;
-	padding-left: 10px;
-	width: 650px;
-	border: 1px solid blue;
-}
-
-/* profil.css */
-
-.personinfo_1 {
-	margin: 60px 20px 20px 100px;
-	
-	
-}
-.alert_1 {
-	float: left;
-	width: 413px;
-	margin-top: 20px;
-	margin-left: 20px;
-	border : 2px solid black;
+#container{
+	display: inline-block; 
 }
 
 
-.personinfo_2 {
-	width: 500px;
-	height :50px;
-	border: 2px solid black;
-	padding-top:5px;
+td{
+	text-align: left; 
 }
 
-.personinfo_3 {
-	line-height: 40px;
-	padding-left: 10px;
-	text-align: left;
-	
-	width :100px;
-	height: 40px;
-	border: 2px solid aqua;
-	margin-left:20px;
-	
-	float: left;
+ul.tabs {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+    height: 32px;
+    border-bottom: 1px solid #eee;
+    border-left: 1px solid #eee;
+    width: 100%;
+    font-family:"dotum";
+    font-size:12px;
+}
+ul.tabs li {
+    float: left;
+    text-align:center;
+    cursor: pointer;
+    width:390px;  
+    height: 31px;
+    line-height: 31px;
+    border: 1px solid #eee;
+    border-left: none;
+    font-weight: bold;
+    background: #fafafa;
+    overflow: hidden;
+    position: relative;
+}
+ul.tabs li.active {
+    background: #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+}
+.tab_container {
+    border: 1px solid #eee;
+    border-top: none;
+    clear: both;
+    float: left;
+    width: auto; 
+    background: #FFFFFF;
+}
+.tab_content {
+    padding: 5px;
+    font-size: 12px;
+    display: none;
+}
+.tab_container .tab_content ul {
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+.tab_container .tab_content ul li {
+    padding:5px;
+    list-style:none
+}
+;
+ #container {
+    width: auto; 
+    margin: 0 auto;
 }
 
-.personinfo_4 {
-	
-	vertical-align:middle;
-	
-	margin-left:20px;
-	margin-right:10px;
-	width :330px;
-	height: 40px;
-	border: 2px solid aqua;
-	float: left;
-	
-}
-
-.personinfo_5 {
-	margin-left: 10px;
-	margin-top: 10px;
-	width: 300px;
-}
-
-.list_3 {
-	margin-top: 20px;
-	margin-left: 10px;
-	text-align: center;
-	font-size: 12px;
-}
-
-.list_4 {
-	margin-left:100px;
-	font-size:12px;
-	
-}
-
-.select_info1 { /* 알림창  */
-	font-size: 10px;
+#passeditBtn{
+	margin: 2% 0 2% 0;  
 }

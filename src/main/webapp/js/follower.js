@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	$('.follower_image').on('click',function(){
+		$(this).next().attr('action','timeline.do').submit();
+	});
+	
 	$('.followerCancelBtn').on('click', function() { // 팔로우 취소 버튼
 		var wrap = $(this).parents('.wrap_content');
 		if (confirm("정말로 팔로우를 취소하시겠습니까?") == true) {

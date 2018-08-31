@@ -1,38 +1,5 @@
 $(document).ready(function() {
-	$('#joinBtn').on('click', function() {
-		var getNick = RegExp(/^[가-힣]+$/);
-		var getId = RegExp(/^[a-zA-Z0-9]{4,12}$/);
-		var getCheck = RegExp(/[a-zA-Z0-9]{6,12}$/);
-
-		if (!getNick.test($("#nickname").val())) {
-			alert("닉네임 형식에 맞지 않습니다.");
-			$("#nickname").val("");
-			$("#nickname").focus();
-			return false;
-		} else if (!getId.test($("#id").val())) {
-			alert("아이디 형식에 맞지 않습니다. 4~12자리");
-			$("#tbPwd").val("");
-			$("#tbPwd").focus();
-			return false;
-		} else if (!getCheck.test($("#password").val())) {
-			alert("비밀번호 형식에 맞지 않습니다. (숫자,영문) 6~12자리");
-			$("#tbPwd").val("");
-			$("#tbPwd").focus();
-			return false;
-		} else if ($("#checkAll").is(":checked") == false) {
-			alert("이용약관에 동의하여 주세요.");
-			return false;
-		} else {
-			var formdata = $('#joinForm').serialize();
-			$.ajax({
-				type : 'POST',
-				dataType : 'text',
-				url : 'joinProDefault.do',
-				data : formdata,
-				success : viewMessage
-			});
-		}
-	});
+	$('#joinBtn').on('click', join);
 
 	$("#checkAll").on('click', function() {
 		// 클릭되었으면
@@ -58,7 +25,48 @@ $(document).ready(function() {
 		if (!unChecked)
 			$("#checkAll").prop("checked", true);
 	});
+	
+	$('#nickname, #id, #pass, #email').keydown(function (key) {
+        if(key.keyCode == 13){
+            join();
+        }
+    });
 });
+
+function join() {
+	var getNick = RegExp(/^[가-힣a-zA-Z0-9]{2,8}$/);
+	var getId = RegExp(/^[a-zA-Z0-9]{4,12}$/);
+	var getCheck = RegExp(/[a-zA-Z0-9]{6,12}$/);
+
+	if (!getNick.test($("#nickname").val())) {
+		alert("닉네임 형식에 맞지 않습니다. (한글,숫자,영문) 2~8자리");
+		$("#nickname").val("");
+		$("#nickname").focus();
+		return false;
+	} else if (!getId.test($("#id").val())) {
+		alert("아이디 형식에 맞지 않습니다. (숫자,영문) 4~12자리");
+		$("#id").val("");
+		$("#id").focus();
+		return false;
+	} else if (!getCheck.test($("#pass").val())) {
+		alert("비밀번호 형식에 맞지 않습니다. (숫자,영문) 6~12자리");
+		$("#pass").val("");
+		$("#pass").focus();
+		return false;
+	} else if ($("#checkAll").is(":checked") == false) {
+		alert("이용약관에 동의하여 주세요.");
+		return false;
+	} else {
+		var formdata = $('#joinForm').serialize();
+		$.ajax({
+			type : 'POST',
+			dataType : 'text',
+			url : 'joinProDefault.do',
+			data : formdata,
+			success : viewMessage
+		});
+	}
+}
 
 function viewMessage(res) {
 	if(res=='중복된 닉네임')

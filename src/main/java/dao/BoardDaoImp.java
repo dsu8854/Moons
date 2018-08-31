@@ -1,10 +1,12 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -20,13 +22,18 @@ public class BoardDaoImp implements BoardDAO{
 	}
 
 	@Override
-	public List<BoardDTO> selectListMethod(UserDTO udto) {
-		return boardSqlSession.selectList("board.sel", udto);
+	public List<BoardDTO> selectListMethod(HashMap<String, Integer> map) {
+		return boardSqlSession.selectList("board.selList", map);
 	}
 	
 	@Override
-	public int selectLikeMethod(BoardDTO bdto) {
-		return boardSqlSession.selectOne("board.selLike",bdto);
+	public List<BoardDTO> selectGridMethod(HashMap<String, Integer> map) {
+		return boardSqlSession.selectList("board.selGrid", map);
+	}
+	
+	@Override
+	public int likeCountMethod(BoardDTO bdto) {
+		return boardSqlSession.selectOne("board.likeCount",bdto);
 	}
 
 	@Override
@@ -40,8 +47,8 @@ public class BoardDaoImp implements BoardDAO{
 	}
 
 	@Override
-	public int selectShareMethod(BoardDTO bdto) {
-		return boardSqlSession.selectOne("board.selShare",bdto);
+	public int shareCountMethod(BoardDTO bdto) {
+		return boardSqlSession.selectOne("board.shareCount",bdto);
 	}
 
 	@Override
@@ -53,4 +60,36 @@ public class BoardDaoImp implements BoardDAO{
 	public void deleteShareMethod(BoardDTO bdto) {
 		boardSqlSession.delete("board.delShare",bdto);
 	}
+
+	@Override
+	public int selectWriterMethod(BoardDTO bdto) {
+		return boardSqlSession.selectOne("board.selWriter",bdto);
+	}
+
+	@Override
+	public int postCountMethod(int user_code) {
+		return boardSqlSession.selectOne("board.postCount",user_code);
+	}
+
+	@Override
+	public BoardDTO selectDetailMethod(HashMap<String, Integer> map) {
+		return boardSqlSession.selectOne("board.selDetail",map);
+	}
+
+	@Override
+	public int postMethod(BoardDTO bdto) {
+		return boardSqlSession.insert("board.post",bdto);
+	}
+	
+	@Override
+	public List<ReplyDTO> selectReplyListMethod(int board_num) {
+		return boardSqlSession.selectList("board.selRepList", board_num);
+	}
+
+	@Override
+	public void InsertReplyMethod(ReplyDTO rdto) {
+		boardSqlSession.insert("board.insReply", rdto);
+	}
+	
+	
 }//end class

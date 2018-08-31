@@ -160,12 +160,11 @@ function viewMessage(data){
 function commentMessage(data){
 	$('.comment_list').empty();
 	$.each(data,function(index, value){
-		var str='<table class="comment"><tr><td rowspan="2" width="70px">'
-				+'<img src="images/no_photo.png"/></td><td height="20px">'
-				+'<span id="comment_name">'+value.user_code+'</span>&nbsp;&nbsp;'
-				+'<span id="comment_date">'+value.comment_date +'</span></td></tr><tr><td>'
-				+value.comment_content+'</td></tr></table>';
-		$('.comment_list').append(str);	
+		var str='<div class="comment"><img src="'+value.user_photo+'" />'
+		+'<div id="content_box"><p id="comment_info">'
+		+'<span id="comment_name">'+value.user_nickname+'</span>&nbsp;&nbsp;'
+		+'<span id="comment_date">'+value.comment_date+'</span><br/></p>'
+		+'<p id="comment_content">'+value.comment_content+'</div></div>';	
 	});	 
 }//end commentMessage
 

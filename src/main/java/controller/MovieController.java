@@ -20,6 +20,7 @@ import dto.CommentDTO;
 import dto.RatingDTO;
 import service.CommentService;
 import service.RatingService;
+import service.UserService;
 
 @Controller
 public class MovieController {
@@ -27,6 +28,8 @@ public class MovieController {
 	private CommentService commentService;
 	@Autowired
 	private RatingService ratingService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/movie.do")
 	public String movieForm(Model model, String movieSeq) {
@@ -70,12 +73,14 @@ public class MovieController {
 	@ResponseBody
 	public List<CommentDTO> commentProcess(String comment_write, String movieSeq, HttpSession session) {
 		int user_code = (int) session.getAttribute("user_code");
-
+		System.out.println("comment");
 		CommentDTO cdto = new CommentDTO();
 		cdto.setUser_code(user_code);
 		cdto.setComment_movie(movieSeq);
 		cdto.setComment_content(comment_write);
 		cdto.setComment_date(new Date());
+		cdto.setUser_photo(userService.selectPhotoProcess(user_code));
+		cdto.setUser_nickname(userService.selectNickProcess(user_code));
 		return commentService.commentInsertProcess(movieSeq, cdto);
 	}
 
@@ -83,6 +88,7 @@ public class MovieController {
 	@RequestMapping("/movieratingprocess.do")
 	@ResponseBody
 	public int ratingProcess(String score, String movieSeq, String stat, HttpSession session) {
+		System.out.println("session:"+session.getAttribute("user_code").toString());
 		int user_code = (int) session.getAttribute("user_code");
 		
 		RatingDTO rdto = new RatingDTO();

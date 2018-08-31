@@ -1,14 +1,5 @@
 $(document).ready(function() {
-	$('#loginBtn').on('click', function() {
-		var formdata = $('#loginForm').serialize();
-		$.ajax({
-			type : 'POST',
-			dataType : 'text',
-			url : 'loginProDefault.do',
-			data : formdata,
-			success : viewMessage
-		});
-	});
+	$('#loginBtn').on('click', login);
 	
 	$('#findBtn').on('click',function(){
 		location.href= 'findFormDefault.do';
@@ -17,7 +8,25 @@ $(document).ready(function() {
 	$('#join').on('click', function() {
 		location.href = 'joinFormDefault.do';
 	});
+	
+
+    $("#pass").keydown(function (key) {
+        if(key.keyCode == 13){
+            login();
+        }
+    });
 });
+
+function login() {
+	var formdata = $('#loginForm').serialize();
+	$.ajax({
+		type : 'POST',
+		dataType : 'text',
+		url : 'loginProDefault.do',
+		data : formdata,
+		success : viewMessage
+	});
+}
 
 function viewMessage(res) {
 	if(res=='아이디/비밀번호 불일치')

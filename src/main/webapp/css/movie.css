@@ -128,13 +128,11 @@ h3{
 .comment{
 	display:inline-block;
 	width:90%;
-	height:66px;
 	text-align: left;
-	padding:3px;
+	padding:5px;
 	margin: 10px 0px 0px 0px;
 	border-radius: 5px;
 	background-color: white;
-	border-collapse: collapse;
 }
 
 #comment_name{
@@ -154,4 +152,16 @@ h3{
 	border:1px solid green;
 	width:600px;
 	height: 200px;
+}
+
+.comment img{
+	float: left;
+	margin: 0px 10px 0px 0px;
+}
+
+#content_box{
+	display:inline-block; 
+	width:450px;
+	float:left;
+	line-height: 20px;
 }

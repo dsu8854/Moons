@@ -19,13 +19,6 @@ public class DmServiceImp implements DmService{
 
 	@Override
 	public List<DmDTO> selectDmProcess(DmDTO ddto) {
-		//테스트를 위한 리스트출력부분
-		/*List<DmDTO> list=dao.dmViewMethod(user_code);
-		for(DmDTO dto: list) {
-			System.out.printf("%d / %d / %s / %s / %s / %s\n",
-					dto.getUser_code(), dto.getDm_receiver(), dto.getDm_content(), dto.getDm_date(), dto.getUser_nickname(), dto.getUser_photo());
-		}
-		*/
 		return dmDao.selectDmMethod(ddto);
 	}
 	
@@ -42,5 +35,20 @@ public class DmServiceImp implements DmService{
 	@Override
 	public List<DmDTO> selectListProcess(DmDTO ddto) {
 		return dmDao.selectListMethod(ddto);
+	}
+
+	@Override
+	public int selectDmCountProcess(int user_code) {
+		return dmDao.selectDmCountMethod(user_code);
+	}
+	
+	@Override
+	public int selectDmRoomCountProcess(DmDTO ddto) {
+		return dmDao.selectDmRoomCountMethod(ddto);
+	}
+
+	@Override
+	public void readDmProcess(DmDTO ddto) {
+		dmDao.readDmMethod(ddto);
 	}
 }//end class

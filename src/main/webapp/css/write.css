@@ -77,11 +77,13 @@ html {
 	.cover_title{
 		color:black;
 		font-weight:bold;
-		opacity:0.5;
-		
-		
-		
+		opacity:0.5;	
 	}
+	
+	.cover_title:empty:before {
+		content: "제목을 입력하세요";
+	}
+		
 	.cover_subtitle,#board_hashtag{
 		font-weight:bold;
 		opacity:0.5;

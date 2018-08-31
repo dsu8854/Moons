@@ -55,7 +55,7 @@
 		</div>
 	    
 	    <!-- 채팅메세지입력하는부분 -->
-		<form id="frm" method="post">
+		<form id="dmForm" method="post">
 			<div class="dmfooter">
 				<input type="hidden" name="user_code" value="${nowUser }" />
 				<input type="hidden" name="dm_receiver" value="${dm_receiver }" />
