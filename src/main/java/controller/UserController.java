@@ -1,10 +1,13 @@
 package controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,9 +17,13 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -25,6 +32,7 @@ import dto.UserDTO;
 import oauth.bo.KakaoLoginBO;
 import oauth.bo.NaverLoginBO;
 import service.UserService;
+import socket.WebSocketHandler;
 
 // http://localhost:8090/moons/intro.do
 
@@ -33,6 +41,7 @@ public class UserController {
 	/* NaverLoginBO */
 	@Autowired
 	private NaverLoginBO naverLoginBO;
+	
 
 	@Autowired
 	private KakaoLoginBO kakaoLoginBO;
@@ -329,7 +338,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/profile.do")
-	public String profile() {
+	public String profile(Model model, HttpSession session) {
+		int user_code = (Integer) session.getAttribute("user_code");
+		
+		model.addAttribute("userInfo", userService.selectUpdateInfoProcess(user_code));
 		return "profile";
 	}
 
@@ -337,7 +349,7 @@ public class UserController {
 	public String updateInfoForm(Model model, HttpSession session) {
 		int user_code = (Integer) session.getAttribute("user_code");
 		
-		model.addAttribute("dto", userService.selectInfoProcess(user_code)); // id에 해당하는 레코드값을 가져온다.
+		model.addAttribute("dto", userService.selectAllInfoProcess(user_code)); // id에 해당하는 레코드값을 가져온다.
 		return "updateInfoForm";
 		// 업데이트시 첨부파일을 생략해서 업데이트 해야된다.
 	}
@@ -348,10 +360,14 @@ public class UserController {
 		udto.setUser_code(user_code);
 		
 		// 수정 후
-		userService.updateInfoProcess(udto, request); // request는 첨부파일을 가져오기 위해 사용
+		userService.updateInfoProcess(udto); // request는 첨부파일을 가져오기 위해 사용
 		
+		/*
 		if(udto.getUser_photo()!=null)
 			session.setAttribute("user_photo",userService.updateInfoProcess(udto, request));
+		*/
+		
+		
 		
 		return "redirect:/profile.do";
 	}// end updateProc()
@@ -362,11 +378,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/follow.do")					// 팔로워 페이지 이동
-	public String followList(Model model,HttpSession session) {
-		int user_code = (Integer) session.getAttribute("user_code");
+	public String followList(Model model, int user_code) {
+		/*int user_code = (Integer) session.getAttribute("user_code");*/
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
-			
+		
 		model.addAttribute("followList",userService.selectFollowListProcess(udto)); // code에 해당하는 팔로워할 유저들 보여주기 
 		model.addAttribute("followCount",userService.followCountProcess(udto));		// 팔로워 인원수 
 		
@@ -374,8 +390,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/follower.do")						// 팔로잉 페이지로 이동
-	public String followerList(Model model,HttpSession session) {
-		int user_code = (Integer) session.getAttribute("user_code");
+	public String followerList(Model model, int user_code) {
+		/*int user_code = (Integer) session.getAttribute("user_code");*/
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
 		
@@ -405,9 +421,54 @@ public class UserController {
 		
 		try {
 			userService.insertFollowProcess(fdto);
+			WebSocketMessage<String> sendMsg = new TextMessage("5|"+fdto.getFollow_following());
+			WebSocketHandler handler = WebSocketHandler.getInstance();
+			if(handler.getUserList().get(String.valueOf(fdto.getFollow_following()))!=null)
+				handler.handleMessage(handler.getUserList().get(String.valueOf(fdto.getFollow_following())), sendMsg);
 			return true;
 		} catch(Exception e) {
 			return false;
 		}
+	}
+	
+	@RequestMapping(value="/about.do")
+	public String about() {
+		return "about";
+	}
+	
+	@RequestMapping(value="/privacy.do")
+	public String privacy() {
+		return "privacy";
+	}
+	
+	@RequestMapping(value="/uploadPhoto.do",method=RequestMethod.POST)
+	public String uploadPhoto(Model model, HttpSession session, HttpServletRequest request, MultipartFile image) {
+		int user_code = (Integer) session.getAttribute("user_code");
+		
+		String root = request.getSession().getServletContext().getRealPath("/");
+		
+		//C:\job\workspace_spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Moons\
+		String saveDirectory = root + "images" + File.separator;
+		
+		if (!image.isEmpty()) { // 수정파일 있을시
+			UUID random = UUID.randomUUID(); // 중복파일명을 처리하기 위해 난수값을 생성해서 받아온다.
+			String fileName = image.getOriginalFilename();
+
+			UserDTO udto = new UserDTO();
+			udto.setUser_code(user_code);
+			udto.setUser_photo(random + "_" + fileName); // dto에 수정한 첨부파일을 업로드에 맞춘다.
+			File ff = new File(saveDirectory, random + "_" + fileName);
+		
+
+			// 파일경로에 파일명으로 생성
+			try {
+				FileCopyUtils.copy(image.getInputStream(), new FileOutputStream(ff));
+				userService.updateProfilePhotoProcess(udto);
+				return "profile";
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return "profile";
 	}
 }// end class

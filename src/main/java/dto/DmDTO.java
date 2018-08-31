@@ -10,6 +10,9 @@ public class DmDTO {
 	
 	private String user_photo; //유저사진을 받아오기 위한 변수
 	private String user_nickname; //유저닉네임을 받아오기 위한 변수
+	
+	private int dm_state;
+	private int dm_count;
 
 	public DmDTO() {
 		
@@ -62,6 +65,20 @@ public class DmDTO {
 	public void setUser_nickname(String user_nickname) {
 		this.user_nickname = user_nickname;
 	}
+
+	public int getDm_state() {
+		return dm_state;
+	}
+
+	public void setDm_state(int dm_state) {
+		this.dm_state = dm_state;
+	}
 	
-	
+	public int getDm_count() {
+		return dm_count;
+	}
+
+	public void setDm_count(int dm_count) {
+		this.dm_count = dm_count;
+	}
 }//end class

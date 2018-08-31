@@ -1,5 +1,6 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import dao.BoardDAO;
@@ -19,13 +20,18 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public List<BoardDTO> selectListProcess(UserDTO udto) {
-		return boardDao.selectListMethod(udto);
+	public List<BoardDTO> selectListProcess(HashMap<String, Integer> map) {
+		return boardDao.selectListMethod(map);
+	}
+	
+	@Override
+	public List<BoardDTO> selectGridProcess(HashMap<String, Integer> map) {
+		return boardDao.selectGridMethod(map);
 	}
 
 	@Override
-	public int selectLikeProcess(BoardDTO bdto) {
-		return boardDao.selectLikeMethod(bdto);
+	public int likeCountProcess(BoardDTO bdto) {
+		return boardDao.likeCountMethod(bdto);
 	}
 	
 	@Override
@@ -39,8 +45,8 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public int selectShareProcess(BoardDTO bdto) {
-		return boardDao.selectShareMethod(bdto);
+	public int shareCountProcess(BoardDTO bdto) {
+		return boardDao.shareCountMethod(bdto);
 	}
 
 	@Override
@@ -51,5 +57,25 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public void deleteShareProcess(BoardDTO bdto) {
 		boardDao.deleteShareMethod(bdto);
+	}
+
+	@Override
+	public int selectWriterProcess(BoardDTO bdto) {
+		return boardDao.selectWriterMethod(bdto);
+	}
+
+	@Override
+	public int postCountProcess(int user_code) {
+		return boardDao.postCountMethod(user_code);
+	}
+
+	@Override
+	public BoardDTO selectDetailProcess(HashMap<String, Integer> map) {
+		return boardDao.selectDetailMethod(map);
+	}
+
+	@Override
+	public int postProcess(BoardDTO bdto) {
+		return boardDao.postMethod(bdto);
 	}
 }//end class

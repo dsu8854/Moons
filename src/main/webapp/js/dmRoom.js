@@ -1,7 +1,7 @@
-$(document).ready(function(){
+$(document).ready(function(){	
 	$('#dmSendBtn').on('click', function(){
 		//$('#frm').attr('action', 'dmIns.do').submit();
-		var formdata = $('#frm').serialize();
+		var formdata = $('#dmForm').serialize();
 		$.ajax({
 			type : 'POST',
 			dataType : 'text',

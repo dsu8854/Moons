@@ -1,0 +1,188 @@
+body{
+	text-align: center;
+	padding: 0px 0px 20px 0px;
+}
+
+.ㅋpayMainWrap{
+	display: inline-block;
+	text-align: center;
+}
+
+/* 유저 사진 */
+#myInfo{
+	display: inline-block;
+	background-color: #f0f0f0;
+	padding: 15px 0px 0px 0px;
+	margin: 50px 0px 0px 0px;
+	border-bottom:1px solid #e0e0e0;
+	width:199px;
+	height:195px;
+}
+#myInfo img{
+	display:inline-block;
+	width:180px;
+	height: 180px;
+	margin: auto;
+}
+
+#pointHeader{
+	display: inline-block;
+	margin: 50px 0px 0px 0px;
+	background-color: #f0f0f0;
+	width:450px;
+	height:160px;
+	text-align:left;
+	padding:50px 0px 0px 50px;
+	font-size: 12px;
+	color:rgba(0,0,0,0.5);
+	border-bottom: 1px solid #e0e0e0;
+	vertical-align: top;
+}
+
+#myPoint{
+	font-size:50px;
+	color:rgba(0,0,0,0.8);
+}
+
+.paymentBtn{
+	width:100px;
+	height:45px;
+	border:0px;
+	color:white;
+	background-color: #007399;
+	cursor: pointer;
+	margin: 0px;
+	padding: auto;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
+.paymentBtn:hover{
+	background-color: #004d66;
+	transition: background-color 0.3s;
+}
+
+#pointWithdraw{
+	display: inline-block;
+	margin: 50px 0px 0px 0px;
+	padding:20px 0px 0px 0px;
+	background-color: #f0f0f0;
+	border-bottom:1px solid #e0e0e0;
+	width:120px;
+	height:190px;
+	font-size: 12px;
+	color:rgba(0,0,0,0.5);
+	vertical-align: top;
+	font-weight: bold;
+}
+
+#pointWithdraw a:hover, a:link, a:visited, a:active{
+	color:rgba(0,0,0,0.5);
+	text-decoration: none;
+}
+/********포인트 사용내역 기간별로보기 달력 div ********/
+#pointHeaderCal{
+	display: inline-block;
+	margin: 0px 0px 80px 0px;
+	padding:20px 0px 0px 0px;
+	width:820px;
+	height:50px;
+	background-color: #f0f0f0;
+	line-height: 50px;
+	text-align: center;
+}
+
+#pointHeaderCal ul{
+	display: inline-block;
+}
+
+#pointHeaderCal li{
+	float: left;
+	width:70px;
+	height:30px;
+	border:1px solid rgba(0,0,0,0.4);
+	border-left: 0px;
+	background-color: white;
+	font-size: 10px;
+	text-align:center;
+	line-height: 30px;
+	cursor: pointer;
+	color:#333333;
+}
+#pointHeaderCal li:nth-of-type(1){
+	border-left: 1px solid rgba(0,0,0,0.4);
+}
+
+#pointHeaderCal .calRange{
+	height:28px;
+	vertical-align: top;
+	border:1px solid rgba(0,0,0,0.4);
+	text-indent: 3px;
+}
+
+#pointHeaderCal .pointCalBtn{
+	width:50px;
+	height:32px;
+	border:1px solid rgba(0,0,0,0.4);
+	color:rgba(0,0,0,0.6);
+	background-color: rgba(0,0,0,0.1);
+	cursor: pointer;
+	margin: 0px;
+	padding: auto;
+	vertical-align: top;
+	font-size: 12px;
+}
+/********포인트 사용내역 기간별로보기 달력 div 끝********/
+
+/*포인트 사용 내역 소타이틀*/
+#pointUse{
+	display:inline-block;
+	width:250px;
+	height:60px;
+	border:1px solid rgba(0,0,0,0.3);
+	border-radius: 30px;
+	line-height: 60px;
+	font-size:14px;
+	color:#888888;
+}
+
+/*포인트 사용내역 테이블 */
+
+#pointTable{
+	display: inline-block;
+	border:0px solid black;
+	border-collapse: collapse;
+	font-size:16px;
+}
+#pointTable tr:nth-of-type(1){
+	border-top: 1px solid #dddddd;
+}
+#pointTable tr{
+	height:60px;
+	border-bottom: 1px solid #dddddd;
+}
+#pointTable td{
+	padding:8px;
+	line-height: 80px;
+}
+#pointTable tr td:nth-of-type(3){
+	color:#888888;
+	font-size:14px;
+}
+#pointTable .receivePoint{color:#00b300;}
+#pointTable .donatePoint{color:#cc0000;}
+
+/* 더보기 */
+.addView{
+	display: inline-block;
+	width:800px;
+	height: 40px;
+	line-height: 40px;
+	background-color: #9fbfdf;
+	color: rgba(0,0,0,0.3);
+	cursor: pointer;
+}
+/********************************/
+
+
+/*************payhistory.jsp*************/
+

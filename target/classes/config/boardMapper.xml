@@ -8,22 +8,35 @@
     	<result property="board_content" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
 	</resultMap>
 
-	<select id="sel" resultType="dto.BoardDTO" resultMap="boardContent" parameterType="dto.UserDTO">
-		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
-		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag,
-		user_nickname, user_photo,
-		(select case when count(*) > 0 then 1 else 0 end 
-        from moons_like
-		where user_code=#{user_code} and board_num=m.board_num) as isLike,
-		(select case when count(*) > 0 then 1 else 0 end 
-        from moons_share
-		where user_code=#{user_code} and board_num=m.board_num) as isShare
-		from moons_board m, moons_user u
-		where m.user_code in (select follow_following from moons_follow where user_code=#{user_code}) and m.user_code=u.user_code
-		order by board_date desc		
+	<select id="selList" resultType="dto.BoardDTO" resultMap="boardContent" parameterType="hashmap">
+		select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+				  user_nickname, user_photo,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_like
+				   where user_code=#{my_code} and board_num=m.board_num) as isLike,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_share
+				   where user_code=#{my_code} and board_num=m.board_num) as isShare
+				  from moons_board m, moons_user u
+				  where m.user_code=u.user_code and m.user_code=#{writer_code}
+				  order by board_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
 	
-	<select id="selLike" parameterType="dto.BoardDTO" resultType="int">
+	<select id="selGrid" resultType="dto.BoardDTO" parameterType="hashmap">
+		select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, board_subject, board_photo
+				  from moons_board
+				  where user_code=#{writer_code}
+				  order by board_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
+	
+	<select id="likeCount" parameterType="dto.BoardDTO" resultType="int">
 		select count(*) from moons_like where board_num=#{board_num}
 	</select>
 	
@@ -35,7 +48,7 @@
 		delete from moons_like where user_code=#{user_code} and board_num=#{board_num}
 	</delete>
 	
-	<select id="selShare" parameterType="dto.BoardDTO" resultType="int">
+	<select id="shareCount" parameterType="dto.BoardDTO" resultType="int">
 		select count(*) from moons_share where board_num=#{board_num}
 	</select>
 	
@@ -47,15 +60,42 @@
 		delete from moons_share where user_code=#{user_code} and board_num=#{board_num}
 	</delete>
 	
-	<insert id="insImg" parameterType="dto.EditorImageDTO">
+	<insert id="post" parameterType="dto.BoardDTO">	
+		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},'movie',#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1)
+		<selectKey resultType="int" keyProperty="board_num" order="AFTER">
+	        SELECT LAST_NUMBER-1
+	        FROM USER_SEQUENCES
+	        WHERE SEQUENCE_NAME = 'MOONS_BOARD_NUM_SEQ'
+	    </selectKey>
+	</insert>
+	
+	<!-- <insert id="insImg" parameterType="dto.EditorImageDTO">
 		insert into editor_image values(imageUP_seq.nextval,#{content_type},#{file_name},#{file_path},sysdate,#{save_file_name},#{img_size})
 	</insert>
 	
 	<insert id="ins" parameterType="dto.BoardDTO">
 		insert into moons_board values(moons_board_num_seq.nextval,'123','movie',#{board_subject},#{board_content},0,0,sysdate,#{board_hashtag})
-	</insert>
+	</insert> -->
 	
-	<select id="selOne" parameterType="dto.BoardDTO" resultType="dto.BoardDTO">
-		select * from moons_board where board_num=#{board_num}
+	<select id="selDetail" parameterType="hashmap" resultType="dto.BoardDTO">
+		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+		u.user_nickname, u.user_photo, u.user_introduce,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_like
+		 where user_code=#{user_code} and board_num=m.board_num) as isLike,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_share
+		 where user_code=#{user_code} and board_num=m.board_num) as isShare
+		from moons_board m, moons_user u
+		where board_num=#{board_num} and m.user_code=u.user_code
+	</select>
+	
+	<select id="selWriter" parameterType="dto.BoardDTO" resultType="int">
+		select user_code from moons_board where board_num=#{board_num}
+	</select>
+	
+	<select id="postCount" parameterType="int" resultType="int">
+		select count(*) from moons_board where user_code=#{user_code}
 	</select>
 </mapper>   
