@@ -109,6 +109,8 @@
 	line-height: 14px;
 	display: block;
 	position: relative;
+	text-decoration: none;
+	color: #333;
 }
 
 #wrapSideMenu .wrap_side_service_menu li a:hover,

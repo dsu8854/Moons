@@ -10,6 +10,11 @@
 	text-align: center;
 }
 
+.menubar {
+	float: left;
+	padding: 0% 0% 0% 1%;
+}
+
 .menu li {
 	display: inline-block;
 }

@@ -1,9 +1,6 @@
 package dto;
 
 import java.util.Date;
-import java.util.List;
-
-import oracle.sql.CLOB;
 
 public class BoardDTO {
 	private int board_num;
@@ -16,9 +13,12 @@ public class BoardDTO {
 	private int board_reply;
 	private Date board_date;
 	private String board_hashtag;
+	private String board_photo;
+	private int board_privacy;
 	
 	private String user_photo; 		//작성자 프로필사진을 저장하기 위한 변수
 	private String user_nickname; 	//작성자 닉네임을 저장하기 위한 변수
+	private String user_introduce;	//작성자 소개를 저장하기 위한 변수
 	private Boolean isLike;			//좋아요 여부
 	private Boolean isShare;		//공유 여부 
 	
@@ -106,6 +106,22 @@ public class BoardDTO {
 		this.board_hashtag = board_hashtag;
 	}
 	
+	public String getBoard_photo() {
+		return board_photo;
+	}
+
+	public void setBoard_photo(String board_photo) {
+		this.board_photo = board_photo;
+	}
+
+	public int getBoard_privacy() {
+		return board_privacy;
+	}
+
+	public void setBoard_privacy(int board_privacy) {
+		this.board_privacy = board_privacy;
+	}
+
 	public String getUser_nickname() {
 		return user_nickname;
 	}
@@ -120,6 +136,14 @@ public class BoardDTO {
 	
 	public void setUser_photo(String user_photo) {
 		this.user_photo = user_photo;
+	}
+	
+	public String getUser_introduce() {
+		return user_introduce;
+	}
+
+	public void setUser_introduce(String user_introduce) {
+		this.user_introduce = user_introduce;
 	}
 
 	public Boolean getIsLike() {

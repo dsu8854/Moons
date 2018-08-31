@@ -51,19 +51,30 @@
 		where user_id = #{user_id} and user_email = #{user_email} and user_type = #{user_type}
 	</select>
 	
-	<update id="uptInfo" parameterType="dto.UserDTO">	<!-- 수정하는 역할 -->
-		update moons_user 
-		set user_nickname=#{user_nickname}
-		<if test="user_pass!=null">,user_pass=#{user_pass}</if>
-		,user_email=#{user_email}
-		,user_introduce=#{user_introduce}
-		<if test="user_photo!=null">,user_photo=#{user_photo}</if><!-- 수정파일이 없으면 안해준다. -->
-		where user_code=#{user_code}
-	</update>
+	<update id="uptInfo" parameterType="dto.UserDTO">   <!-- 수정하는 역할 -->
+      update moons_user set user_nickname=#{user_nickname}, user_introduce=#{user_introduce} 
+      where user_code=#{user_code}
+   </update>
+   
+   <update id="uptPass" parameterType="dto.UserDTO">
+   		update moons_user set user_pass=#{user_pass} where user_code=#{user_code}
+   </update>
 
 	<!-- id에 해당하는 레코드값 가져오기(리스트가 아닌?) -->
-	<select id="selInfo" parameterType="int" resultType="dto.UserDTO">
+	<select id="selAllInfo" parameterType="int" resultType="dto.UserDTO">
 		select *
+		from moons_user
+		where user_code=#{user_code}
+	</select>
+	
+	<select id="selInfo" parameterType="int" resultType="dto.UserDTO">
+		select user_code, user_id, user_nickname, user_photo, user_introduce
+		from moons_user
+		where user_code=#{user_code}
+	</select>
+	
+	<select id="selUptInfo" parameterType="int" resultType="dto.UserDTO">
+		select user_id, user_type, user_nickname, user_email, user_photo, user_point, user_introduce, user_pass
 		from moons_user
 		where user_code=#{user_code}
 	</select>

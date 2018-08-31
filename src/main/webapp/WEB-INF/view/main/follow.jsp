@@ -13,14 +13,25 @@
 	<c:forEach items="${followList}" var="follow">
 		<div class="wrap_content">
 			<div class="content_photo">
-				<img src="images/${follow.user_photo}">
+				<c:choose>
+					<c:when test="${empty follow.user_photo}">
+						<img src="images/basic.png" class="follow_image">
+					</c:when>
+					<c:otherwise>
+						<img src="images/${follow.user_photo}" class="follow_image">
+					</c:otherwise>
+				</c:choose>
+				<form id="timelineForm" method="post">
+					<input type="hidden" name="user_code" value="${follow.follow_following }" />
+				</form>
 			</div>
-			<div class="content_nickname">${follow.user_nickname}</div>
-			<c:choose>
+			<div class="content_nickname">${follow.user_nickname} <img id="message-icon" src="images/message.png"> </div>     
+			<c:choose> 
 				<c:when test="${!empty follow.user_introduce }">
 					<div class="content_introduce">${follow.user_introduce}</div>
 				</c:when>
 			</c:choose>
+			
 			<div>
 				<form id="followForm" method="post">
 					<input type="button" class="followCancelBtn" value="팔로우 취소" />

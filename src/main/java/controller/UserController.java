@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -25,6 +27,7 @@ import dto.UserDTO;
 import oauth.bo.KakaoLoginBO;
 import oauth.bo.NaverLoginBO;
 import service.UserService;
+import socket.WebSocketHandler;
 
 // http://localhost:8090/moons/intro.do
 
@@ -329,7 +332,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/profile.do")
-	public String profile() {
+	public String profile(Model model, HttpSession session) {
+		int user_code = (Integer) session.getAttribute("user_code");
+		
+		model.addAttribute("userInfo", userService.selectUpdateInfoProcess(user_code));
 		return "profile";
 	}
 
@@ -337,24 +343,37 @@ public class UserController {
 	public String updateInfoForm(Model model, HttpSession session) {
 		int user_code = (Integer) session.getAttribute("user_code");
 		
-		model.addAttribute("dto", userService.selectInfoProcess(user_code)); // id에 해당하는 레코드값을 가져온다.
+		model.addAttribute("dto", userService.selectAllInfoProcess(user_code)); // id에 해당하는 레코드값을 가져온다.
 		return "updateInfoForm";
 		// 업데이트시 첨부파일을 생략해서 업데이트 해야된다.
 	}
 
 	@RequestMapping(value = "/updateInfoPro.do", method = RequestMethod.POST) // 수정후
-	public String updateInfoPro(UserDTO udto, HttpSession session, HttpServletRequest request) { // dto내용
+	public String updateInfoPro(UserDTO udto, HttpSession session) { // dto내용
 		int user_code = (Integer) session.getAttribute("user_code");
-		udto.setUser_code(user_code);
-		
+		udto.setUser_code(user_code); 
+		System.out.println(udto.getUser_introduce());  
+		/*udto.setUser_nickname(request.getParameter("user_nickname"));
+		udto.setUser_introduce(request.getParameter("user_introduce"));*/
+		 
 		// 수정 후
-		userService.updateInfoProcess(udto, request); // request는 첨부파일을 가져오기 위해 사용
+		userService.updateInfoProcess(udto); // request는 첨부파일을 가져오기 위해 사용
 		
 		if(udto.getUser_photo()!=null)
-			session.setAttribute("user_photo",userService.updateInfoProcess(udto, request));
+			session.setAttribute("user_photo",userService.updateInfoProcess(udto));
 		
 		return "redirect:/profile.do";
 	}// end updateProc()
+	
+	@RequestMapping(value="/updatePassPro.do" , method =RequestMethod.POST)//비밀번호 수정
+	public String updatePass(UserDTO udto ,HttpSession session) {
+		int user_code=(Integer) session.getAttribute("user_code");
+		udto.setUser_code(user_code);
+		
+		userService.updatePassprocess(udto);
+		
+		return "redirect:/profile.do";
+	}
 	
 	@RequestMapping(value="/exit.do")
 	public String exit() {
@@ -362,11 +381,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/follow.do")					// 팔로워 페이지 이동
-	public String followList(Model model,HttpSession session) {
-		int user_code = (Integer) session.getAttribute("user_code");
+	public String followList(Model model, int user_code) {
+		/*int user_code = (Integer) session.getAttribute("user_code");*/
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
-			
+		
 		model.addAttribute("followList",userService.selectFollowListProcess(udto)); // code에 해당하는 팔로워할 유저들 보여주기 
 		model.addAttribute("followCount",userService.followCountProcess(udto));		// 팔로워 인원수 
 		
@@ -374,8 +393,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/follower.do")						// 팔로잉 페이지로 이동
-	public String followerList(Model model,HttpSession session) {
-		int user_code = (Integer) session.getAttribute("user_code");
+	public String followerList(Model model, int user_code) {
+		/*int user_code = (Integer) session.getAttribute("user_code");*/
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
 		
@@ -405,9 +424,23 @@ public class UserController {
 		
 		try {
 			userService.insertFollowProcess(fdto);
+			WebSocketMessage<String> sendMsg = new TextMessage("5|"+fdto.getFollow_following());
+			WebSocketHandler handler = WebSocketHandler.getInstance();
+			if(handler.getUserList().get(String.valueOf(fdto.getFollow_following()))!=null)
+				handler.handleMessage(handler.getUserList().get(String.valueOf(fdto.getFollow_following())), sendMsg);
 			return true;
 		} catch(Exception e) {
 			return false;
 		}
+	}
+	
+	@RequestMapping(value="/about.do")
+	public String about() {
+		return "about";
+	}
+	
+	@RequestMapping(value="/privacy.do")
+	public String privacy() {
+		return "privacy";
 	}
 }// end class

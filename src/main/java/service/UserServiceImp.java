@@ -81,12 +81,22 @@ public class UserServiceImp implements UserService {
 	}
 	
 	@Override
+	public UserDTO selectAllInfoProcess(int user_code) {
+		return userDao.selectAllInfoMethod(user_code);
+	}
+	
+	@Override
 	public UserDTO selectInfoProcess(int user_code) {
 		return userDao.selectInfoMethod(user_code);
 	}
 	
 	@Override
-	public String updateInfoProcess(UserDTO udto, HttpServletRequest request) {
+	public UserDTO selectUpdateInfoProcess(int user_code) {
+		return userDao.selectUpdateInfoMethod(user_code);
+	}
+	
+	@Override
+	public String updateInfoProcess(UserDTO udto) {
 		// 기존 첨부파일
 		String filename = userDao.selectPhotoMethod(udto.getUser_code());
 
@@ -94,13 +104,13 @@ public class UserServiceImp implements UserService {
 		MultipartFile file = udto.getFilename();
 		// write.jsp의 첨부파일 이름을 생성
 
-		String root = request.getSession().getServletContext().getRealPath("/");
+	/*	String root = request.getSession().getServletContext().getRealPath("/");*/
 		
 		//C:\job\workspace_spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Moons\
-		String saveDirectory = root + "images" + File.separator;
+/*		String saveDirectory = root + "images" + File.separator;*/
 		
 		/*System.out.println(saveDirectory);*/
-		
+		/*
 		if (!file.isEmpty()) { // 수정파일 있을시
 			if (filename != null) { // 기존첨부파일이 있을시 지워야한다. 
 				File fe = new File(saveDirectory, filename);
@@ -119,10 +129,16 @@ public class UserServiceImp implements UserService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		userDao.updateInfoMethod(udto);		// 업데이트 실행 
 		
 		return udto.getUser_photo();	// 첨부파일 반환
+	}
+	
+	@Override
+	public void updatePassprocess(UserDTO udto) {
+		userDao.updatePassMethod(udto);
+		
 	}
 
 	@Override

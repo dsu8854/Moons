@@ -16,8 +16,11 @@ public interface UserDAO {
 	public String passMethod(UserDTO udto);
 	public String selectPhotoMethod(int user_code); // 아이디를 통해 파일 가져오기
 	public String selectNickMethod(int user_code);
-	public UserDTO selectInfoMethod(int user_code); // id에 해당하는 레코드값 가져오기(리스트가 아닌?)
+	public UserDTO selectAllInfoMethod(int user_code);
+	public UserDTO selectInfoMethod(int user_code);
+	public UserDTO selectUpdateInfoMethod(int user_code);
 	public void updateInfoMethod(UserDTO dto); // 수정
+	public void updatePassMethod(UserDTO udto); // 수정
 	
 	public List<FollowDTO> selectFollowListMethod(UserDTO udto);	// 팔로잉 리스트
 	public int followCountMethod(UserDTO udto);			// 팔로우 수
