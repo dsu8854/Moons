@@ -114,9 +114,12 @@ insert into moons_reply
 values (moons_reply_num_seq.nextval, 2, 1, '테스트1댓글', sysdate, 0, 0 )
 
 delete from moons_reply where board_num=2;
-select * from moons_reply order by reply_num;
+select * from moons_reply order by reply_ref, reply_date;
 select * from moons_board
 select * from moons_user
+
+select rownum reply_step from (select * from moons_reply where reply_ref=118 order by reply_date)
+
 --------------------테스트용댓글
 select * from moons_reply
 

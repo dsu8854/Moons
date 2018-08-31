@@ -80,19 +80,12 @@ public class BoardServiceImp implements BoardService{
 		return boardDao.postMethod(bdto);
 	}
 
-/*	@Override
-	public List<ReplyDTO> selectReplyListProcess(ReplyDTO rdto) {
-		boardDao.InsertReplyMethod(rdto);
-		
-		return boardDao.selectReplyListMethod(rdto.getBoard_num());
-	}
-*/
 	
 	@Override
 	public List<ReplyDTO> selectReplyListProcess(ReplyDTO rdto) {
 		boardDao.InsertReplyMethod(rdto);
 		
-		return boardDao.selectReplyListMethod(rdto.getBoard_num());
+		return boardDao.selectReplyListMethod(rdto);
 	}
 
 	

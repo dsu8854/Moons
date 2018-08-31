@@ -82,8 +82,8 @@ public class BoardDaoImp implements BoardDAO{
 	}
 	
 	@Override
-	public List<ReplyDTO> selectReplyListMethod(int board_num) {
-		return boardSqlSession.selectList("board.selRepList", board_num);
+	public List<ReplyDTO> selectReplyListMethod(ReplyDTO rdto) {
+		return boardSqlSession.selectList("board.selRepList", rdto);
 	}
 
 	@Override

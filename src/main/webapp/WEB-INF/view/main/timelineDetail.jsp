@@ -81,16 +81,6 @@
       <div id="comment_info">댓글<span id="comment_count">${bdto.board_reply }</span></div>
       <div id="time_comment_wrap">
       
-<%--       	<c:forEach items="${rList }" var="rdto">
-           <div id="comment_one">
-            <div id="comUserPhoWrap"><img src="images/back.jpg" id="comUserPho"></div>
-               <div id="comUserNick"><span>댓글유저</span><span id="comDate">2018.08.24</span></div>
-               <div id="comContWrap"><div id="comCont">댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.</div></div>
-           </div>
-        </c:forEach>
- --%>
-
-
       	<ul class="reply_list" >
       	
       	<c:forEach items="${bdto.replyList }" var="rdto">
@@ -98,6 +88,9 @@
       	
            <li class="comment_one">
            <div class="comment_list">
+           <c:if test="${rdto.reply_num ne rdto.reply_ref }">
+				<img class="repImg" src="images/re.gif">	
+           </c:if>
             <div class="comUserPhoWrap"><img src="images/back.jpg" class="comUserPho"></div>
             
             <input type="hidden" class="rep_num" name="rep_num" value="${rdto.reply_num }">
@@ -108,12 +101,10 @@
 					<input type="button" class="reportBtn" value="신고">
                </div>
            </div>
-           				
+           
+			<!-- 대댓글 작성부분 -->				
            <div class="comment_rep write1">
            <img class="repImg" src="images/re.gif">
-				
-				<input type="hidden" id="comment_user1" name="user_code1" value='${userInfo.user_code }'>
-				<input type="hidden" id="board_num1" name="board_num1" value='${bdto.board_num }'>
 				<input type="hidden" class="reply_num" name="reply_num" value="${rdto.reply_num }" />
 				<div class="comUserPhoWrap"><img src="images/back.jpg" class="comUserPho"></div>
 				<div class="comUserNick">${userInfo.user_nickname }</div>
@@ -122,6 +113,7 @@
 				<input class="comRepBtn" type="button" value="등록" >
 			</div>
 			
+			<%-- 임시로놔둔부분이니 신경안써도됨
            <div class="comment_rep write2">
            <img class="repImg" src="images/re.gif">
 				<input type="hidden" id="comment_user2" name="user_code2" value='${userInfo.user_code }'>
@@ -132,15 +124,12 @@
 				<textarea class="reply_content rep2" name="reply_content2" placeholder="댓글로 자유롭게 이야기를 나누어 보세요!"></textarea>
 				<input class="comRepBtn btn1" type="button" value="등록" >
 			</div>
-						
+			 --%>			
+			
 			</li>
         </c:forEach>
-        
-        
-       </ul> 
-        
-		<!-- <form name="frm" id="frm" method="get"> -->
-
+       </ul>
+			<!-- 새로운댓글 추가 --> 
 			<div class="comment_one">
 				
 				<input type="hidden" id="comment_user" name="user_code" value='${userInfo.user_code }'>
@@ -154,10 +143,6 @@
 				<input class="comSubBtn" type="button" value="등록" >
 			</div>
 		
-		<!-- </form> -->
-		
-          
-          
       </div>
    </div>
 </div>

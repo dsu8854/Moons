@@ -92,10 +92,7 @@ public class BoardController {
 			System.out.println(rdtest.getReply_content());
 		}*/
 		
-		System.out.println(rdto.getReply_num());
-		/*if(rdto.getReply_num()!=0) {
-			
-		}*/
+		
 		
 	return boardService.selectReplyListProcess(rdto);
 	

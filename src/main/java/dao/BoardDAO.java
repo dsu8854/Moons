@@ -21,6 +21,6 @@ public interface BoardDAO {
 	public BoardDTO selectDetailMethod(HashMap<String, Integer> map);
 	public int postMethod(BoardDTO bdto);
 	
-	public List<ReplyDTO> selectReplyListMethod(int board_num);
+	public List<ReplyDTO> selectReplyListMethod(ReplyDTO rdto);
 	public void InsertReplyMethod(ReplyDTO rdto);
 }//end interface

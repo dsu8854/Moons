@@ -100,11 +100,14 @@
 		 where user_code=#{user_code} and board_num=m.board_num) as isShare
 		from moons_board m, moons_user u, moons_reply r
 		where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
-		order by r.reply_num
+		order by reply_ref, reply_date
 	</select>
 	
-	<select id="selRepList" parameterType="int" resultType="dto.ReplyDTO">
-		select r.*, (select user_nickname from moons_user where user_code=r.user_code) as user_nickname from moons_reply r where board_num=#{board_num} order by reply_num
+	<select id="selRepList" parameterType="dto.ReplyDTO" resultType="dto.ReplyDTO">
+		select r.*, (select user_nickname from moons_user where user_code=r.user_code) as user_nickname 
+		from moons_reply r 
+		where board_num=#{board_num} 
+		order by reply_ref, reply_date
 	</select>
 	
 	<insert id="insReply" parameterType="dto.ReplyDTO">
@@ -113,7 +116,7 @@
 		<choose>
 			<when test="reply_ref==0">
 			<!-- 첫댓글일경우 -->
-				0
+				moons_reply_num_seq.nextval
 			</when>
 			<otherwise>
 				${reply_ref }
@@ -122,6 +125,10 @@
 		, 0 )
 	</insert>
 	
+	<select id="selReStep">
+	
+	</select>
+	
 	<select id="selWriter" parameterType="dto.BoardDTO" resultType="int">
 		select user_code from moons_board where board_num=#{board_num}
 	</select>
@@ -129,4 +136,5 @@
 	<select id="postCount" parameterType="int" resultType="int">
 		select count(*) from moons_board where user_code=#{user_code}
 	</select>
+	
 </mapper>   

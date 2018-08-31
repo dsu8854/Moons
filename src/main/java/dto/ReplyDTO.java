@@ -10,7 +10,7 @@ public class ReplyDTO {
 	private int user_code;
 	private String reply_content;
 	//json 날짜형식을 지정해주기 위해 필요한 부분
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy년 MM월 dd일")
 	private Date reply_date;
 	private int reply_ref;
 	private int reply_step;
