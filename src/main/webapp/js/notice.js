@@ -10,6 +10,7 @@ $(document).ready(function(){
 	
 	//////////notice /////////////
 	contentProcess();
+	
 	//스크롤 최하단이벤트
 	var start=0;
 	$(window).scroll(function() { 
@@ -66,7 +67,6 @@ function contentProcess(){
 			5. 내리플에 리리플이 달렸을때		O			O
 			6. 아이디가 리플에서 태그됐을때		O			O
 			7. 프로필에서 후원받았을때									O
-			8. 글에서 후원받았을때			O						O
 			 */
 			case '1':		
 				content=actor+'님이 당신을 팔로우합니다.';
@@ -101,8 +101,16 @@ function contentProcess(){
 				link='#7';
 				break;
 			case '8':
-				content=actor+'님이 당신의 글에 '+amount+' P를 후원했습니다'
+				content='회원님의 글이 신고에 의해 삭제되었습니다.'
 				link='#8';
+				break;
+			case '9':
+				content='회원님의 글이 다시 복원되었습니다.'
+				link='#9';
+				break;
+			case '10':
+				content='인출이 완료되었습니다.'
+				link='#10';
 				break;
 			default:
 				break;

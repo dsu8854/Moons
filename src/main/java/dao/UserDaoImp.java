@@ -34,11 +34,6 @@ public class UserDaoImp implements UserDAO {
 	}
 
 	@Override
-	public boolean checkNickMethod(UserDTO udto) {
-		return userSqlSession.selectOne("user.chkNick",udto);
-	}
-
-	@Override
 	public int codeMethod(UserDTO udto) {
 		return userSqlSession.selectOne("user.code",udto);
 	}
@@ -90,6 +85,12 @@ public class UserDaoImp implements UserDAO {
 	@Override
 	public void updateInfoMethod(UserDTO udto) {
 		userSqlSession.update("user.uptInfo", udto);
+	}
+	
+	@Override
+	public void updatePassMethod(UserDTO udto) {
+		userSqlSession.update("user.uptPass",udto);
+		
 	}
 
 	@Override

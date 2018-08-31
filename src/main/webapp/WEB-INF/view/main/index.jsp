@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" Content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no">
-<link href="css/reset.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript">
 $(document).ready(function() {

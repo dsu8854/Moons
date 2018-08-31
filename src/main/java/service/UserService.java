@@ -11,7 +11,6 @@ public interface UserService {
 	public void insertProcess(UserDTO udto);
 	public void deleteProcess(UserDTO udto);
 	public boolean checkIdProcess(UserDTO udto);
-	public boolean checkNickProcess(UserDTO udto);
 	public int codeProcess(UserDTO udto);
 	public boolean checkIdPassProcess(UserDTO udto);
 	public boolean checkEmailProcess(UserDTO udto);

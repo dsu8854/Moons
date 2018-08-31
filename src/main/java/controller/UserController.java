@@ -124,10 +124,7 @@ public class UserController {
 	
 	@RequestMapping(value="/joinProDefault.do", produces="application/text;charset=utf8")
 	public @ResponseBody String joinProDefault(UserDTO udto) {
-		if(userService.checkNickProcess(udto)) {
-			return "중복된 닉네임";
-		}
-		else if(userService.checkIdProcess(udto)) {
+		if(userService.checkIdProcess(udto)) {
 			return "중복된 아이디";
 		} else {
 			userService.insertProcess(udto);
@@ -324,16 +321,12 @@ public class UserController {
 	// SNS 가입/로그인
 	@RequestMapping(value = "/joinProSns.do", produces="application/text;charset=utf8")
 	public @ResponseBody String joinProSns(UserDTO udto, HttpSession session) {
-		if(userService.checkNickProcess(udto))
-			return "중복된 닉네임";
-		else {
-			userService.insertProcess(udto);
-			session.setAttribute("user_code",userService.codeProcess(udto));
-			session.setAttribute("user_type",udto.getUser_type());
-			session.setAttribute("user_nickname",udto.getUser_nickname());
+		userService.insertProcess(udto);
+		session.setAttribute("user_code",userService.codeProcess(udto));
+		session.setAttribute("user_type",udto.getUser_type());
+		session.setAttribute("user_nickname",udto.getUser_nickname());
 			
-			return "가입 성공";
-		}
+		return "가입 성공";
 	}
 	
 	@RequestMapping(value = "/profile.do")
@@ -354,20 +347,10 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/updateInfoPro.do", method = RequestMethod.POST) // 수정후
-	public String updateInfoPro(UserDTO udto, HttpSession session, HttpServletRequest request) { // dto내용
+	public String updateInfoPro(UserDTO udto, HttpSession session) { // dto내용
 		int user_code = (Integer) session.getAttribute("user_code");
 		udto.setUser_code(user_code);
-		
-		// 수정 후
-		userService.updateInfoProcess(udto); // request는 첨부파일을 가져오기 위해 사용
-		
-		/*
-		if(udto.getUser_photo()!=null)
-			session.setAttribute("user_photo",userService.updateInfoProcess(udto, request));
-		*/
-		
-		
-		
+		userService.updateInfoProcess(udto);
 		return "redirect:/profile.do";
 	}// end updateProc()
 	

@@ -87,7 +87,7 @@
     padding: 1px 3px;
 }
 
-#noticeBtn, #messageBtn, #paymentBtn, #profileBtn{
+#noticeBtn, #messageBtn, #paymentBtn {
 	width: 80px;   
     height: 35px;    
    	/* margin:15% 0 0 0 ; */            

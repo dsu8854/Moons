@@ -15,12 +15,9 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 .timelineWrap .board_card{
     font-family: 'Noto Sans KR';
 	position:relative;
-    background-color:white;
-    overflow:hidden; /*커버이미지크기자름*/
-	
+    background-color:white; 
 	width:720px;
 	height:320px;
-	margin:20px auto 20px;
 	padding-left:5px
 	}
 
@@ -28,11 +25,16 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 .timelineWrap .card_page1{
 	position:absolute;
 	top:0;
-	width:450px;
+	width:650px; 
 	height:230px;
 	padding:10px 10px 0px 10px;
 	border-left:1px solid #f0f3f3;
     border-right:1px solid #f0f3f3;
+    border-top: 1px solid #f0f3f3;  
+}
+
+.content_h3_wrap{
+	width: 1000px;  
 }
 
 /*작성자날짜부분*/
@@ -54,6 +56,15 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 .card_writer {
     text-decoration: none;
     color:#959595;
+    float: left; 
+}
+
+.content_part{
+	margin-top: 55px;  
+}
+
+.content_line{
+	margin-top: 10px;
 }
 
 /*작성일자*/
@@ -79,7 +90,7 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 
 /*내용부분*/
 .timelineWrap .card_page1 .content_line{
-	margin-top: 5px;
+	margin-top: 27px;  
     line-height:1.5em;
     max-height:120px;
     overflow:hidden;
@@ -110,14 +121,18 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 
 /*커버이미지부분*/
 .timelineWrap .card_page2{
-	left:490px;
+	left: 677px;
+    top: 0px;
     position: absolute;
+    width: 256px;
+    height: 319px;
+    border: 1px solid #f0f3f3;
 }
-
+   
 .timelineWrap .card_page2 .cover_img{
-	width: 235px;
-    height: 320px;
-    position:absolute;
+	width: 150px;
+    height: 200px;  
+    margin: 56px 0 0 0;     
 }
 
 
@@ -125,18 +140,21 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 .card_page3 {
     position:absolute;
 	top:240px;
-	width:450px;
+	width:650px;  
     height: 60px;
 	padding:10px;
 	border-left:1px solid #f0f3f3;
     border-right:1px solid #f0f3f3;
-   
+    border-bottom: 1px solid #f0f3f3;   
 }
 
 /*태그부분*/
 .timelineWrap .area_taging{
 	display:block;
 	line-height:20px;
+	overflow:hidden;  
+	float: left;  
+    margin: 15px 0 0 10px;
 	}
 
 
@@ -201,7 +219,3 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     text-decoration: none;
     color:#959595;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c

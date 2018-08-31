@@ -41,7 +41,7 @@ public class PaymentController {
 	@RequestMapping("/payment.do")
 	public String paymentForm(Model model, HttpSession session) {
 		int user_code = (int) session.getAttribute("user_code");
-		UserDTO ulist = userservice.selectInfoProcess(user_code);
+		UserDTO udto = userservice.selectInfoProcess(user_code);
 		
 		Map<String, String> map= new HashMap<String,String>();
 		map.put("user_code",Integer.toString(user_code));
@@ -59,8 +59,8 @@ public class PaymentController {
 		
 		model.addAttribute("pointList",paymentService.pointListProcess(map));
 		model.addAttribute("user_code",user_code);
-		model.addAttribute("user_photo",ulist.getUser_photo());
-		model.addAttribute("user_point",ulist.getUser_point());
+		model.addAttribute("user_photo",udto.getUser_photo());
+		model.addAttribute("user_point",udto.getUser_point());
 		return "paymentPage";
 	} 
 	

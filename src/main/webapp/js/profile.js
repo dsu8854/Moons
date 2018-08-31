@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var i = 0;
 
 	$('#editBtn').on('click', function() {
+		$('[name=user_introduce]').val($('#editintroduce').val());
 		$('#editform').attr('action', 'updateInfoPro.do').submit();
 	});
 
@@ -15,7 +16,6 @@ $(document).ready(function() {
 	});
 	
 	$uploadCrop = $('#upload-demo').croppie({
-		
 		viewport: {
 			width: 200,
 			height: 200,
@@ -25,12 +25,8 @@ $(document).ready(function() {
 	        width: 300,
 	        height: 300
 	    },
-	   
 		enableExif: true,
 		enableOrientation: true			// create 함수를 실행하기위한 조건 
-		
-		
-		 
 	});
 	
 	$('#upload').on('change', function () { 			// 파일 선택시 
@@ -38,46 +34,36 @@ $(document).ready(function() {
 		
 		$('.upload-msg').css({"display":"none"});		// 안보이기
 		$('.col-1-2').css({"display": "block"});			// 보이기 
-		
-		
-			$('#profile_upload').on('click', function (ev) {// 파일 선택 완료시
-				$uploadCrop.croppie('result', {
-					type:'blob'
-				}).then(function (resp) {
-						
-					console.log(resp);
-					var form = new FormData(),
-                    request = new XMLHttpRequest();
 
-                	form.append("image", resp,"test.png");
-                	
-                	$.ajax('/moons/uploadPhoto.do',
-                		{
-                		method:'POST',
-                		data:form,
-                		processData:false,
-                		contentType:false,
-                		success:function(){
-                			location.reload();
-                		},
-                		error:function(){
-                			alert('error');
-                		}
-                		
-                	});
-                	
-                	/*
-                	request.open("POST","/moons/uploadPhoto.do", true);
-                	request.send(form);*/
-                	
+		$('#profile_upload').on('click', function (ev) {// 파일 선택 완료시
+			$uploadCrop.croppie('result', {
+				type:'blob'
+			}).then(function (resp) {
+					
+				console.log(resp);
+				var form = new FormData(),
+                request = new XMLHttpRequest();
+                form.append("image", resp,"test.png");
+                request.open("POST","/moons/uploadPhoto.do", true);
+            	request.send(form);
                 
-                	$('.col-1-2').css({"display": "none"});			// 보이기 
-				
-				
+               	$.ajax('/moons/uploadPhoto.do',
+               		{
+               		method:'POST',
+               		data:form,
+               		processData:false,
+               		contentType:false,
+               		success:function(){
+               			location.reload();
+               		},
+               		error:function(){
+               			alert('error');
+               		}                		
+                });
+                
+               	$('.col-1-2').css({"display": "none"});	
 			});
-		});
-		
-	
+		});	
 	});
 
 	$('.like_icon').on('click', function() {
@@ -134,7 +120,6 @@ $(document).ready(function() {
 });
 
 $(function() {
-
 	$(".tab_content").hide();
 	$(".tab_content:first").show();
 

@@ -9,7 +9,6 @@ public interface UserDAO {
 	public void insertMethod(UserDTO udto);
 	public void deleteMethod(UserDTO udto);
 	public boolean checkIdMethod(UserDTO udto);
-	public boolean checkNickMethod(UserDTO udto);
 	public int codeMethod(UserDTO udto);
 	public boolean checkIdPassMethod(UserDTO udto);
 	public boolean checkEmailMethod(UserDTO udto);
@@ -20,6 +19,7 @@ public interface UserDAO {
 	public UserDTO selectInfoMethod(int user_code);
 	public UserDTO selectUpdateInfoMethod(int user_code);
 	public void updateInfoMethod(UserDTO dto); // 수정
+	public void updatePassMethod(UserDTO udto); // 수정
 	
 	public List<FollowDTO> selectFollowListMethod(UserDTO udto);	// 팔로잉 리스트
 	public int followCountMethod(UserDTO udto);			// 팔로우 수
