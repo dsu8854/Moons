@@ -31,10 +31,6 @@
 		$('#paymentBtn').on('click', function() {
 			location.href = "payment.do";
 		});
-		
-		$('#paymentBtn').on('click', function() {
-			location.href = "payment.do";
-		});
 	});
 
 	//WebSocket이 연결된 경우 호출되는 함수
@@ -201,7 +197,7 @@
 					<ul>
 						<li>
 							<a class="menu_word5 #side_ready" href="javascript:timeline()">
-								<span class="bar_left"></span>내가 쓴 리뷰
+								<span class="bar_left"></span>My Review
 								<span class="bar_right"></span>
 							</a>
 							<form id="myTimelineForm" method="post"> 
@@ -210,38 +206,38 @@
 						</li>
 						<li>
 							<a class="menu_word5 #side_ready" href="write.do">
-								<span class="bar_left"></span>리뷰쓰기
+								<span class="bar_left"></span>Review Write
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li class="hr"></li>
 						<li class="now_page">
 							<a class="menu_word4 #side_brunch" href="index.do">
-								<span class="bar_left"></span>MoonS 홈
+								<span class="bar_left"></span>MoonS
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
 							<a class="menu_word5 #side_now brunchNowLink" href="/now">
-								<span class="bar_left"></span>MoonS Now
+								<span class="bar_left"></span>Now ReviewS
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
-							<a class="menu_word5 #side_publish brunchPublishLink" href="/publish">
-								<span class="bar_left"></span>영화소개관
+							<a class="menu_word5 #side_publish brunchPublishLink" href="ranking.do">
+								<span class="bar_left"></span>Movie Introduce
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
-							<a class="menu_word2 #side_feed brunchFeedLink" href="timeline.do">
-								<span class="bar_left"></span>피드
+							<a class="menu_word2 #side_feed brunchFeedLink" href="javascript:timeline()">
+								<span class="bar_left"></span>Review Feed
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
 							<a class="menu_word6 #side_mag" href="/magazine">
-							<span class="bar_left"></span>이달의 리뷰
+							<span class="bar_left"></span>Hot Review
 							<span class="bar_right"></span>
 							</a>
 						</li>

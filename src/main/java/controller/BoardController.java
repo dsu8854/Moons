@@ -59,7 +59,6 @@ public class BoardController {
 		model.addAttribute("follower", userService.followerCountProcess(udto));
 		model.addAttribute("bList", boardService.selectListProcess(map_list));
 		model.addAttribute("bGrid", boardService.selectGridProcess(map_grid));
-		
 		return "timeline";
 	}
 	

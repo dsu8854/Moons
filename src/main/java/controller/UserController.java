@@ -439,7 +439,7 @@ public class UserController {
 	public String privacy() {
 		return "privacy";
 	}
-	
+
 	@RequestMapping(value="/uploadPhoto.do",method=RequestMethod.POST)
 	public String uploadPhoto(Model model, HttpSession session, HttpServletRequest request, MultipartFile image) {
 		int user_code = (Integer) session.getAttribute("user_code");
@@ -469,5 +469,15 @@ public class UserController {
 			}
 		}
 		return "profile";
+	}
+
+	@RequestMapping(value="/ranking.do")
+	public String ranking() {
+		return "ranking";
+	}
+	
+	@RequestMapping(value="/contact.do")
+	public String contact() {
+		return "contact";
 	}
 }// end class

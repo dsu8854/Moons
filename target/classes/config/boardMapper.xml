@@ -35,7 +35,6 @@
 				  order by board_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
-	
 	<select id="likeCount" parameterType="dto.BoardDTO" resultType="int">
 		select count(*) from moons_like where board_num=#{board_num}
 	</select>

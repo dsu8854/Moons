@@ -10,6 +10,10 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/index.jsp" />
 	</definition>
 	
+	<definition name="contact" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/contact.jsp" />
+	</definition>
+	
 	<definition name="timeline" extends="index">
 		<put-attribute name="body" value="/WEB-INF/view/main/timeline.jsp" />
 	</definition>

@@ -37,10 +37,18 @@ DROP TABLE moons_board;
 -- member
 DROP TABLE moons_user;
 
+<<<<<<< HEAD
 drop sequence moons_user_code_seq;
 drop sequence moons_board_num_seq;
 drop sequence moons_reply_num_seq;
 <<<<<<< HEAD
+=======
+DROP TABLE moons_point;
+
+drop sequence moons_user_code_seq;
+drop sequence moons_board_num_seq;
+drop sequence moons_reply_num_seq;
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 drop sequence moons_point_num_seq;
 drop sequence moons_charge_num_seq;
 drop sequence moons_withdraw_num_seq;
@@ -50,6 +58,7 @@ CREATE TABLE moons_point (
 	point_num      NUMBER NOT NULL, -- num
 	point_donater  NUMBER NULL,     -- 유저식별코드
 	point_receiver NUMBER NULL,     -- 유저식별코드2
+<<<<<<< HEAD
 	point_donate   NUMBER NOT NULL DEFAULT 0, -- 후원한금액
 	point_date     DATE   NOT NULL  -- 날짜
 );
@@ -59,6 +68,11 @@ drop sequence moons_payment_num_seq;
 
 
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+	point_donate   NUMBER DEFAULT 0, -- 후원한금액
+	point_date     DATE   NOT NULL  -- 날짜
+);
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 
 -- scrap
 CREATE TABLE moons_scrap (
@@ -205,6 +219,9 @@ ALTER TABLE moons_point
 		);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 CREATE TABLE moons_file (
    board_num	  NUMBER	NULL,
    file_name	  VARCHAR2(200) NOT NULL
@@ -259,8 +276,11 @@ ALTER TABLE moons_file
 			board_num -- num
 		);
 
+<<<<<<< HEAD
 =======
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 -- scrap
 ALTER TABLE moons_scrap
 	ADD
@@ -503,6 +523,9 @@ ALTER TABLE moons_point
 			user_code -- 유저식별코드
 		);      
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 
 -- withdraw
 ALTER TABLE moons_withdraw
@@ -514,8 +537,11 @@ ALTER TABLE moons_withdraw
 		REFERENCES moons_user ( -- member
 			user_code -- 유저식별코드
 		);		
+<<<<<<< HEAD
 =======
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 		
 create sequence moons_user_code_seq
 start with 1 
@@ -542,6 +568,9 @@ nocache
 nocycle;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 create sequence moons_charge_num_seq
 start with 1 
 increment by 1
@@ -549,9 +578,12 @@ nocache
 nocycle;
 
 create sequence moons_withdraw_num_seq
+<<<<<<< HEAD
 =======
 create sequence moons_point_num_seq
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 start with 1 
 increment by 1
 nocache
@@ -579,6 +611,7 @@ for each row
 /
 
 -- 내 글이 공유됐을 때 알림 추가
+<<<<<<< HEAD
 create or replace trigger notice_share
 after insert on moons_share
 for each row
@@ -589,6 +622,10 @@ for each row
 	insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date,notice_state) values(share_actor,:new.user_code,:new.board_num,2,sysdate,1);
 	update moons_board set board_share = board_share+1 where board_num=:new.board_num;
   end;
+=======
+
+
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 /
 
 -- 내 글이 공유 취소됐을 때 알림 제거
@@ -694,10 +731,14 @@ for each row
 */
 -- 누군가가 나한테 후원했을 때 알림 추가 (나중에)
 <<<<<<< HEAD
+<<<<<<< HEAD
 create or replace trigger notice_donate
 =======
 create or replace trigger notice_payment_donate
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+create or replace trigger notice_donate
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 after insert on moons_point
 for each row
   begin
@@ -719,6 +760,7 @@ for each row
 */
 -- 포인트를 충전했을 때 결제내역 추가
 <<<<<<< HEAD
+<<<<<<< HEAD
 create or replace trigger point_charge
 after insert on moons_charge
 for each row
@@ -731,6 +773,13 @@ for each row
   begin
 	update moons_user set user_point=user_point+:new.payment_deposit where user_code=:new.user_code;
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+create or replace trigger point_charge
+after insert on moons_charge
+for each row
+  begin
+	update moons_user set user_point=user_point+:new.charge_amount where user_code=:new.user_code;
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
   end;
 /
 
@@ -753,9 +802,12 @@ for each row
 /
 ------------------------------------------------------------------
 ------------------------------------------------------------------ 여기까지
+<<<<<<< HEAD
 
 ------------------------------------------------------------------
 ------------------------------------------------------------------ 여기까지
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 
 -- 트리거 진행상황
 <알림 테이블 추가>
@@ -772,10 +824,13 @@ deposit		포인트를 충전했을 때 결제내역 추가
 withdraw		포인트를 환전했을 때 결제내역 추가
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 select * from moons_scrap;
 select * from moons_follow;
 select * from moons_notice;
@@ -783,9 +838,12 @@ select * from moons_reply;
 select * from moons_dm;
 select * from moons_share;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 select * from moons_payment;
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 select * from moons_point;
 select * from moons_comment;
 select * from moons_rating;
@@ -799,10 +857,13 @@ select * from moons_file;
 select * from user_triggers;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 drop trigger notice_payment
 
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 insert into moons_follow values(1,2);
 insert into moons_follow values(9,1);
 insert into moons_like values(1,13,sysdate);
@@ -824,10 +885,15 @@ delete from moons_notice where notice_type=7;
 delete from moons_user where user_code=6;
 delete from moons_point;
 <<<<<<< HEAD
+<<<<<<< HEAD
 delete from moons_charge;
 delete from moons_withdraw;
 =======
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
+=======
+delete from moons_charge;
+delete from moons_withdraw;
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 
 -- 노티스 중복 제거
 DELETE FROM moons_notice

@@ -60,7 +60,11 @@
     	<div id="writer_nick">${bdto.user_nickname }</div>
     	<div id="writer_intro">${bdto.user_introduce }</div>
     	<div id="writer_contact">
+<<<<<<< HEAD
         	<a href="작성자페이지이동링크"><span id="writer_page">작성자페이지</span></a>
+=======
+        	<a href="profile.do"><span id="writer_page">작성자페이지</span></a>
+>>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
         	<a href="구독하기이벤트적용해야될듯 일단 a태그로 그냥 걸어둠"><span id="writer_page">구독하기</span></a>
     	</div> 
     </div>
