@@ -23,6 +23,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 import service.BoardService;
 import service.UserService;
@@ -71,9 +72,27 @@ public class BoardController {
 		map.put("board_num", board_num);
 		
 		model.addAttribute("bdto", boardService.selectDetailProcess(map));
+		model.addAttribute("userInfo", userService.selectInfoProcess(user_code));
+		
 		return "timelineDetail";
 	}
 	
+
+	@RequestMapping(value="/replyInsertList.do")
+	@ResponseBody
+	public List<ReplyDTO> replyIns(ReplyDTO rdto, HttpSession sesssion){
+		int user_code=(int)sesssion.getAttribute("user_code");
+		rdto.setUser_code(user_code);
+		
+		System.out.println("글번호 : " + rdto.getBoard_num());
+		System.out.println("작성내용 : " + rdto.getReply_content());
+		System.out.println("원댓글 : " + rdto.getReply_ref());
+		System.out.println("댓글단계 : " + rdto.getReply_step());
+
+		return boardService.selectReplyListProcess(rdto);
+	}
+	
+	 
 	//좋아요 클릭시 +1증가시켜 ajax로 뿌리기 위한 메소드
 	@RequestMapping(value="/likePro.do")
 	public @ResponseBody int likePro(BoardDTO bdto, HttpSession session) throws Exception {

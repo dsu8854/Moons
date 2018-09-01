@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- 
+
 <link href="css/timelineDetail.css" rel="stylesheet">
 <script src="js/timelineDetail.js"></script>
 
@@ -20,16 +20,13 @@
 		<a href="index.do" id="logo"><img src="images/logo.png" width="170" height="50"></a>
 	</div>
     <div class="cover_text">
-        <div class="cover_movie">영화장르표시(임시)</div>
+		<div class="cover_movie">영화장르표시(임시)</div>
         <div class="cover_title" id="board_subject_cover">${bdto.board_subject }</div>
         <div class="cover_info">
             <span class="cover_writer">by ${bdto.user_nickname }</span>
-            
             <fmt:formatDate pattern="yyyy년 MM월 dd일" value="${bdto.board_date }" var="boardDate" />
-            
             <span class="cover_date">${boardDate}</span>
         </div>
-
     </div>
 </div>
 
@@ -51,42 +48,80 @@
         <form id="deleteForm" method="post">
         	<input type="hidden" name="board_num" value="${bdto.board_num }" />
         </form>
-    </div>
-    
+    </div>    
 </div>
-<div id="writerPhoWrap"><img src="images/${bdto.user_photo}" alt="" id="writer_photo"></div>
+
+<div id="writerPhoWrap">
+	<c:choose>
+		<c:when test="${empty userInfo.user_photo }">
+			<img src="images/basic.png" id="writer_photo">
+		</c:when>
+		<c:otherwise>
+			<img src="images/${bdto.user_photo}" id="writer_photo">
+		</c:otherwise>
+	</c:choose>
+</div>
+
 <div id="writer_comment">
 	<div id="writer_info">
-    	<div id="writer_nick">${bdto.user_nickname }</div>
-    	<div id="writer_intro">${bdto.user_introduce }</div>
-    	<div id="writer_contact">
-        	<a href="profile.do"><span id="writer_page">작성자페이지</span></a>
-        	<a href="구독하기이벤트적용해야될듯 일단 a태그로 그냥 걸어둠"><span id="writer_page">구독하기</span></a>
-    	</div> 
-    </div>
+		<div id="writer_nick">${bdto.user_nickname }</div>
+		<div id="writer_intro">${bdto.user_introduce }</div>
+		<div id="writer_contact">
+			<a href="작성자페이지이동링크"><span id="writer_page">후원하기</span></a>
+			<a href="구독하기이벤트적용해야될듯 일단 a태그로 그냥 걸어둠"><span id="writer_page">팔로잉</span></a>
+		</div>
+	</div>
 </div>
 
 <div id="time_comment_wrap">
 	<div id="time_comment">
 		<div id="comment_info">댓글<span id="comment_count">${bdto.board_reply }</span></div>
-		<div id="time_comment_wrap">
-        	<div id="comment_one">
-				<div id="comUserPhoWrap"><img src="images/back.jpg" id="comUserPho"></div>
-            	<div id="comUserNick"><span>댓글유저</span><span id="comDate">2018.08.24</span></div>
-            	<div id="comContWrap"><div id="comCont">댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.</div></div>
-        	</div>
-        	<div id="comment_one">
-				<div id="comUserPhoWrap"><img src="images/back.jpg" id="comUserPho"></div>
-            	<div id="comUserNick"><span>댓글유저</span><span id="comDate">2018.08.24</span></div>
-            	<div id="comCont">댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.</div>
-        	</div>
-        	<div id="comment_one">
-				<div id="comUserPhoWrap"><img src="images/back.jpg" id="comUserPho"></div>
-            	<div id="comUserNick"><span>댓글유저</span><span id="comDate">2018.08.24</span></div>
-            	<div id="comCont">댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.댓글내용을 입력하는 부분입니다.</div>
-    	    </div>
+		<div id="time_comment_wrap">      
+			<ul class="reply_list" >  	
+      			<c:forEach items="${bdto.replyList }" var="rdto">
+      				<fmt:formatDate pattern="yyyy년 MM월 dd일" value="${rdto.reply_date }" var="replyDate" />      	
+					<li class="comment_one">
+						<div class="comment_list">
+						<c:if test="${rdto.reply_num ne rdto.reply_ref }">
+							<img class="repImg" src="images/re.gif">	
+						</c:if>
+							<div class="comUserPhoWrap"><img src="images/back.jpg" class="comUserPho"></div>
+   			         
+							<input type="hidden" class="rep_num" name="rep_num" value="${rdto.reply_num }">
+							<div class="comUserNick"><span>${rdto.user_nickname }</span><span class="comDate">${replyDate }</span></div>
+							<div class="comContWrap"><div class="comCont">${rdto.reply_content }</div></div>
+							<div class="comRep">
+								<input type="button" class="replyBtn" value="댓글">
+								<input type="button" class="reportBtn" value="신고">
+							</div>
+						</div>
+   			        
+						<!-- 대댓글 작성부분 -->				
+						<div class="comment_rep write1">
+						<img class="repImg" src="images/re.gif">
+							<input type="hidden" class="reply_num" name="reply_num" value="${rdto.reply_num }" />
+							<input type="hidden" class="reply_step" name="reply_step" value="${rdto.reply_step}" />
+							<div class="comUserPhoWrap"><img src="images/back.jpg" class="comUserPho"></div>
+							<div class="comUserNick">${userInfo.user_nickname }</div>
+							<textarea class="reply_content" name="reply_content1" placeholder="댓글로 자유롭게 이야기를 나누어 보세요!"></textarea>
+							<input class="comRepBtn" type="button" value="등록" >
+						</div>
+					</li>
+				</c:forEach>
+			</ul>
+				
+			<!-- 새로운댓글 추가 --> 
+			<div class="comment_one">
+				<input type="hidden" id="comment_user" name="user_code" value='${userInfo.user_code }'>
+				<input type="hidden" id="board_num" name="board_num" value='${bdto.board_num }'>
+				<input type="hidden" id="comUserNickid" name="user_nickname" value='${userInfo.user_nickname }'>
+				
+				<div class="comUserPhoWrap"><img src="images/back.jpg" class="comUserPho"></div>
+				<div class="comUserNick">${userInfo.user_nickname }</div>
+   	              
+				<textarea class="reply_content" name="reply_content" placeholder="댓글로 자유롭게 이야기를 나누어 보세요!"></textarea>
+				<input class="comSubBtn" type="button" value="등록" >
+			</div>
 		</div>
 	</div>
 </div>
-
- 

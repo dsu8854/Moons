@@ -35,6 +35,7 @@
 				  order by board_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
+
 	<select id="likeCount" parameterType="dto.BoardDTO" resultType="int">
 		select count(*) from moons_like where board_num=#{board_num}
 	</select>
@@ -85,19 +86,57 @@
 	<delete id="delPost" parameterType="int">
 		delete from moons_board where board_num=#{board_num}
 	</delete>
-
-	<select id="selDetail" parameterType="hashmap" resultType="dto.BoardDTO">
-		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
-		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
-		u.user_nickname, u.user_photo, u.user_introduce,
+	
+	<resultMap type="dto.BoardDTO" id="b_view_reply" autoMapping="true">
+		<result column="board_num" property="board_num"/>
+		<result column="user_code" property="user_code"/>
+		<collection property="replyList" javaType="java.util.List" ofType="dto.ReplyDTO" autoMapping="true">
+			<id column="reply_num" property="reply_num" />
+			<result column="rbnum" property="board_num" />
+			<result column="rucode" property="user_code" />
+			<result column="runick" property="user_nickname"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selDetail" parameterType="hashmap" resultMap="b_view_reply">
+		select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
+		r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
+		m.*, u.*, r.*, 
 		(select case when count(*) > 0 then 1 else 0 end 
 		 from moons_like
 		 where user_code=#{user_code} and board_num=m.board_num) as isLike,
 		(select case when count(*) > 0 then 1 else 0 end 
 		 from moons_share
 		 where user_code=#{user_code} and board_num=m.board_num) as isShare
-		from moons_board m, moons_user u
-		where board_num=#{board_num} and m.user_code=u.user_code
+		from moons_board m, moons_user u, moons_reply r
+		where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
+		order by reply_ref, reply_date
+	</select>
+	
+	<select id="selRepList" parameterType="dto.ReplyDTO" resultType="dto.ReplyDTO">
+		select r.*, (select user_nickname from moons_user where user_code=r.user_code) as user_nickname 
+		from moons_reply r 
+		where board_num=#{board_num} 
+		order by reply_ref, reply_date
+	</select>
+	
+	<insert id="insReply" parameterType="dto.ReplyDTO">
+		insert into moons_reply
+		values (moons_reply_num_seq.nextval, #{board_num}, #{user_code}, #{reply_content}, SYSDATE, 
+		<choose>
+			<when test="reply_ref==0">
+			<!-- 첫댓글일경우 -->
+				moons_reply_num_seq.currval
+			</when>
+			<otherwise>
+				${reply_ref }
+			</otherwise>
+		</choose>
+		,#{reply_step}
+		)
+	</insert>
+	
+	<select id="selReStep">
 	</select>
 	
 	<select id="selWriter" parameterType="dto.BoardDTO" resultType="int">
@@ -107,4 +146,5 @@
 	<select id="postCount" parameterType="int" resultType="int">
 		select count(*) from moons_board where user_code=#{user_code}
 	</select>
+	
 </mapper>   

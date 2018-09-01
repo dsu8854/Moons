@@ -15,11 +15,11 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%; 
-	vertical-align: baseline;
+   margin: 0;
+   padding: 0;
+   border: 0;
+   font-size: 100%; 
+   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -125,7 +125,7 @@ a{
 }
 
 #time_comment {
-    width: 80%;
+    width: 50%;
     margin: auto;
 }
 
@@ -224,45 +224,167 @@ a{
     font-weight: 400;
 }
 
-
-
-#comUserPho {
+.comUserPho {
     width: 40px;
     height: 40px;
     border-radius: 20px;
     margin: 0px 10px 10px 10px;
 }
 
-
-
-#comUserNick {
+.comUserNick {
     margin: 10px;
     color: black;
+    font-size: 13px;
 }
 
-#comCont {
+.comCont {
     padding-bottom: 20px;
-    line-height: 1.4;
-	display: table-cell;
+    line-height: 1.5;
+   display: table-cell;
+    font-size: 13px;
+    color: gray;
 }
 
-#comment_one {
+.comment_one {
     border-bottom: 1px dotted darkgray;
     color: 999999;
 }
 
-#comDate {
+.comment_one_write {
+    border-bottom: 1px dotted darkgray;
+    color: 999999;
+}
+
+.comment_rep{
+    border-bottom: 1px dotted darkgray;
+    color: 999999;
+    
+}
+
+.write2 {
+    border-bottom: 1px dotted darkgray;
+    color: 999999;
+    padding-left: 50px;
+}
+
+.repImg{
+	margin: 10px 0 0 10px;
+	float: left;
+}
+
+.write1 .reply_content{
+	width: 82%;
+}
+
+.write2 .reply_content{
+	width: 80%;
+}
+
+.comment_rep{
+	display: none;
+}
+
+/* .comment_rep_write #reply_content {
+    width: 70%;
+    
+    border: 1px solid lightgray;
+    line-height: 1.5;
+    resize: none;
+    font-size: 13px;
+}
+ */
+
+.comDate {
     margin-left: 10px;
     color: 999999;
 }
 
-
-
-#comUserPhoWrap {
+.comUserPhoWrap {
     float:left; 
 }
 
-
-#comContWrap {
+.comContWrap {
     display: table;
 }
+
+.reply_content {
+    width: 87%;
+    height: 100px;
+    border: 1px solid lightgray;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    resize: none;
+    padding: 10px;
+    font-size: 13px;
+}
+
+#comWriteText::placeholder {
+    color: lightgray;
+    
+}
+
+
+
+#comment_write {
+    padding-bottom: 10px
+}
+
+.comSubBtn {
+    border: 1px solid darkgray;
+    background-color: white;
+    color: darkgray;
+    padding: 5px 15px 5px 15px;
+    border-radius: 20px;
+    position: absolute;
+    float: right;
+    margin: 82px 0 0 -70px;
+    
+}
+
+#comSubBtn:hover {
+    border: 1px solid #00c3bd;
+    color: #00c3bd;
+}
+
+.comRepBtn {
+    border: 1px solid darkgray;
+    background-color: white;
+    color: darkgray;
+    padding: 5px 15px 5px 15px;
+    border-radius: 20px;
+    position: absolute;
+    float: right;
+    margin: 82px 0 0 -70px;
+    
+}
+
+
+
+.comRep{
+	float: right;
+	margin: -50px 0 0 100px;
+
+}
+
+.replyBtn{
+	border: 1px solid darkgray;
+	background-color: transparent;
+	margin-right: 3px;
+}
+
+.reportBtn{
+	border: 1px solid darkgray;
+	background-color: transparent;
+}
+
+
+/* #comRepBtn {
+    border: 1px solid darkgray;
+    background-color: white;
+    color: darkgray;
+    padding: 5px 15px 5px 15px;
+    border-radius: 20px;
+	float: right;
+	margin: -50px 0 0 100px;
+}
+ */

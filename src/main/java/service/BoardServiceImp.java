@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.BoardDAO;
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -97,5 +98,12 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public void deletePostProcess(int board_num) {
 		boardDao.deletePostMethod(board_num);
+	}
+
+	@Override
+	public List<ReplyDTO> selectReplyListProcess(ReplyDTO rdto) {
+		boardDao.InsertReplyMethod(rdto);
+		
+		return boardDao.selectReplyListMethod(rdto);
 	}
 }//end class

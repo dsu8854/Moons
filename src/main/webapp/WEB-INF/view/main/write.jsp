@@ -31,6 +31,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<input type="hidden" name="fileArray" />
 =======
 >>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
@@ -39,6 +40,8 @@
 >>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 =======
 >>>>>>> 98aeb36bcdfc1da8895d4dfdd13318848138d6c8
+=======
+>>>>>>> fa720e9f01bd055e3c48ed3cb2d146aeea95247e
 				</form>
 			</div>
 				<div class="wrap_right_inner_modi" style="display: none">

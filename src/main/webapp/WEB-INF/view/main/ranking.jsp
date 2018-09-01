@@ -702,8 +702,11 @@ $(function(){
 			</div> 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 98aeb36bcdfc1da8895d4dfdd13318848138d6c8
+=======
+>>>>>>> fa720e9f01bd055e3c48ed3cb2d146aeea95247e
 
 
 
@@ -724,11 +727,14 @@ $(function(){
 			<!-- 우측 정기구독&낱권구매 배너 -->
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		</div>		
 >>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
 =======
 >>>>>>> 98aeb36bcdfc1da8895d4dfdd13318848138d6c8
+=======
+>>>>>>> fa720e9f01bd055e3c48ed3cb2d146aeea95247e
 			<!-- 우측 탭진 배너 -->
 			<div class="banner_criteo" style="width:160px;height:600px;">
 				<!-- // 아래 내용을 광고가 노출되는 태그 내부에 붙여 넣기 하세요. -->

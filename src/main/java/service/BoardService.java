@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -24,4 +25,5 @@ public interface BoardService {
 	public void postFileProcess(HashMap<String, Object> map);
 	public List<String> selectFileProcess(int board_num);
 	public void deletePostProcess(int board_num);
+	public List<ReplyDTO> selectReplyListProcess(ReplyDTO rdto);
 }//end interface

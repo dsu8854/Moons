@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 public interface BoardDAO {
@@ -23,4 +24,6 @@ public interface BoardDAO {
 	public void postFileMethod(HashMap<String, Object> map);
 	public List<String> selectFileMethod(int board_num);
 	public void deletePostMethod(int board_num);
+	public List<ReplyDTO> selectReplyListMethod(ReplyDTO rdto);
+	public void InsertReplyMethod(ReplyDTO rdto);
 }//end interface

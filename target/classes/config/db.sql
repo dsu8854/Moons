@@ -326,7 +326,7 @@ ALTER TABLE moons_notice
 		REFERENCES moons_board ( -- board
 			board_num -- num
 		);
-
+		
 -- notice
 ALTER TABLE moons_notice
 	ADD
@@ -336,7 +336,8 @@ ALTER TABLE moons_notice
 		)
 		REFERENCES moons_reply ( -- reply
 			reply_num -- num
-		);
+		)
+	ON DELETE CASCADE;
 
 -- notice
 ALTER TABLE moons_notice
@@ -650,6 +651,7 @@ for each row
 create or replace trigger notice_reply_board
 after insert on moons_reply
 for each row
+  when(new.reply_step=0)
   declare
   	reply_actor NUMBER;
   begin	  
@@ -659,42 +661,47 @@ for each row
   end;
 /
 
--- 내 글에 달린 리플이 삭제됐을 때 알림 제거
-create or replace trigger notice_reply_board_cancel
+-- 내 글에 달린 댓글이 삭제되었을 때 댓글 수 감소
+create or replace trigger notice_reply_delete
 after delete on moons_reply
 for each row
-  declare
-  	reply_actor NUMBER;
-  begin	  
-	select user_code into reply_actor from moons_board where board_num=:old.board_num;  
-	delete from moons_notice where user_code=reply_actor and notice_actor=:old.user_code and board_num=:old.board_num and reply_num=:old.reply_num and notice_type=4;
-	update moons_board set board_reply = board_reply-1 where board_num=:old.board_num;
+  begin
+	update moons_board set board_reply=board_reply-1 where board_num=:old.board_num;
   end;
 /
 
--- 내 리플에 리리플이 달렸을 때 알림 추가 (나중에)
-create or replace trigger notice_reply_reply
+-- 내 댓글에 새로운 댓글이 달렸을 때 알림 추가
+create or replace PACKAGE notice_reply_pkg as
+user_code number;
+board_num number;
+reply_num number;
+reply_ref number;
+reply_step number;
+end notice_reply_pkg;
+/
+
+create or replace TRIGGER notice_reply_row
 after insert on moons_reply
 for each row
-  declare
-  	reply_actor NUMBER;
-  begin	  
-	select user_code into reply_actor from moons_reply where board_num=:new.board_num and reply_ref=:new.reply_ref;
-	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,5,sysdate,1);
-	update moons_board set board_reply = board_reply+1 where board_num=:new.board_num;
-  end;
+begin
+notice_reply_pkg.user_code:=:new.user_code;
+notice_reply_pkg.board_num:=:new.board_num;
+notice_reply_pkg.reply_num:=:new.reply_num;
+notice_reply_pkg.reply_ref:=:new.reply_ref;
+notice_reply_pkg.reply_step:=:new.reply_step;
+end;
 /
 
--- 내 리플에 달린 리리플이 삭제됐을 때 알림 제거
-create or replace trigger notice_reply_reply_cancel
-after delete on moons_reply
-for each row
+create or replace TRIGGER notice_reply_stm
+after insert on moons_reply
   declare
-  	reply_actor NUMBER;
-  begin	  
-	select user_code into reply_actor from moons_reply where board_num=:old.board_num and reply_ref=:old.reply_ref;
-	delete from moons_notice where user_code=reply_actor and notice_actor=:old.user_code and board_num=:old.board_num and reply_num=:old.reply_num and notice_type=5;
-	update moons_board set board_reply = board_reply-1 where board_num=:old.board_num;
+    reply_receiver number;
+  begin
+    if notice_reply_pkg.reply_step!=0 then
+    select user_code into reply_receiver from moons_reply where board_num=notice_reply_pkg.board_num and reply_ref=notice_reply_pkg.reply_ref and reply_step=notice_reply_pkg.reply_step-1;
+	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_receiver,notice_reply_pkg.user_code,notice_reply_pkg.board_num,notice_reply_pkg.reply_num,5,sysdate,1);
+	update moons_board set board_reply=board_reply+1 where board_num=notice_reply_pkg.board_num;
+  end if;
   end;
 /
 
@@ -886,41 +893,3 @@ from moons_follow
 where follow_following = 1 and user_code not in (select follow_following
 											 from moons_follow
 											 where user_code=1)
-											 
-		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
-		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag,
-		user_nickname, user_photo,
-		(select case when count(*) > 0 then 1 else 0 end 
-        from moons_like
-		where user_code=1 and board_num=m.board_num) as isLike,
-		(select case when count(*) > 0 then 1 else 0 end 
-        from moons_share
-		where user_code=1 and board_num=m.board_num) as isShare,
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_report
-		 where report_reporter=1 and board_num=m.board_num) as isReport
-		from moons_board m, moons_user u
-		where m.user_code=u.user_code and m.user_code=1
-		order by board_date desc	
-		
-		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
-		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
-		u.user_nickname, u.user_photo, u.user_introduce,
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_like
-		 where user_code=1 and board_num=m.board_num) as isLike,
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_share
-		 where user_code=1 and board_num=m.board_num) as isShare
-		from moons_board m, moons_user u
-		where board_num=16 and m.user_code=u.user_code
-
-select b.*
-		from(
-			select rownum rm,a.*
-			from(	select n.*, a.user_photo, a.user_nickname
-					from moons_notice n, moons_user a
-					where n.user_code=1 and n.user_code=a.user_code
-					order by n.notice_date desc)a)b
-		where rm>0 and rm<=10
-		

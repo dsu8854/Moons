@@ -6,6 +6,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -98,5 +99,15 @@ public class BoardDaoImp implements BoardDAO{
 	@Override
 	public void deletePostMethod(int board_num) {
 		boardSqlSession.delete("board.delPost",board_num);
+	}
+
+	@Override
+	public List<ReplyDTO> selectReplyListMethod(ReplyDTO rdto) {
+		return boardSqlSession.selectList("board.selRepList", rdto);
+	}
+
+	@Override
+	public void InsertReplyMethod(ReplyDTO rdto) {
+		boardSqlSession.insert("board.insReply", rdto);
 	}
 }//end class
