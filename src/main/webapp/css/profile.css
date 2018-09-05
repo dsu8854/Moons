@@ -1,181 +1,192 @@
 body {
-   /* width: 1500px; */
-   /* background-color: purple; */
-   height: 100%;
+	/* width: 1500px; */
+	/* background-color: purple; */
+	height: 100%;
 }
 
 .wrap {
-   margin-top: 50px;
+	margin-top: 50px;
 }
 
 .header {
-   background-color: blue;
-   margin-bottom: 50px;
-   padding-bottom: 50px;
+	background-color: blue;
+	margin-bottom: 50px;
+	padding-bottom: 50px;
 }
 
 #main_inner:before, #main_inner:after {
-   box-sizing: border-box;
-   claer: both;
+	box-sizing: border-box;
+	claer: both;
 }
 
 #content {
-   position: relative;
-   overflow: hidden;
+	/* position: relative;
+	overflow: hidden; */
 }
 
 #content_width {
-   position: relative;
-   margin-left: 7%;
-   margin-right: 7%;
+	/* position: relative;
+	margin-left: 7%;
+	margin-right: 7%; */
 }
 
 /*프로필 1번째 창*/
 #content_h1 {
-   position: relative;
-   height: 260px; 
+	/*position: relative; 
+    
+     border: 1px solid blue; */
+     height: 260px;
+    margin-left: 460px;
 }
 
 #my_profil {
 	font-size: 17px;
     font-style: italic;
+    width: 50px;
+    margin-top: 20px;
+    
+    margin-left: 450px;
     color: silver;
-    position: relative;
-    top: 110px;
-    right: 40px;
+	
 }
 
 #my_profil_pic1 {
-	display: inline-block;
-    float: left;
-    margin-left: 30%;
+	display: inline-block;	/* a요소 이미지 크기에 맞추기 */
+	float:left;  
+	margin-top: 29px;
+	margin-left: 400px;        
+	width: 0;
+	height: 0;
+	
 }
 
 .my_image {
-   border: 3px solid #CCC;
-   margin-left:1%;    
-   width: 200px;
-   height: 200px;         
-   border-radius: 100px; /* 이미지 반크기만큼 반경을 잡기*/
+	border: 1px solid blue;
+	margin-left:1%;    
+	width: 200px;
+	height: 200px;         
+	border-radius: 100px; /* 이미지 반크기만큼 반경을 잡기*/
 }
 
 /* 수정,팔로우,팔로잉 */
 #my_frm1{
-   float:right;  
-   margin-right: 35%;   
-   margin-top: 3%;     
+	float:right;  
+	margin-right: 35%;   
+	margin-top: 3%;     
 }
 
 #my_btn1 {
-   float: right;
-   margin-right: 10px;
-   padding: 10px;
-   background-color: teal;
+	float: right;
+	margin-right: 10px;
+	padding: 10px;
+	background-color: teal;
 }
 
 #my_btn2 {
-   float: right;
-   padding: 10px;
-   margin-right: 10px;
-   border: 0;
-   outline: none;
-   background-color: white;
-   font-size:20pt; 
+	float: right;
+	padding: 10px;
+	margin-right: 10px;
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt; 
 }
 #followcount{
-   float: right;
-   /* padding: 10px; */ 
-   margin-top:27%;      
+	float: right;
+	/* padding: 10px; */ 
+	margin-top:27%;      
     margin-right: -58px;
-   border: 0;
-   outline: none;
-   background-color: white;
-   font-size:20pt;
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt;
 }
 
 #followingcount{
-   float: right;
-   margin-top:27%;        
+	float: right;
+	margin-top:27%;        
     margin-right: -183px;
-   border: 0;
-   outline: none;
-   background-color: white;
-   font-size:20pt;
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt;
 }
 
 #user_introduce{
-   	font-size: 14pt;
-    position: relative;
-    top: 150px;
-    right: 10px;
+	font-size: 14pt;
+	position: relative;
+    top: 190px;  
+    left: 511px;
 }
 
 #my_btn3 {
-   float: right;
-   padding: 10px;
-   margin-right: 25px; 
-   border: 0;
-   outline: none;
-   background-color: white;
-   font-size:20pt; 
+	float: right;
+	padding: 10px;
+	margin-right: 25px; 
+	border: 0;
+	outline: none;
+	background-color: white;
+	font-size:20pt; 
 }
 
 
 #content_h2{ 
-   display: inline-block; 
-   margin: 1% 7% 0 0;  
-   text-align: left;         
+	display: inline-block; 
+	margin: 1% 7% 0 0;  
+	text-align: left;         
 } 
 
 table, tr, td{
-   font-size: 11pt;  
-    padding: 30px 10px 30px 10px;
-    border-bottom: 1px dotted gray;
-    width: 1139px;     
+	font-size: 15pt; 
+	padding:30px 10px 10px 10px;    
+	border-bottom: 1px dotted gray;   
+	width: 1162px;        
 }
 
 input{
-   font-size: 12pt;
-   padding: 5px; 
+	font-size: 12pt;
+	padding: 5px; 
 }
 
 #chargeBtn{
-   font-size: 10pt;
-   margin-left: 95px;   
+	font-size: 10pt;
+	margin-left: 95px;   
 }
 
 #tdone{
-   text-align: center;  
+	text-align: center;  
 }
 
 #editBtn{
-   margin:3% 0 0 40%; 
+	margin:3% 0 0 40%; 
 }
+
 
 
 /*//////////////////////////////////////////////////  */
 
 
 #container{
-   display: inline-block; 
+	display: inline-block; 
 }
 
 
 td{
-   text-align: left; 
+	text-align: left; 
 }
 
 ul.tabs {
-    margin: 0;
-    padding: 0;
+    margin-left: 372.5px;
+    /* padding: 0; */
+    margin-right: 372.5px;
     float: left;
     list-style: none;
     height: 32px;
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
-    width: 100%;
-    font-family:"dotum";
-    font-size:12px;
+    width: 1175px;
+    font-family: "dotum";
+    font-size: 12px;
 }
 ul.tabs li {
     float: left;
@@ -198,32 +209,40 @@ ul.tabs li.active {
 .tab_container {
     border: 1px solid #eee;
     border-top: none;
+    margin-left: 372.5px;
     clear: both;
     float: left;
-    width: auto; 
+    width: auto;
     background: #FFFFFF;
 }
 .tab_content {
-    padding: 20px;  
-    width: 1132px;  
-    display: inline-block;   
-}  
-
+    padding: 5px;
+    font-size: 12px;
+    display: none;
+}
+.tab_container .tab_content ul {
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+.tab_container .tab_content ul li {
+    padding:5px;
+    list-style:none
+}
+;
  #container {
     width: auto; 
-    margin: 50px 0 0 0;
-}    
+    margin: 0 auto;
+}
 
 #passeditBtn{
-   margin: 2% 0 2% 0;  
+	margin: 2% 0 2% 0;  
 }
 
 
-.email-agree{
-   margin:50px;
-   font-size:12pt;  
-}
 
+
+/* croppie 추가 */
 .col-1-2 {
 	width:500px; 
 	height:500px;
@@ -234,12 +253,12 @@ ul.tabs li.active {
     -webkit-box-shadow: 0 0 3px #ccc;
     box-shadow: 0 0 3px #ccc;
     text-align: center;
-    display:none;
+    /* display:none; */
     margin: 20px 710px 50px 710px;
 }
 
 #profile_upload {
-	display:none;
+	/* display:none; */
 	text-align: center;
     margin-top: 50px;
     width:225px;
@@ -250,6 +269,8 @@ ul.tabs li.active {
     background-color: white;
 	cursor:pointer;
 }
+
+
 
 .upload-demo .upload-demo-wrap,
 .upload-demo .upload-result,
@@ -277,3 +298,9 @@ ul.tabs li.active {
     margin: 50px auto;
     border: 1px solid #aaa;
 }
+
+
+
+
+
+

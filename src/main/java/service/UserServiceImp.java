@@ -40,6 +40,11 @@ public class UserServiceImp implements UserService {
 	public boolean checkIdProcess(UserDTO udto) {
 		return userDao.checkIdMethod(udto);
 	}
+	
+	@Override
+	public boolean checkNickProcess(UserDTO udto) {
+		return userDao.checkNickMethod(udto);
+	}
 
 	@Override
 	public int codeProcess(UserDTO udto) {
@@ -91,8 +96,8 @@ public class UserServiceImp implements UserService {
 	}
 	
 	@Override
-	public void updateProfilePhotoProcess(UserDTO udto) {
-		 userDao.updateProfilePhotoMethod(udto);
+	public UserDTO selectProfilePhotoProcess(UserDTO udto) {
+		return userDao.selectProfilePhotoMethod(udto);
 	}
 	
 	@Override

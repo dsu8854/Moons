@@ -1,7 +1,6 @@
-
 .header-box{
-	width:100%;
-	height:20%;  
+	width:1920px;
+	height:90px;  
 	/* background-color:gray;  */  
 	display: flex;   
 }
@@ -11,9 +10,9 @@
 	display: flex;
 }
 
-.menubarBtn{         
-	padding:15% 0 0 0;     
-} 
+.menubarBtn {
+	padding: 15% 0 0 0;
+}
 
 #logo{
 	padding: 8% 0 0 10%;    
@@ -46,12 +45,12 @@
 
 .right-button{
 	width: 400px;
-	margin:2.5% 0 0 4%;
-	position: absolute;
-	right: 0;
+    margin: 47px 0 0 260px;
+    /* position: absolute; */
+    right: 0;
 }
 
-.noticeArea, .messageArea, .paymentArea {
+.noticeArea, .writeArea, .messageArea, .profileArea {
 	position: relative;
 	float: left;
 	margin: 0 4% 0 0;
@@ -87,7 +86,7 @@
     padding: 1px 3px;
 }
 
-#noticeBtn, #messageBtn, #paymentBtn {
+#noticeBtn, #writeBtn, #messageBtn, #profileBtn, #exitBtn, #paymentBtn {
 	width: 80px;   
     height: 35px;    
    	/* margin:15% 0 0 0 ; */            
@@ -102,13 +101,11 @@
     background-color: white; 
 }
 
-
 hr{
-	margin-top:1%;   
+	margin-top: 17px;
 	border: 1px dotted gray;   
 }
 
-/*****자동완성 *******/
 #suggest{
 	display:none;
 	position:absolute;

@@ -15,7 +15,6 @@ $(document).ready(function(){
 		if($('#comment_write').val()==''){
 			return false;
 		}
-		console.log("comment_submit");
 		$.ajax({
 			type:'GET',
 			dataType:'json',
@@ -159,15 +158,13 @@ function viewMessage(data){
 }//end viewMessage
 
 function commentMessage(data){
-	console.log("commentajax");
 	$('.comment_list').empty();
 	$.each(data,function(index, value){
 		var str='<div class="comment"><img src="'+value.user_photo+'" />'
 		+'<div id="content_box"><p id="comment_info">'
 		+'<span id="comment_name">'+value.user_nickname+'</span>&nbsp;&nbsp;'
 		+'<span id="comment_date">'+value.comment_date+'</span><br/></p>'
-		+'<p id="comment_content">'+value.comment_content+'</div></div>';
-		$('.comment_list').append(str);	
+		+'<p id="comment_content">'+value.comment_content+'</div></div>';	
 	});	 
 }//end commentMessage
 

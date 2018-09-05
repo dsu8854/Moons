@@ -11,11 +11,20 @@ $(document).ready(function(){
 	//////////notice /////////////
 	contentProcess();
 	
+	//읽음체크를 위한 이벤트
+	/*$.ajax({
+		type:'GET',
+		dataType:'json',
+		url:'noticelistopen.do?start='+0+'&read='+read,
+		success:noticelistMessage
+	});*/
+	
 	//스크롤 최하단이벤트
 	var start=0;
 	$(window).scroll(function() { 
 		if ($(window).scrollTop() == $(document).height() - $(window).height() ) {
 			start+=10;
+			console.log(start);
 			$.ajax({
 				type:'GET',
 				dataType:'json',
@@ -37,11 +46,11 @@ function noticelistMessage(data){
 	$.each(data,function(index, value){
 		var str='<tr><td><img src="images/'+value.user_photo+'" /></td><td>'
 		+'<input type="hidden" id="actor" value="'+value.user_nickname+'" />'
-		+'<input type="hidden" id="type" value="'+value.notice_type+'" />'
-		+'<input type="hidden" id="amount" value="'+value.notice_amount+'" />'
-		+'<input type="hidden" id="read" value="'+value.notice_read+'" />'
-		+'<a href="#" id="notice_content"> </a><br/>'
-		+'<span id="notice_date">'+value.notice_date+'</span></td></tr>';
+				+'<input type="hidden" id="type" value="'+value.notice_type+'" />'
+				+'<input type="hidden" id="amount" value="'+value.notice_amount+'" />'
+				+'<input type="hidden" id="read" value="'+value.notice_read+'" />'
+				+'<a href="#" id="notice_content"> </a><br/>'
+				+'<span id="notice_date">'+value.notice_date+'</span></td></tr>';
 		$('.notice').append(str);
 	});	 
 	
@@ -67,6 +76,7 @@ function contentProcess(){
 			5. 내리플에 리리플이 달렸을때		O			O
 			6. 아이디가 리플에서 태그됐을때		O			O
 			7. 프로필에서 후원받았을때									O
+			8. 글에서 후원받았을때			O						O
 			 */
 			case '1':		
 				content=actor+'님이 당신을 팔로우합니다.';
@@ -101,16 +111,8 @@ function contentProcess(){
 				link='#7';
 				break;
 			case '8':
-				content='회원님의 글이 신고에 의해 삭제되었습니다.'
+				content=actor+'님이 당신의 글에 '+amount+' P를 후원했습니다'
 				link='#8';
-				break;
-			case '9':
-				content='회원님의 글이 다시 복원되었습니다.'
-				link='#9';
-				break;
-			case '10':
-				content='인출이 완료되었습니다.'
-				link='#10';
 				break;
 			default:
 				break;

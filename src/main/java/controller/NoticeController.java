@@ -32,8 +32,7 @@ public class NoticeController {
 		map.put("start", 0);
 		
 		model.addAttribute("notice_list",noticeService.noticeListProcess(map));
-		System.out.println("notice:"+noticeService.noticeListProcess(map).size());
-		return "notice"; 
+		return "notice";
 	}
 	
 	@RequestMapping("/noticelistopen.do")

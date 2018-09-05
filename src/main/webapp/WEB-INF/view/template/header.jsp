@@ -24,8 +24,16 @@
 			location.href = "notice.do";
 		});
 
+		$('#writeBtn').on('click', function() {
+			location.href = "write.do";
+		});
+
 		$('#messageBtn').on('click', function() {
 			location.href = "dmList.do";
+		});
+
+		$('#profileBtn').on('click', function() {
+			location.href = "profile.do";
 		});
 		
 		$('#paymentBtn').on('click', function() {
@@ -45,7 +53,7 @@
 		if(current_page.indexOf('notice.do') != -1)
 			readNotice();
 	}
-	
+
 	function onClose() {
 		webSocket.send('2|' + user_code);
 		webSocket.close();
@@ -175,7 +183,7 @@
 			<!-- 브런치 사이드바 따옴 -->
 			<div id="wrapSideMenu" class="open">
 				<div class="wrap_side_profile">
-					<a href="javascript:timeline()" class="#side_my brunchHomeLink"> 
+					<a href="profile.do" class="#side_my brunchHomeLink"> 
 					<c:set var="user_photo" value='<%=session.getAttribute("user_photo")%>' />
 						<c:choose>
 							<c:when test="${empty user_photo}">
@@ -197,7 +205,7 @@
 					<ul>
 						<li>
 							<a class="menu_word5 #side_ready" href="javascript:timeline()">
-								<span class="bar_left"></span>My Review
+								<span class="bar_left"></span>내가 쓴 리뷰
 								<span class="bar_right"></span>
 							</a>
 							<form id="myTimelineForm" method="post"> 
@@ -206,44 +214,44 @@
 						</li>
 						<li>
 							<a class="menu_word5 #side_ready" href="write.do">
-								<span class="bar_left"></span>Review Write
+								<span class="bar_left"></span>리뷰쓰기
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li class="hr"></li>
 						<li class="now_page">
 							<a class="menu_word4 #side_brunch" href="index.do">
-								<span class="bar_left"></span>MoonS
+								<span class="bar_left"></span>MoonS 홈
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
 							<a class="menu_word5 #side_now brunchNowLink" href="/now">
-								<span class="bar_left"></span>Now ReviewS
+								<span class="bar_left"></span>MoonS Now
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
-							<a class="menu_word5 #side_publish brunchPublishLink" href="ranking.do">
-								<span class="bar_left"></span>Movie Introduce
+							<a class="menu_word5 #side_publish brunchPublishLink" href="/publish">
+								<span class="bar_left"></span>영화소개관
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
-							<a class="menu_word2 #side_feed brunchFeedLink" href="javascript:timeline()">
-								<span class="bar_left"></span>Review Feed
+							<a class="menu_word2 #side_feed brunchFeedLink" href="timeline.do">
+								<span class="bar_left"></span>피드
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
 							<a class="menu_word6 #side_mag" href="/magazine">
-							<span class="bar_left"></span>Hot Review
+							<span class="bar_left"></span>이달의 리뷰
 							<span class="bar_right"></span>
 							</a>
 						</li>
 					</ul>
 					<div class="wrap_side_setting" style="position: absolute;">
-						<a href="profile.do" class="#side_settings"><button type="button">설정</button></a>
+						<a href="/me/settings" class="#side_settings"><button type="button">설정</button></a>
 						<a id="sideMenuLogoutButton" href="exit.do"><button type="button">로그아웃</button></a>
 					</div>
 				</div>

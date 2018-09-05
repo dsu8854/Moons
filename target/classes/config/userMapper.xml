@@ -20,6 +20,12 @@
         from moons_user
 		where user_id = #{user_id} and user_type = #{user_type}
 	</select>
+
+	<select id="chkNick" parameterType="dto.UserDTO" resultType="java.lang.Boolean">
+		select case when count(*) > 0 then 1 else 0 end 
+        from moons_user
+		where user_nickname = #{user_nickname}
+	</select>
 	
 	<select id="code" parameterType="dto.UserDTO" resultType="int">
 		select user_code
@@ -45,29 +51,17 @@
 		where user_id = #{user_id} and user_email = #{user_email} and user_type = #{user_type}
 	</select>
 	
-	<update id="uptInfo" parameterType="dto.UserDTO">   <!-- 수정하는 역할 -->
-      update moons_user set user_nickname=#{user_nickname}, user_introduce=#{user_introduce} 
-      where user_code=#{user_code}
-    </update>
-   
-	<update id="uptPass" parameterType="dto.UserDTO">
-   		update moons_user set user_pass=#{user_pass} where user_code=#{user_code}
+	<update id="uptInfo" parameterType="dto.UserDTO">	<!-- 수정하는 역할 -->
+		update moons_user 
+		set user_nickname=#{user_nickname}
+		<if test="user_pass!=null">,user_pass=#{user_pass}</if>
+		,user_email=#{user_email}
+		,user_introduce=#{user_introduce}
 	</update>
 
-	<select id="selAllInfo" parameterType="int" resultType="dto.UserDTO">
-		select *
-		from moons_user
-		where user_code=#{user_code}
-	</select>
-	
-	<select id="selInfo" parameterType="int" resultType="dto.UserDTO">
-		select user_code, user_id, user_nickname, user_photo, user_introduce, user_point
-		from moons_user
-		where user_code=#{user_code}
-	</select>
 	
 	<select id="selUptInfo" parameterType="int" resultType="dto.UserDTO">
-		select user_id, user_type, user_nickname, user_email, user_photo, user_point, user_introduce, user_pass
+		select user_id, user_type, user_nickname, user_email, user_photo, user_point, user_introduce
 		from moons_user
 		where user_code=#{user_code}
 	</select>

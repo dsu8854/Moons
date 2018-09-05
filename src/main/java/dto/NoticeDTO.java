@@ -28,7 +28,7 @@ public class NoticeDTO {
 	private String user_photo;
 	private String user_nickname;
 	private int notice_status;
-
+	
 	public NoticeDTO() {
 
 	}

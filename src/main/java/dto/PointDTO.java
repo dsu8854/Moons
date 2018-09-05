@@ -31,7 +31,7 @@ public class PointDTO {
 	}
 
 	public PointDTO() {
-		
+
 	}
 
 	public int getPoint_num() {

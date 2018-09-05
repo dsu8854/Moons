@@ -16,11 +16,8 @@ DROP TABLE moons_dm;
 -- share
 DROP TABLE moons_share;
 
--- charge
-DROP TABLE moons_charge;
-
--- withdraw
-DROP TABLE moons_withdraw;
+-- payment
+DROP TABLE moons_payment;
 
 -- 한줄평
 DROP TABLE moons_comment;
@@ -31,15 +28,6 @@ DROP TABLE moons_rating;
 -- 좋아요
 DROP TABLE moons_like;
 
--- 포인트
-DROP TABLE moons_point;
-
--- report
-DROP TABLE moons_report;
-
--- 파일
-DROP TABLE moons_file;
-
 -- board
 DROP TABLE moons_board;
 
@@ -49,9 +37,9 @@ DROP TABLE moons_user;
 drop sequence moons_user_code_seq;
 drop sequence moons_board_num_seq;
 drop sequence moons_reply_num_seq;
-drop sequence moons_point_num_seq;
-drop sequence moons_charge_num_seq;
-drop sequence moons_withdraw_num_seq;
+drop sequence moons_payment_num_seq;
+
+
 
 -- scrap
 CREATE TABLE moons_scrap (
@@ -59,6 +47,32 @@ CREATE TABLE moons_scrap (
 	board_num  NUMBER NULL,     -- 게시물번호
 	scrap_date DATE   NOT NULL  -- 날짜
 );
+select * from moons_user 
+
+select * from moons_scrap
+
+delete from moons_scrap;
+
+
+select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+				  user_nickname, user_photo,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_like
+				   where user_code=1 and board_num=m.board_num) as isLike,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_share
+				   where user_code=1 and board_num=m.board_num) as isShare
+				  from moons_board m, moons_user u,moons_scrap s
+				  where m.user_code=u.user_code and m.board_num = s.board_num 
+				  and m.board_num in(
+				  	 select s.board_num from moons_scrap s
+				  	 where s.user_code=1)
+				  
+				   order by board_date desc)a)b
+
 
 -- follow
 CREATE TABLE moons_follow (
@@ -119,8 +133,7 @@ CREATE TABLE moons_board (
 	board_date    DATE          NOT NULL, -- 날짜
 	board_hashtag VARCHAR2(1000)    NULL,      -- 해시태그
 	board_photo	  VARCHAR2(200) NULL,	-- 대표 이미지
-	board_privacy NUMBER		NOT NULL,
-	board_state	  NUMBER		NOT NULL
+	board_privacy NUMBER		NOT NULL
 );
 
 -- board
@@ -157,6 +170,23 @@ ALTER TABLE moons_user
 		CONSTRAINT PK_moons_user -- member 기본키
 		PRIMARY KEY (
 			user_code -- 유저식별코드
+		);
+
+-- payment
+CREATE TABLE moons_payment (
+	payment_num      NUMBER NOT NULL, -- num
+	user_code        NUMBER NULL,     -- 유저
+	payment_deposit  NUMBER DEFAULT 0, -- 입금액
+	payment_withdraw NUMBER DEFAULT 0, -- 출금액
+	payment_date     DATE   NOT NULL  -- 날짜
+);
+
+-- payment
+ALTER TABLE moons_payment
+	ADD
+		CONSTRAINT PK_moons_payment -- payment 기본키
+		PRIMARY KEY (
+			payment_num -- num
 		);
 
 -- 한줄평
@@ -196,69 +226,6 @@ ALTER TABLE moons_point
 		CONSTRAINT PK_moons_point -- point 기본키
 		PRIMARY KEY (
 			point_num -- num
-		);
-
-CREATE TABLE moons_file (
-   board_num	  NUMBER	NULL,
-   file_name	  VARCHAR2(200) NOT NULL
-);
-
--- 충전
-CREATE TABLE moons_charge (
-	charge_num    NUMBER NOT NULL, -- num
-	user_code     NUMBER NULL,     -- 유저
-	charge_amount NUMBER DEFAULT 0, -- 입금액
-	charge_date   DATE   NOT NULL  -- 날짜
-);
-
--- 충전
-ALTER TABLE moons_charge
-	ADD
-		CONSTRAINT PK_moons_charge -- 충전 기본키
-		PRIMARY KEY (
-			charge_num -- num
-		);
-		
--- withdraw
-CREATE TABLE moons_withdraw (
-	withdraw_num         NUMBER        NOT NULL, -- num
-	user_code            NUMBER        NULL,     -- 유저
-	withdraw_name        VARCHAR2(20)  NOT NULL, -- 실명
-	withdraw_identitynum VARCHAR2(15)  NOT NULL, -- 주민등록번호
-	withdraw_amount      NUMBER        DEFAULT 0, -- 출금액
-	withdraw_bank        VARCHAR2(20)  NOT NULL, -- 은행
-	withdraw_account     VARCHAR2(100) NOT NULL, -- 계좌번호
-	withdraw_holder      VARCHAR2(20)  NOT NULL, -- 예금주
-	withdraw_date        DATE          NOT NULL, -- 날짜
-	withdraw_state       NUMBER        NOT NULL  -- 신청상태
-);
-
--- withdraw
-ALTER TABLE moons_withdraw
-	ADD
-		CONSTRAINT PK_moons_withdraw -- withdraw 기본키
-		PRIMARY KEY (
-			withdraw_num -- num
-		);
-
--- report
-CREATE TABLE moons_report (
-	board_num		NUMBER			NOT NULL,
-	report_reporter	NUMBER			NOT NULL,
-	report_reason	VARCHAR2(500) 	NOT NULL,
-	report_date		DATE			NOT NULL,
-	report_state	NUMBER			NOT NULL
-);
-
--- file
-ALTER TABLE moons_file
-	ADD
-		CONSTRAINT FK_moons_board_TO_moons_file -- board -> file
-		FOREIGN KEY (
-			board_num -- 게시물번호
-		)
-		REFERENCES moons_board ( -- board
-			board_num -- num
 		);
 
 -- scrap
@@ -326,7 +293,7 @@ ALTER TABLE moons_notice
 		REFERENCES moons_board ( -- board
 			board_num -- num
 		);
-		
+
 -- notice
 ALTER TABLE moons_notice
 	ADD
@@ -336,8 +303,7 @@ ALTER TABLE moons_notice
 		)
 		REFERENCES moons_reply ( -- reply
 			reply_num -- num
-		)
-	ON DELETE CASCADE;
+		);
 
 -- notice
 ALTER TABLE moons_notice
@@ -427,10 +393,10 @@ ALTER TABLE moons_share
 			user_code -- 유저식별코드
 		);
 
--- 충전
-ALTER TABLE moons_charge
+-- payment
+ALTER TABLE moons_payment
 	ADD
-		CONSTRAINT FK_moons_user_TO_moons_charge -- member -> 충전
+		CONSTRAINT FK_moons_user_TO_moons_payment -- member -> payment
 		FOREIGN KEY (
 			user_code -- 유저
 		)
@@ -503,40 +469,6 @@ ALTER TABLE moons_point
 		REFERENCES moons_user ( -- member
 			user_code -- 유저식별코드
 		);      
-
--- withdraw
-ALTER TABLE moons_withdraw
-	ADD
-		CONSTRAINT FK_moons_user_TO_withdraw -- member -> withdraw
-		FOREIGN KEY (
-			user_code -- 유저
-		)
-		REFERENCES moons_user ( -- member
-			user_code -- 유저식별코드
-		);				
-		
--- report
-ALTER TABLE moons_report
-	ADD
-		CONSTRAINT FK_moons_board_TO_moons_report -- board -> scrap
-		FOREIGN KEY (
-			board_num -- 게시물번호
-		)
-		REFERENCES moons_board ( -- board
-			board_num -- num
-		)
-		ON DELETE CASCADE;
-		
--- report
-ALTER TABLE moons_report
-	ADD
-		CONSTRAINT FK_moons_user_TO_moons_report -- board -> scrap
-		FOREIGN KEY (
-			report_reporter -- 게시물번호
-		)
-		REFERENCES moons_user ( -- board
-			user_code -- num
-		);		
 		
 create sequence moons_user_code_seq
 start with 1 
@@ -556,19 +488,13 @@ increment by 1
 nocache
 nocycle;
 
+create sequence moons_payment_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
 create sequence moons_point_num_seq
-start with 1 
-increment by 1
-nocache
-nocycle;
-
-create sequence moons_charge_num_seq
-start with 1 
-increment by 1
-nocache
-nocycle;
-
-create sequence moons_withdraw_num_seq
 start with 1 
 increment by 1
 nocache
@@ -634,7 +560,7 @@ for each row
   end;
 /
 
--- 내 글에 좋아요 취소됐을 때 알림 제거
+-- 내 글이 좋아요 받았을 때 알림 제거
 create or replace trigger notice_like_cancel
 after delete on moons_like
 for each row
@@ -651,7 +577,6 @@ for each row
 create or replace trigger notice_reply_board
 after insert on moons_reply
 for each row
-  when(new.reply_step=0)
   declare
   	reply_actor NUMBER;
   begin	  
@@ -661,47 +586,42 @@ for each row
   end;
 /
 
--- 내 글에 달린 댓글이 삭제되었을 때 댓글 수 감소
-create or replace trigger notice_reply_delete
+-- 내 글에 달린 리플이 삭제됐을 때 알림 제거
+create or replace trigger notice_reply_board_cancel
 after delete on moons_reply
 for each row
-  begin
-	update moons_board set board_reply=board_reply-1 where board_num=:old.board_num;
+  declare
+  	reply_actor NUMBER;
+  begin	  
+	select user_code into reply_actor from moons_board where board_num=:old.board_num;  
+	delete from moons_notice where user_code=reply_actor and notice_actor=:old.user_code and board_num=:old.board_num and reply_num=:old.reply_num and notice_type=4;
+	update moons_board set board_reply = board_reply-1 where board_num=:old.board_num;
   end;
 /
 
--- 내 댓글에 새로운 댓글이 달렸을 때 알림 추가
-create or replace PACKAGE notice_reply_pkg as
-user_code number;
-board_num number;
-reply_num number;
-reply_ref number;
-reply_step number;
-end notice_reply_pkg;
-/
-
-create or replace TRIGGER notice_reply_row
+-- 내 리플에 리리플이 달렸을 때 알림 추가 (나중에)
+create or replace trigger notice_reply_reply
 after insert on moons_reply
 for each row
-begin
-notice_reply_pkg.user_code:=:new.user_code;
-notice_reply_pkg.board_num:=:new.board_num;
-notice_reply_pkg.reply_num:=:new.reply_num;
-notice_reply_pkg.reply_ref:=:new.reply_ref;
-notice_reply_pkg.reply_step:=:new.reply_step;
-end;
+  declare
+  	reply_actor NUMBER;
+  begin	  
+	select user_code into reply_actor from moons_reply where board_num=:new.board_num and reply_ref=:new.reply_ref;
+	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,5,sysdate,1);
+	update moons_board set board_reply = board_reply+1 where board_num=:new.board_num;
+  end;
 /
 
-create or replace TRIGGER notice_reply_stm
-after insert on moons_reply
+-- 내 리플에 달린 리리플이 삭제됐을 때 알림 제거
+create or replace trigger notice_reply_reply_cancel
+after delete on moons_reply
+for each row
   declare
-    reply_receiver number;
-  begin
-    if notice_reply_pkg.reply_step!=0 then
-    select user_code into reply_receiver from moons_reply where board_num=notice_reply_pkg.board_num and reply_ref=notice_reply_pkg.reply_ref and reply_step=notice_reply_pkg.reply_step-1;
-	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_receiver,notice_reply_pkg.user_code,notice_reply_pkg.board_num,notice_reply_pkg.reply_num,5,sysdate,1);
-	update moons_board set board_reply=board_reply+1 where board_num=notice_reply_pkg.board_num;
-  end if;
+  	reply_actor NUMBER;
+  begin	  
+	select user_code into reply_actor from moons_reply where board_num=:old.board_num and reply_ref=:old.reply_ref;
+	delete from moons_notice where user_code=reply_actor and notice_actor=:old.user_code and board_num=:old.board_num and reply_num=:old.reply_num and notice_type=5;
+	update moons_board set board_reply = board_reply-1 where board_num=:old.board_num;
   end;
 /
 
@@ -716,7 +636,7 @@ for each row
 /
 */
 -- 누군가가 나한테 후원했을 때 알림 추가 (나중에)
-create or replace trigger notice_donate
+create or replace trigger notice_payment_donate
 after insert on moons_point
 for each row
   begin
@@ -737,76 +657,21 @@ for each row
 /
 */
 -- 포인트를 충전했을 때 결제내역 추가
-create or replace trigger point_charge
-after insert on moons_charge
+create or replace trigger notice_payment_charge
+after insert on moons_payment
 for each row
   begin
-	update moons_user set user_point=user_point+:new.charge_amount where user_code=:new.user_code;
+	update moons_user set user_point=user_point+:new.payment_deposit where user_code=:new.user_code;
   end;
 /
 
 -- 포인트를 환전했을 때 결제내역 추가
-create or replace trigger point_withdraw
-after insert on moons_withdraw
+create or replace trigger withdraw
+after update of user_point on moons_user
 for each row
+when(new.user_point < old.user_point)
   begin
-	update moons_user set user_point=user_point-:new.withdraw_amount where user_code=:new.user_code;
-  end;
-/
-
--- 게시글 삭제 시 안에서 사용된 파일들 삭제
-create or replace trigger board_file_delete
-after delete on moons_board
-for each row
-  begin
-	delete from moons_file where board_num=:old.board_num;
-  end;
-/
-
--- 신고에 의한 게시글 삭제
-create or replace trigger report_board_delete
-after update of report_state on moons_report
-for each row
-  when(new.report_state=2)
-  declare
-  	writer NUMBER;
-  begin
-	select user_code into writer from moons_board where board_num=:new.board_num;
-	update moons_board set board_state=2 where board_num=:new.board_num;
-	insert into moons_notice(user_code,board_num,notice_type,notice_date,notice_state) values(writer,:new.board_num,8,sysdate,1);
-  end;
-/
-
--- 본인에 의한 게시글 삭제 시 신고내역 수정
-create or replace trigger user_board_delete
-after update of board_state on moons_board
-for each row
-  begin
-	update moons_report set report_state=4 where board_num=:new.board_num and (report_state=1 or report_state=3);
-  end;
-/
-
--- 신고에 의한 삭제된 게시글 복원
-create or replace trigger report_board_restore
-after update of report_state on moons_report
-for each row
-  when(new.report_state=3 and old.report_state=2)
-  declare
-  	writer NUMBER;
-  begin
-	select user_code into writer from moons_board where board_num=:new.board_num;  
-	update moons_board set board_state=1 where board_num=:new.board_num;
-	insert into moons_notice(user_code,board_num,notice_type,notice_date,notice_state) values(writer,:new.board_num,9,sysdate,1);
-  end;
-/
-
--- 관리자가 환전 요청을 처리했을 때 알림 추가
-create or replace trigger withdraw_complete
-after update of withdraw_state on moons_withdraw
-for each row
-  declare
-  begin
-	insert into moons_notice(user_code,notice_type,notice_amount,notice_date,notice_state) values(:new.user_code,10,:new.withdraw_amount,sysdate,1);
+	insert into moons_payment(payment_num,user_code,payment_withdraw,payment_date) values(moons_payment_num_seq.nextval,:new.user_code,:old.user_point-:new.user_point,sysdate);
   end;
 /
 
@@ -820,14 +685,14 @@ for each row
 3. notice_like			내 글이 좋아요 받았을 때
 4. notice_reply_board		내 글에 리플이 달렸을 때 
 5. notice_reply_reply		내 리플에 리리플이 달렸을 때 
-6. notice_tag			내 이름이 태그되었을 때
-7. notice_payment_profile	누군가가 나한테 후원했을 때
-8. notice_board_delete	내 글이 신고에 의해 삭제되었을 때
-9. notice_board_restore 내 글이 신고에 의해 삭제되었다가 복원되었을 때
-10.notice_point_withdraw 포인트 환전이 완료되었을 때
+6. notice_tag			내 이름이 태그되었을 때 X
+7. notice_payment_profile	누군가가 나한테 후원했을 때 X
+8. notice_payment_board		누군가가 내 글에 후원했을 때 X
 
 deposit		포인트를 충전했을 때 결제내역 추가
 withdraw		포인트를 환전했을 때 결제내역 추가
+
+
 
 select * from moons_scrap;
 select * from moons_follow;
@@ -835,21 +700,18 @@ select * from moons_notice;
 select * from moons_reply;
 select * from moons_dm;
 select * from moons_share;
+select * from moons_payment;
 select * from moons_point;
 select * from moons_comment;
 select * from moons_rating;
 select * from moons_like;
 select * from moons_board;
 select * from moons_user;
-select * from moons_charge;
-select * from moons_withdraw;
-select * from moons_file;
-select * from moons_report;
 
 select * from user_triggers;
 
--- 관리자 계정
-insert into moons_user values(0,'default','admin','admin','admin',NULL,NULL,0,NULL);
+drop trigger notice_payment
+
 insert into moons_follow values(1,2);
 insert into moons_follow values(9,1);
 insert into moons_like values(1,13,sysdate);
@@ -858,21 +720,18 @@ insert into moons_board values(moons_board_num_seq.nextval,1,'신과함께','재
 insert into moons_share values(2,1,sysdate);
 insert into moons_reply values(moons_reply_num_seq.nextval,1,2,'퍼가요',sysdate,0,0);
 insert into moons_dm values(2,1,'안녕',sysdate,1);
-insert into moons_report values(7,1,'그냥',sysdate,1);
 
 delete from moons_dm;
 delete from moons_user;
 delete from moons_board;
 delete from moons_follow;
+delete from moons_payment;
 delete from moons_reply;
 delete from moons_like;
 delete from moons_share;
-delete from moons_notice;
+delete from moons_notice where notice_type=7;
 delete from moons_user where user_code=6;
 delete from moons_point;
-delete from moons_charge;
-delete from moons_withdraw;
-delete from moons_report where board_num=9
 
 -- 노티스 중복 제거
 DELETE FROM moons_notice
@@ -893,3 +752,51 @@ from moons_follow
 where follow_following = 1 and user_code not in (select follow_following
 											 from moons_follow
 											 where user_code=1)
+
+select b.*
+from(select rownum rm, a.*
+	 from(select m.board_num, m.user_code, m.board_movie, m.board_subject, m.board_content, m.board_like, m.board_share, m.board_reply,
+		  to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, m.board_hashtag, m.board_photo,
+		  u.user_nickname, u.user_photo,
+		  (select case when count(*) > 0 then 1 else 0 end 
+           from moons_like
+		   where user_code=1 and board_num=m.board_num) as isLike,
+		  (select case when count(*) > 0 then 1 else 0 end 
+           from moons_share
+		   where user_code=1 and board_num=m.board_num) as isShare
+	      from moons_board m, moons_user u
+		  where m.user_code=u.user_code 
+		  and m.board_num in (select s.board_num 
+		          			  from moons_scrap s
+				  	          where s.user_code=1)
+		  order by m.board_date desc)a)b
+											 
+	insert into moons_scrap values(1,2,sysdate)									 
+											 
+											 
+											 
+		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag,
+		user_nickname, user_photo,
+		(select case when count(*) > 0 then 1 else 0 end 
+        from moons_like
+		where user_code=1 and board_num=m.board_num) as isLike,
+		(select case when count(*) > 0 then 1 else 0 end 
+        from moons_share
+		where user_code=1 and board_num=m.board_num) as isShare
+		from moons_board m, moons_user u
+		where m.user_code=u.user_code and m.user_code=1
+		order by board_date desc	
+		
+		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+		u.user_nickname, u.user_photo, u.user_introduce,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_like
+		 where user_code=1 and board_num=m.board_num) as isLike,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_share
+		 where user_code=1 and board_num=m.board_num) as isShare
+		from moons_board m, moons_user u
+		where board_num=16 and m.user_code=u.user_code
+		

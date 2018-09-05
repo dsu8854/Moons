@@ -5,7 +5,6 @@ import java.util.List;
 
 import dao.BoardDAO;
 import dto.BoardDTO;
-import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -80,30 +79,27 @@ public class BoardServiceImp implements BoardService{
 		return boardDao.postMethod(bdto);
 	}
 
+	/*// 수정중
 	@Override
-	public void tempFileProcess(String file_name) {
-		boardDao.tempFileMethod(file_name);
+	public List<BoardDTO> selectScrapListProcess(HashMap<String, Integer> map) {
+		return boardDao.selectScrapListMethod(map);
 	}
 	
 	@Override
-	public void postFileProcess(HashMap<String, Object> map) {
-		boardDao.postFileMethod(map);
-	}
-
-	@Override
-	public List<String> selectFileProcess(int board_num) {
-		return boardDao.selectFileMethod(board_num);
+	public List<BoardDTO> selectScrapGridProcess(HashMap<String, Integer> map) {
+		return boardDao.selectScrapGridMethod(map);
 	}
 	
 	@Override
-	public void deletePostProcess(int board_num) {
-		boardDao.deletePostMethod(board_num);
+	public List<BoardDTO> selectLikeListProcess(HashMap<String, Integer> map) {
+		return boardDao.selectLikeListMethod(map);
 	}
-
+	
 	@Override
-	public List<ReplyDTO> selectReplyListProcess(ReplyDTO rdto) {
-		boardDao.InsertReplyMethod(rdto);
-		
-		return boardDao.selectReplyListMethod(rdto);
-	}
+	public List<BoardDTO> selectLikeGridProcess(HashMap<String, Integer> map) {
+		return boardDao.selectLikeGridMethod(map);
+	}*/
+	
+	
+	
 }//end class

@@ -1,8 +1,7 @@
-var fileArray = new Array();
-
 $(document).ready(function(){
 	var files;
 	var count=0;
+	var board_content;
 	
 	$('#header_background_img').on('change',function(){
 		files=this.files;
@@ -82,14 +81,14 @@ $(document).ready(function(){
 		$('[name=board_content]').val($('#summernote').summernote('code'));
 		$('[name=board_subject]').val($('#board_subject_cover').text());
 		$('#board_photo').val($('#board_subject_cover').text());
-		$('[name=fileArray]').val(JSON.stringify(fileArray));
+		
 		$('#board_subject_cover').attr('contenteditable','false');
 		$('#cover_subtitle').attr('contenteditable','false');
 		$('#board_hashtag').attr('contenteditable','false');
 		$('#summernote_wrap').css('display','none');
 		$('#hash_table').css('display','none');
 		$('#board_content').css('display','block');
-		$('#board_content').append($('#summernote').summernote('code'));
+		$('#board_content').append(board_content);
 		$('.wrap_right_inner').css("display","none");
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
@@ -117,7 +116,7 @@ $(document).ready(function(){
 		$('#summernote_wrap').css('display','none');
 		$('#board_content').css('display','block');
 		$('#board_content').empty();
-		$('#board_content').append($('#summernote').summernote('code'));
+		$('#board_content').append(board_content);
 		$('.wrap_right_inner').css("display","none");
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
@@ -138,7 +137,6 @@ function sendFile(file,el){
 		cache:false,
 		contentType:false,
 		enctype:'multipart/form-data',
-		async:false,
 		processData:false,
 		success:function(url){
 			if($(el)[0]==$('#summernote')[0])
@@ -152,7 +150,6 @@ function sendFile(file,el){
 				$('.background-cover').css({"background-color":"rgba(0, 0, 0, 0.4)"});
 				$('#header_background_img').val("");
 			}
-			fileArray.push(url);
 		}
 	});
 }

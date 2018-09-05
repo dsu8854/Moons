@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-
 <script src="js/notice.js"></script> 
 <link rel="stylesheet" href="css/notice.css">
 <div id="notice_setting">
@@ -29,6 +27,7 @@
 					<input type="hidden" id="amount" value="${ndto.notice_amount }" />
 					<input type="hidden" id="read" value="${ndto.notice_read }" />
 					<a href="#" id="notice_content"> </a><br/>
+					<!-- <span id="notice_content"></span> -->
 					<span id="notice_date">${ndto.notice_date }</span>
 				</td>
 			</tr>
