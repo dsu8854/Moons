@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -20,15 +21,11 @@ public interface BoardService {
 	public int postCountProcess(int user_code);
 	public BoardDTO selectDetailProcess(HashMap<String, Integer> map);
 	public int postProcess(BoardDTO bdto);
-	
-	/*
-	public List<BoardDTO> selectScrapListProcess(HashMap<String, Integer> map);	
-	public List<BoardDTO> selectScrapGridProcess(HashMap<String, Integer> map);	
-	
-	public List<BoardDTO> selectLikeListProcess(HashMap<String, Integer> map);
-	public List<BoardDTO> selectLikeGridProcess(HashMap<String, Integer> map);
-	*/
-	
-	
-	
+	public void tempFileProcess(String file_name);
+	public void postFileProcess(HashMap<String, Object> map);
+	public List<String> selectFileProcess(int board_num);
+	public void deletePostProcess(int board_num);
+	public List<ReplyDTO> insertReplyProcess(ReplyDTO rdto);
+	public List<ReplyDTO> deleteReplyProcess(ReplyDTO rdto);
+	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto);
 }//end interface

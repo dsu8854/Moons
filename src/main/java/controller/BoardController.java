@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +23,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 import service.BoardService;
 import service.UserService;
@@ -41,95 +41,90 @@ public class BoardController {
 	
 	@RequestMapping(value="/timeline.do")
 	public String timeline(Model model, HttpSession session, int user_code) {
-		
-		HashMap<String, Integer> map_list = new HashMap<String, Integer>();
+		/*HashMap<String, Integer> map_list = new HashMap<String, Integer>();
 		HashMap<String, Integer> map_grid = new HashMap<String, Integer>();
-		// 리퀘스트 바디로 리스트형식으로 출력하도록 하자
 		
 		map_list.put("my_code", (int) session.getAttribute("user_code"));
-		map_list.put("writer_code",user_code);
+		map_list.put("writer_code", user_code);
 		map_list.put("start", 0);
 		
 		map_grid.put("writer_code",user_code);
-		map_grid.put("start", 0);
-
+		map_grid.put("start", 0);*/
+		
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
+
+		model.addAttribute("userInfo", userService.selectInfoProcess(user_code)); // 닉네임, 아이디, 사진, 자기소개, 게시물수, 팔로잉수, 팔로워수
 		
-		
-		map_list.put("type",1);
-		model.addAttribute("bList", boardService.selectListProcess(map_list)); 
-		map_grid.put("type",1);
-		model.addAttribute("bGrid", boardService.selectGridProcess(map_grid));
-		
-		
-		map_list.put("type",2);
-		model.addAttribute("listScrap",boardService.selectListProcess(map_list)); 
-		map_grid.put("type",2);
-		model.addAttribute("gridScrap",boardService.selectGridProcess(map_grid));
-		
-		map_list.put("type",3);
-		model.addAttribute("listLike",boardService.selectListProcess(map_list)); 
-		map_grid.put("type",3);
-		model.addAttribute("gridLike",boardService.selectGridProcess(map_grid));
-		
-		
-		
-		model.addAttribute("postCount", boardService.postCountProcess(user_code));
+		/*model.addAttribute("postCount", boardService.postCountProcess(user_code));
 		model.addAttribute("following", userService.followCountProcess(udto));
 		model.addAttribute("follower", userService.followerCountProcess(udto));
-		System.out.println("여기");
-		System.out.println("여기");
-
+		model.addAttribute("bList", boardService.selectListProcess(map_list));
+		model.addAttribute("bGrid", boardService.selectGridProcess(map_grid));*/
 		return "timeline";
 	}
 	
-	
-	
-	/*@RequestMapping(value="/timelineScrap.do")
-	public String timelineScrap(Model model, HttpSession session,int user_code) {
-		HashMap<String, Integer> map_list = new HashMap<String, Integer>();
-		HashMap<String, Integer> map_grid = new HashMap<String, Integer>();
-		// 리퀘스트 바디로 리스트형식으로 출력하도록 하자
-		map_list.put("my_code",(int) session.getAttribute("user_code"));
-		map_list.put("writer_code",user_code);
-		map_list.put("start",0);
+	@RequestMapping(value="/timelineMenu.do")
+	@ResponseBody
+	public List<BoardDTO> timelineMenu(Model model, HttpSession session, int user_code, int listType, int viewType) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		
-		map_grid.put("writer_code",user_code);
-		map_grid.put("start",0);
-		
-		model.addAttribute("listScrap",boardService.selectScrapListProcess(map_list));
-		model.addAttribute("gridScrap", boardService.selectScrapGridProcess(map_grid));
+		if(viewType==1) {
+			map.put("my_code", (int) session.getAttribute("user_code"));
+			map.put("writer_code", user_code);
+			map.put("start", 0);
+			map.put("listType", listType);
 			
-		return "timelineScrap";
+			return boardService.selectListProcess(map);
+		} else {			
+			map.put("writer_code",user_code);
+			map.put("start", 0);
+			map.put("listType", listType);
+			
+			return boardService.selectGridProcess(map);
+		}
 	}
 	
-	@RequestMapping(value="/timelineLike.do")
-	public String timelineLike(Model model, HttpSession session,int user_code) {
+	@RequestMapping(value="/timelineAdd.do",method=RequestMethod.POST)
+	public @ResponseBody List<BoardDTO> timelineList(Model model, HttpSession session, int user_code, int start, int listType, int viewType) {
+		HashMap<String, Integer> map= new HashMap<String,Integer>();
 		
-		HashMap<String, Integer> map_list = new HashMap<String, Integer>();
-		HashMap<String, Integer> map_grid = new HashMap<String, Integer>();
-		// 리퀘스트 바디로 리스트형식으로 출력하도록 하자
-		map_list.put("my_code",(int) session.getAttribute("user_code"));
-		map_list.put("writer_code",user_code);
-		map_list.put("start",0);
+		if(viewType==1) {
+			map.put("my_code", (int) session.getAttribute("user_code"));
+			map.put("writer_code", user_code);
+			map.put("start", start);
+			map.put("listType", listType);
+			
+			return boardService.selectListProcess(map);
+		} else {			
+			map.put("writer_code",user_code);
+			map.put("start", start);
+			map.put("listType", listType);
+			
+			return boardService.selectGridProcess(map);
+		}
+	}
+	
+	/*// List 형식
+	@RequestMapping(value="/timelineList.do",method=RequestMethod.POST)
+	public @ResponseBody List<BoardDTO> timelineList(Model model, HttpSession session, int user_code, int start) {
+		HashMap<String, Integer> map= new HashMap<String,Integer>();
+		map.put("my_code",user_code);
+		map.put("writer_code", start);
+		map.put("start", start);
+	
+		return boardService.selectListProcess(map);
+	}
+	
+	// Grid 형식
+	@RequestMapping(value="/timelineGrid.do",method=RequestMethod.POST)
+	public @ResponseBody List<BoardDTO> timelineGrid(Model model, int user_code, int start){
+		HashMap<String, Integer> map= new HashMap<String,Integer>();
+		map.put("writer_code",user_code);
+		map.put("start", start);
 		
-		map_grid.put("writer_code",user_code);
-		map_grid.put("start",0);
-		
-		
-		UserDTO udto = new UserDTO();
-		udto.setUser_code(user_code);
-		
-		// 클릭하는 값이 맨 처음값인지 클릭해서 나온 값인지 확인해야한다.
-			model.addAttribute("listLike",boardService.selectLikeListProcess(map_list));
-			model.addAttribute("gridLike", boardService.selectLikeGridProcess(map_grid));
-		
-			return "main/timelineLike";
-		
+		return boardService.selectGridProcess(map);
 	}*/
-	
-	
 	
 	@RequestMapping(value="/timelineDetail.do")
 	public String detail(Model model, HttpSession session, int board_num) {
@@ -140,9 +135,36 @@ public class BoardController {
 		map.put("board_num", board_num);
 		
 		model.addAttribute("bdto", boardService.selectDetailProcess(map));
+		model.addAttribute("userInfo", userService.selectInfoProcess(user_code));
+		
 		return "timelineDetail";
 	}
 	
+
+	@RequestMapping(value="/replyInsertList.do")
+	@ResponseBody
+	public List<ReplyDTO> replyIns(ReplyDTO rdto, HttpSession sesssion){
+		int user_code=(int)sesssion.getAttribute("user_code");
+		rdto.setUser_code(user_code);
+		return boardService.insertReplyProcess(rdto);
+	}
+	
+	//댓글삭제
+	@RequestMapping(value="/replyDelete.do")
+	@ResponseBody
+	public List<ReplyDTO> replyDel(ReplyDTO rdto, int board_num) {
+		rdto.setBoard_num(board_num);
+		return boardService.deleteReplyProcess(rdto);
+	}
+	
+	//댓글수정
+	@RequestMapping(value="/replyUpdate.do")
+	@ResponseBody
+	public List<ReplyDTO> repModify(ReplyDTO rdto, int board_num){
+		rdto.setBoard_num(board_num);
+		return boardService.updateReplyProcess(rdto);
+	}
+		 
 	//좋아요 클릭시 +1증가시켜 ajax로 뿌리기 위한 메소드
 	@RequestMapping(value="/likePro.do")
 	public @ResponseBody int likePro(BoardDTO bdto, HttpSession session) throws Exception {
@@ -187,30 +209,6 @@ public class BoardController {
 		return "write";
 	}
 	
-	// List 형식  start 타입 변수 추가
-	@RequestMapping(value="/timelineList.do",method=RequestMethod.POST)
-	public @ResponseBody List<BoardDTO> timelineList(Model model, HttpSession session, int user_code, int start,int type) {
-		HashMap<String, Integer> map= new HashMap<String,Integer>();
-		map.put("my_code", (int) session.getAttribute("user_code"));
-		map.put("writer_code", user_code);
-		map.put("start", start);
-		map.put("type", type);
-		
-		return boardService.selectListProcess(map);
-	}
-	
-	
-	// Grid 형식
-	@RequestMapping(value="/timelineGrid.do",method=RequestMethod.POST)
-	public @ResponseBody List<BoardDTO> timelineGrid(Model model, int user_code, int start,int type){
-		HashMap<String, Integer> map= new HashMap<String,Integer>();
-		map.put("writer_code",user_code);
-		map.put("start", start);
-		map.put("type",type);
-		
-		return boardService.selectGridProcess(map);
-	}
-	
 	@RequestMapping(value="/uploadFile.do",method=RequestMethod.POST)
 	public @ResponseBody String uploadFile(Model model, HttpServletRequest request, MultipartFile file) {
 		String root = request.getSession().getServletContext().getRealPath("/");
@@ -226,6 +224,7 @@ public class BoardController {
 			// 파일경로에 파일명으로 생성
 			try {
 				FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(ff));
+				boardService.tempFileProcess(ff.getName());
 				return ff.getName();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -235,15 +234,49 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/post.do",method=RequestMethod.POST)
-	public String post(Model model, HttpSession session, BoardDTO bdto){
+	public String post(Model model, HttpSession session, BoardDTO bdto, String[] fileArray){
 		int user_code = (int) session.getAttribute("user_code");
 		bdto.setUser_code(user_code);
 		
-		System.out.println(bdto.getBoard_photo());
+		ArrayList<String> fileList = new ArrayList<String>();
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		
 		boardService.postProcess(bdto);
-		model.addAttribute("board_num", bdto.getBoard_num());
+		int board_num = bdto.getBoard_num();
+		
+		for(int i=0; i<fileArray.length; i++)
+			fileList.add(fileArray[i].replace("[", "").replace("]", "").replace("\"", ""));
+		
+		map.put("board_num", board_num);
+		map.put("fileList", fileList);
+		
+		boardService.postFileProcess(map);
+		model.addAttribute("board_num", board_num);
 		
 		return "redirect:/timelineDetail.do";
+	}
+	
+	@RequestMapping(value="/deletePost.do",method=RequestMethod.POST)
+	public String deletePost(Model model, HttpSession session, HttpServletRequest request, int board_num) {
+		int user_code = (int) session.getAttribute("user_code");
+		
+		List<String> fList = boardService.selectFileProcess(board_num);
+		
+		String root = request.getSession().getServletContext().getRealPath("/");
+		
+		//C:\job\workspace_spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Moons\
+		String saveDirectory = root + "images" + File.separator;
+		
+		for(String str : fList) {
+			System.out.println("파일 삭제");
+			File fe = new File(saveDirectory, str);
+			if(fe.exists())
+				fe.delete();
+		}
+		
+		boardService.deletePostProcess(board_num);
+	
+		model.addAttribute("user_code", user_code);
+		return "redirect:/timeline.do";
 	}
 }

@@ -1,6 +1,5 @@
 body {
-	/* width: 1500px; */
-	/* background-color: purple; */
+	width: 1920px;
 	height: 100%;
 }
 
@@ -37,8 +36,6 @@ body {
 	/* border: 1px solid blue; */
 }
 
-
-
 #my_profile {
     font-size: 25px;
     color: black;
@@ -53,84 +50,85 @@ body {
     display: inline-block;	/* a요소 이미지에 맞추기 */
     float: left;
     margin-top: 25px;
-    margin-left: 369px;
+    margin-left: 445px;     
     width: 0;
     height: 0;
 }
 
 .my_image {
-	border: 1px solid blue;
+	border: 3px solid #CCC;
 	margin-left: 1%;
 	width: 200px;
 	height: 200px;
 	border-radius: 100px; /* 이미지 반크기만큼 반경을 잡기*/
 }
 
-#user_id {
-    margin-right: 380px;
-}
-
-
 /* 수정,팔로우,팔로잉 */
+#user_id-box{
+	padding-top: 50px;  
+    padding-left: 192px;
+} 
+
 #button-box {
     display: flex;
-    margin: 16px 0 0 736px;
+    margin: 30px 0 0 720px;       
 }
 
 #followListBtn, #followerListBtn {
-	-webkit-transition: all .28s ease-in-out;
-	transition: all .28s ease-in-out;
+   -webkit-transition: all .28s ease-in-out;
+   transition: all .28s ease-in-out;
+   cursor:pointer;
 }
 
 #followListBtn:hover, #followerListBtn:hover {
-	color: gray;
-	letter-spacing: 3px;
+   color: gray;
+   letter-spacing: 3px;
 }
 
 #postCount, #followListBtn, #followerListBtn {
-	outline: none;
-	border: 0;
-	background-color: white;
-	font-size: 12pt;
-	padding-left: 40px;
-	font-family: "돋움";
-	font-weight: bold;
-	color: #51453F;
+   outline: none;
+   border: 0;
+   background-color: white;
+   font-size: 12pt;
+   padding-left: 40px;
+   font-family: "돋움";
+   font-weight: bold;
+   color: #51453F;
 }
 
 #user_introduce {
     padding: 32px 0 0 114px;
-}
-
-#profile-btn {
-	font-size: 11pt;
-	padding: 6px;
-	border-radius: 5px;
-	font-weight: bold;
-	background-color: white;
-	color: #28211F;
-	border: 1px solid black;
-	outline-color: black;
+}  
+ 
+#profile-btn, #message-btn  {
+   font-size: 11pt;
+   padding: 6px;
+   border-radius: 5px;
+   font-weight: bold;
+   background-color: white;
+   color: #28211F;
+   border: 1px solid black;
+   outline-color: black;
 }
 
 #profile-btn:hover {
-	border: 1px dotted black;
+   border: 1px dotted black;
 }
 
 #back {
-	float: right;
-	padding: 10px;
-	margin-right: 10px;
+   float: right;
+   padding: 10px;
+   margin-right: 10px;
 }
 
 #select_all {
-	font-size: 10px;
+   font-size: 10px;
 }
 
 a {
-	color: #365899;
-	cursor: pointer;
-	text-decoration: none;
+   color: #365899;
+   cursor: pointer;
+   text-decoration: none;
 }
 
 .sp_KQh5j0Ivz87.sx_8f2293 {
@@ -140,8 +138,8 @@ a {
 }
 
 /*프로필 3번째 창*/
-#content_h3 {
-	margin: 5% 0 0 485px;
+#content_h3 {  
+ 	margin: 57px 0 0 0px;
 	float: left;
 	height: 100%;
 }
@@ -224,42 +222,33 @@ a {
 }
 
 #list_view {
-	margin-right: 10px;
-	margin-top: 10px;
-	margin-bottom: 20px;
-	margin-left: 255px;
-	width: 200px;
-	float: left;
-	height: 30px;
-	background-color: white;
-	outline-color: white;
-	border: none;
-	border-top: 2px aqua solid;
-	text-align: center;
+	margin-left: 360px;
+    margin-bottom: 20px;
+    width: 200px;
+    float: left;
+    height: 30px;
+    background-color: white;
+    outline-color: white;
+    text-align: center;
+    cursor: pointer;
 }
 
 #grid_view {
-	margin-right: 157px;
-	margin-top: 10px;
 	margin-bottom: 20px;
-	width: 200px;
-	float: left;
-	height: 30px;
-	background-color: white;
-	outline-color: white;
-	border: none;
-	border-top: 2px aqua solid;
-	text-align: center;
+    width: 200px;
+    float: left;
+    height: 30px;
+    background-color: white;
+    outline-color: white;  
+    text-align: center;
+    cursor: pointer;
 }
 
 /*  그리드 형식 */
 .board_grid_wrap { 
-	width: 940px;
-	height: 100%;
+	width: 1000px;
+    margin-left: 460px;
 	grid-template-columns: repeat(3, 1fr);
-	float: left;
-	margin: 0 0 0 480px;
-	float: left;
 }
 
 .board_grid_content {
@@ -268,9 +257,9 @@ a {
 
 .board_grid {		/* 그리드 표현 */
 	cursor: pointer;
-	width: 300px;
-	height: 300px;
-	margin: 20px 10px 10px 0px;
+	width: 330px;
+    height: 330px;
+    margin: 0px 0px 3px 0px;
 	/* 배경 꽉차게 */
 	background-repeat: no-repeat;
 	background-position: center
@@ -335,8 +324,60 @@ a {
 	display: none;
 }
 
-/* 수정 */
-.content_part {
-	overflow: hidden;
+#profileBtn, #dmBtn {
+	width: 80px;   
+    height: 35px;               
+    color: #666;
+    border: 1px solid #959595;
+    border-radius: 13px;  
+    line-height: 28px;
+    font-size: 12px;
+    font-family: 'Noto Sans Light',sans-serif;
+    text-align: center;
+    text-decoration: none;
+    background-color: white; 
+    cursor:pointer;
 }
 
+.my_profile_menu {
+	margin-left: 400px;
+}
+
+#my_review {
+    margin-left: 715px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    width: 48px;
+    height: 30px;
+    background-color: white;
+    outline-color: white;
+    border: none;
+    border: 2px solid #a0a0a0;
+    text-align: center;
+    cursor: pointer;
+}
+
+#scrap_review {
+    margin-bottom: 20px;
+    width: 60px;
+    height: 30px;
+    border-radius: 20px;		
+    background-color: white;
+    outline-color: white;
+    border: none;
+    border: 2px solid #a0a0a0;
+    text-align: center;
+    cursor: pointer;
+}
+
+#like_review {
+    margin-bottom: 20px;
+    border-radius: 20px;
+    height: 30px;
+    background-color: white;
+    outline-color: white;
+    border: none;
+    border: 2px solid #a0a0a0;
+    text-align: center;
+    cursor: pointer;
+}

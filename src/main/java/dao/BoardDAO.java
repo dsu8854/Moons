@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 public interface BoardDAO {
@@ -19,14 +20,12 @@ public interface BoardDAO {
 	public int postCountMethod(int user_code);
 	public BoardDTO selectDetailMethod(HashMap<String, Integer> map);
 	public int postMethod(BoardDTO bdto);
-		
-	/*// 수정중
-	public List<BoardDTO> selectScrapListMethod(HashMap<String, Integer> map);
-	public List<BoardDTO> selectScrapGridMethod(HashMap<String, Integer> map);
-	
-	public List<BoardDTO> selectLikeListMethod(HashMap<String, Integer> map);
-	public List<BoardDTO> selectLikeGridMethod(HashMap<String, Integer> map);
-	
-	*/
-	
+	public void tempFileMethod(String file_name);
+	public void postFileMethod(HashMap<String, Object> map);
+	public List<String> selectFileMethod(int board_num);
+	public void deletePostMethod(int board_num);
+	public List<ReplyDTO> selectReplyListMethod(ReplyDTO rdto);
+	public void InsertReplyMethod(ReplyDTO rdto);
+	public void deleteReplyMehtod(int reply_num);
+	public void updateReplyMehtod(ReplyDTO rdto);
 }//end interface

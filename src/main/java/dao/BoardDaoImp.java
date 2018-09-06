@@ -6,6 +6,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -80,33 +81,43 @@ public class BoardDaoImp implements BoardDAO{
 		return boardSqlSession.insert("board.post",bdto);
 	}
 
-	
-	/*// 수정중
 	@Override
-	public List<BoardDTO> selectScrapListMethod(HashMap<String, Integer> map) {
-		return boardSqlSession.selectList("board.scrapWriter", map);
+	public void tempFileMethod(String file_name) {
+		boardSqlSession.insert("board.tempFile",file_name);
 	}
 	
 	@Override
-	public List<BoardDTO> selectScrapGridMethod(HashMap<String, Integer> map) {
-		return boardSqlSession.selectList("board.scrapGrid", map);
+	public void postFileMethod(HashMap<String, Object> map) {
+		boardSqlSession.insert("board.postFile",map);
+	}
+
+	@Override
+	public List<String> selectFileMethod(int board_num) {
+		return boardSqlSession.selectList("board.selFile",board_num);
 	}
 	
 	@Override
-	public List<BoardDTO> selectLikeListMethod(HashMap<String, Integer> map) {
-		return boardSqlSession.selectList("board.likeWriter", map);
+	public void deletePostMethod(int board_num) {
+		boardSqlSession.delete("board.delPost",board_num);
+	}
+
+	@Override
+	public List<ReplyDTO> selectReplyListMethod(ReplyDTO rdto) {
+		return boardSqlSession.selectList("board.selRepList", rdto);
+	}
+
+	@Override
+	public void InsertReplyMethod(ReplyDTO rdto) {
+		boardSqlSession.insert("board.insReply", rdto);
 	}
 	
 	@Override
-	public List<BoardDTO> selectLikeGridMethod(HashMap<String, Integer> map) {
-		return boardSqlSession.selectList("board.likeGrid", map);
+	public void deleteReplyMehtod(int reply_num) {
+		boardSqlSession.delete("board.delReply", reply_num);
 	}
-	*/
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public void updateReplyMehtod(ReplyDTO rdto) {
+		boardSqlSession.update("board.uptReply", rdto);
+	}
 }//end class

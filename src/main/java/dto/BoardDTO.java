@@ -1,6 +1,7 @@
 package dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class BoardDTO {
 	private int board_num;
@@ -15,12 +16,15 @@ public class BoardDTO {
 	private String board_hashtag;
 	private String board_photo;
 	private int board_privacy;
+
+	private List<ReplyDTO> replyList;
 	
 	private String user_photo; 		//작성자 프로필사진을 저장하기 위한 변수
 	private String user_nickname; 	//작성자 닉네임을 저장하기 위한 변수
 	private String user_introduce;	//작성자 소개를 저장하기 위한 변수
 	private Boolean isLike;			//좋아요 여부
 	private Boolean isShare;		//공유 여부 
+	private Boolean isReport;
 	
 	public BoardDTO() {
 	
@@ -160,5 +164,21 @@ public class BoardDTO {
 
 	public void setIsShare(Boolean isShare) {
 		this.isShare = isShare;
+	}
+	
+	public List<ReplyDTO> getReplyList() {
+		return replyList;
+	}
+	
+	public void setReplyList(List<ReplyDTO> replyList) {
+		this.replyList = replyList;
+	}
+
+	public Boolean getIsReport() {
+		return isReport;
+	}
+
+	public void setIsReport(Boolean isReport) {
+		this.isReport = isReport;
 	}
 }// end class

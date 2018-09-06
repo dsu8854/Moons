@@ -9,65 +9,62 @@
 	</resultMap>
 
 	<select id="selList" resultType="dto.BoardDTO" resultMap="boardContent" parameterType="hashmap">
-      select b.*
-      from(select rownum rm, a.*
-          from(select m.board_num, m.user_code, m.board_movie, m.board_subject, m.board_content, m.board_like, m.board_share, m.board_reply,
-              to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, m.board_hashtag, m.board_photo,
-              u.user_nickname, u.user_photo,
-              (select case when count(*) > 0 then 1 else 0 end 
-                 from moons_like
-               where user_code=#{my_code} and board_num=m.board_num) as isLike,
-              (select case when count(*) > 0 then 1 else 0 end 
-                 from moons_share
-               where user_code=#{my_code} and board_num=m.board_num) as isShare
-              from moons_board m, moons_user u
-              where m.user_code=u.user_code 
-              <if test="type==1">
-              and m.user_code=#{writer_code}
-              </if>
-		 	   <if test="type==2">
-		 	   and m.board_num in (select s.board_num 
-		          			  from moons_scrap s
-				  	          where s.user_code= #{writer_code})
-		 	   </if>
-              	 <if test="type==3">
-		  		and m.board_num in (select l.board_num 
-		          			  from moons_like l
-				  	          where l.user_code= #{writer_code})
-		 	   </if>
-              order by board_date desc)a)b
-      <![CDATA[where rm>#{start} and rm<=#{start}+8]]>
-   </select>
-   
+		select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+				  user_nickname, user_photo,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_like
+				   where user_code=#{my_code} and board_num=m.board_num) as isLike,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_share
+				   where user_code=#{my_code} and board_num=m.board_num) as isShare
+				  from moons_board m, moons_user u
+				  where m.user_code=u.user_code and 
+				  <choose>
+				  	  <when test="listType==1">
+				  		  m.user_code=#{writer_code}
+				  	  </when>
+				  	  <when test="listType==2">
+				  	      m.board_num in (select board_num 
+                           				  from moons_scrap
+                           				  where user_code=#{writer_code})
+				  	  </when>
+				  	  <when test="listType==3">
+				  	      m.board_num in (select board_num 
+                           				  from moons_like
+                           				  where user_code=#{writer_code})
+				  	  </when>
+				  </choose>
+				  order by board_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
+	
 	<select id="selGrid" resultType="dto.BoardDTO" parameterType="hashmap">
 		select b.*
 		from(select rownum rm, a.*
 			 from(select board_num, board_subject, board_photo
 				  from moons_board
-				  where 
-				  <if test="type==1">
-				  user_code=#{writer_code}
-				  </if>
-				  <if test="type==2">
-				  user_code=#{writer_code} 
-				  					 and board_num in (select s.board_num 
-		          			 	 	 from moons_scrap s
-				  	         	 	 where s.user_code= #{writer_code})
-				  </if>
-				  <if test="type==3">
-				  user_code=#{writer_code} 
-				  					 and board_num in (select l.board_num 
-		          			 	 	 from moons_like l
-				  	         	 	 where l.user_code= #{writer_code})
-				  </if>
+				  <choose>
+				  	  <when test="listType==1">
+				  	      where user_code=#{writer_code}
+				  	  </when>
+				      <when test="listType==2">
+				          where board_num in (select board_num
+                                  			 from moons_scrap
+                                  			 where user_code=#{writer_code})
+				      </when>
+				      <when test="listType==3">
+				          where board_num in (select board_num 
+                                  			 from moons_like
+                                  			 where user_code=#{writer_code})
+				      </when>
+				  </choose>
 				  order by board_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
-	
-	
-	
-	
-	
+
 	<select id="likeCount" parameterType="dto.BoardDTO" resultType="int">
 		select count(*) from moons_like where board_num=#{board_num}
 	</select>
@@ -93,35 +90,95 @@
 	</delete>
 	
 	<insert id="post" parameterType="dto.BoardDTO">	
-		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},'movie',#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1)
+		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},'movie',#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1,1)
 		<selectKey resultType="int" keyProperty="board_num" order="AFTER">
 	        SELECT LAST_NUMBER-1
 	        FROM USER_SEQUENCES
 	        WHERE SEQUENCE_NAME = 'MOONS_BOARD_NUM_SEQ'
 	    </selectKey>
 	</insert>
-	
-	<!-- <insert id="insImg" parameterType="dto.EditorImageDTO">
-		insert into editor_image values(imageUP_seq.nextval,#{content_type},#{file_name},#{file_path},sysdate,#{save_file_name},#{img_size})
+
+	<insert id="tempFile" parameterType="String">
+		insert into moons_file values(NULL,#{file_name})
 	</insert>
 	
-	<insert id="ins" parameterType="dto.BoardDTO">
-		insert into moons_board values(moons_board_num_seq.nextval,'123','movie',#{board_subject},#{board_content},0,0,sysdate,#{board_hashtag})
-	</insert> -->
+	<update id="postFile" parameterType="hashmap">
+		<foreach collection="fileList" item="item" separator=";" open="declare begin" close="; end;">
+			update moons_file set board_num=#{board_num} where board_num is NULL and file_name=#{item}
+		</foreach>
+	</update>
 	
-	<select id="selDetail" parameterType="hashmap" resultType="dto.BoardDTO">
-		select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
-		to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
-		u.user_nickname, u.user_photo, u.user_introduce,
+	<select id="selFile" parameterType="int" resultType="String">
+		select file_name from moons_file where board_num=#{board_num}
+	</select>
+	
+	<delete id="delPost" parameterType="int">
+		delete from moons_board where board_num=#{board_num}
+	</delete>
+	
+	<resultMap type="dto.BoardDTO" id="b_view_reply" autoMapping="true">
+		<result column="board_num" property="board_num"/>
+		<result column="user_code" property="user_code"/>
+		<collection property="replyList" javaType="java.util.List" ofType="dto.ReplyDTO" autoMapping="true">
+			<id column="reply_num" property="reply_num" />
+			<result column="rbnum" property="board_num" />
+			<result column="rucode" property="user_code" />
+			<result column="runick" property="user_nickname"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selDetail" parameterType="hashmap" resultMap="b_view_reply">
+		select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
+		r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
+		(select user_photo from moons_user where user_code=r.user_code) as user_photo,
+		m.*, u.*, r.*, 
 		(select case when count(*) > 0 then 1 else 0 end 
 		 from moons_like
 		 where user_code=#{user_code} and board_num=m.board_num) as isLike,
 		(select case when count(*) > 0 then 1 else 0 end 
 		 from moons_share
-		 where user_code=#{user_code} and board_num=m.board_num) as isShare
-		from moons_board m, moons_user u
-		where board_num=#{board_num} and m.user_code=u.user_code
+		 where user_code=#{user_code} and board_num=m.board_num) as isShare,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_report
+		 where report_reporter=#{user_code} and board_num=m.board_num) as isReport
+		from moons_board m, moons_user u, moons_reply r
+		where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
+		order by reply_ref, reply_date
 	</select>
+	
+	<select id="selRepList" parameterType="dto.ReplyDTO" resultType="dto.ReplyDTO">
+		select r.*, (select user_nickname from moons_user where user_code=r.user_code) as user_nickname,
+		(select user_photo from moons_user where user_code=r.user_code) as user_photo
+		from moons_reply r 
+		where board_num=#{board_num} 
+		order by reply_ref, reply_date
+	</select>
+	
+	<insert id="insReply" parameterType="dto.ReplyDTO">
+		insert into moons_reply
+		values (moons_reply_num_seq.nextval, #{board_num}, #{user_code}, #{reply_content}, SYSDATE, 
+		<choose>
+			<when test="reply_ref==0">
+			<!-- 첫댓글일경우 -->
+				moons_reply_num_seq.currval
+			</when>
+			<otherwise>
+				${reply_ref }
+			</otherwise>
+		</choose>
+		,#{reply_step}
+		)
+	</insert>
+	
+	<delete id="delReply" parameterType="int">
+		delete from moons_reply where reply_num=#{reply_num}
+	</delete>
+	
+	<update id="uptReply" parameterType="dto.ReplyDTO">
+		update moons_reply
+		set reply_content=#{reply_content}
+		where reply_num=#{reply_num}
+	</update>
 	
 	<select id="selWriter" parameterType="dto.BoardDTO" resultType="int">
 		select user_code from moons_board where board_num=#{board_num}
@@ -129,79 +186,6 @@
 	
 	<select id="postCount" parameterType="int" resultType="int">
 		select count(*) from moons_board where user_code=#{user_code}
-	</select>
-	
-	<!-- 글 보는 거 추가 -->
-	<select id="scrapWriter" parameterType="hashmap" resultType="dto.BoardDTO" resultMap="boardContent">
-		select b.*
-		from(select rownum rm, a.*
-	 from(select m.board_num, m.user_code, m.board_movie, m.board_subject, m.board_content, m.board_like, m.board_share, m.board_reply,
-		  to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, m.board_hashtag, m.board_photo,
-		  u.user_nickname, u.user_photo,
-		  (select case when count(*) > 0 then 1 else 0 end 
-           from moons_like
-		   where user_code=#{my_code,jdbcType=VARCHAR} and board_num=m.board_num) as isLike,
-		  (select case when count(*) > 0 then 1 else 0 end 
-           from moons_share
-		   where user_code=#{my_code,jdbcType=VARCHAR} and board_num=m.board_num) as isShare
-	      from moons_board m, moons_user u
-		  where m.user_code=u.user_code and m.user_code=#{writer_code,jdbcType=VARCHAR}<!-- jdbcType=VARCHAR null값 포함 -->
-		  and m.board_num in (select s.board_num 
-		          			  from moons_scrap s
-				  	          where s.user_code= #{writer_code,jdbcType=VARCHAR})
-		  order by m.board_date desc)a)b
-		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
-	</select>	
-	
-	<!-- <select id ="likeWriter" parameterType="hashmap" resultType="dto.BoardDTO" resultMap="boardContent">
-		select b.*
-		from(select rownum rm, a.*
-	 from(select m.board_num, m.user_code, m.board_movie, m.board_subject, m.board_content, m.board_like, m.board_share, m.board_reply,
-		  to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, m.board_hashtag, m.board_photo,
-		  u.user_nickname, u.user_photo,
-		  (select case when count(*) > 0 then 1 else 0 end 
-           from moons_like
-		   where user_code=#{my_code} and board_num=m.board_num) as isLike,
-		  (select case when count(*) > 0 then 1 else 0 end 
-           from moons_share
-		   where user_code=#{my_code} and board_num=m.board_num) as isShare
-	      from moons_board m, moons_user u
-		  where m.user_code=u.user_code and m.user_code=#{writer_code}jdbcType=VARCHAR null값 포함
-		  <if when="type==like">
-		  	and m.board_num in (select l.board_num 
-		          			  from moons_like l
-				  	          where l.user_code= #{writer_code})
-		  </if>
-		  order by m.board_date desc)a)b
-		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
-	</select> -->
-	
-	
-	<!-- 수정중 -->
-	<select id = "scrapGrid" resultType="dto.BoardDTO" parameterType="hashmap">
-		select b.*
-		from(select rownum rm, a.*
-			 from(select board_num, board_subject, board_photo
-				  from moons_board
-				  where user_code=#{writer_code} 
-				  					 and board_num in (select s.board_num 
-		          			 	 	 from moons_scrap s
-				  	         	 	 where s.user_code= #{writer_code)
-				  order by board_date desc)a)b
-		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
-	</select>
-	
-	<select id = "likeGrid" resultType="dto.BoardDTO" parameterType="hashmap">
-		select b.*
-		from(select rownum rm, a.*
-			 from(select board_num, board_subject, board_photo
-				  from moons_board
-				  where user_code=#{writer_code} 
-				  					 and board_num in (select l.board_num 
-		          			 	 	 from moons_like l
-				  	         	 	 where l.user_code= #{writer_code})
-				  order by board_date desc)a)b
-		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
 	
 </mapper>   

@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.BoardDAO;
 import dto.BoardDTO;
+import dto.ReplyDTO;
 import dto.UserDTO;
 
 
@@ -79,27 +80,41 @@ public class BoardServiceImp implements BoardService{
 		return boardDao.postMethod(bdto);
 	}
 
-	/*// 수정중
 	@Override
-	public List<BoardDTO> selectScrapListProcess(HashMap<String, Integer> map) {
-		return boardDao.selectScrapListMethod(map);
+	public void tempFileProcess(String file_name) {
+		boardDao.tempFileMethod(file_name);
 	}
 	
 	@Override
-	public List<BoardDTO> selectScrapGridProcess(HashMap<String, Integer> map) {
-		return boardDao.selectScrapGridMethod(map);
+	public void postFileProcess(HashMap<String, Object> map) {
+		boardDao.postFileMethod(map);
+	}
+
+	@Override
+	public List<String> selectFileProcess(int board_num) {
+		return boardDao.selectFileMethod(board_num);
 	}
 	
 	@Override
-	public List<BoardDTO> selectLikeListProcess(HashMap<String, Integer> map) {
-		return boardDao.selectLikeListMethod(map);
+	public void deletePostProcess(int board_num) {
+		boardDao.deletePostMethod(board_num);
 	}
 	
 	@Override
-	public List<BoardDTO> selectLikeGridProcess(HashMap<String, Integer> map) {
-		return boardDao.selectLikeGridMethod(map);
-	}*/
+	public List<ReplyDTO> insertReplyProcess(ReplyDTO rdto) {
+		boardDao.InsertReplyMethod(rdto);
+		return boardDao.selectReplyListMethod(rdto);
+	}
 	
-	
-	
+	@Override
+	public List<ReplyDTO> deleteReplyProcess(ReplyDTO rdto) {
+		boardDao.deleteReplyMehtod(rdto.getReply_num());
+		return boardDao.selectReplyListMethod(rdto);
+	}
+
+	@Override
+	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto) {
+		boardDao.updateReplyMehtod(rdto);
+		return boardDao.selectReplyListMethod(rdto);
+	}
 }//end class
