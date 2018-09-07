@@ -1,3 +1,6 @@
+-- link
+DROP TABLE moons_link;
+
 -- scrap
 DROP TABLE moons_scrap;
 
@@ -52,6 +55,13 @@ drop sequence moons_reply_num_seq;
 drop sequence moons_point_num_seq;
 drop sequence moons_charge_num_seq;
 drop sequence moons_withdraw_num_seq;
+
+-- link
+CREATE TABLE moons_link (
+	link_type  NUMBER NOT NULL,
+	location   NUMBER NOT NULL,
+	board_num  NUMBER NOT NULL
+);
 
 -- scrap
 CREATE TABLE moons_scrap (
@@ -249,6 +259,19 @@ CREATE TABLE moons_report (
 	report_date		DATE			NOT NULL,
 	report_state	NUMBER			NOT NULL
 );
+
+------------------------------------------------------------------------
+
+-- link
+ALTER TABLE moons_link
+	ADD
+		CONSTRAINT FK_moons_board_TO_moons_link -- board -> link
+		FOREIGN KEY (
+			board_num -- 게시물번호
+		)
+		REFERENCES moons_board ( -- board
+			board_num -- num
+		);
 
 -- file
 ALTER TABLE moons_file
@@ -603,7 +626,9 @@ for each row
   	share_actor NUMBER;
   begin
 	select user_code into share_actor from moons_board where board_num=:new.board_num;
-	insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date,notice_state) values(share_actor,:new.user_code,:new.board_num,2,sysdate,1);
+	if share_actor!=:new.user_code then
+		insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date,notice_state) values(share_actor,:new.user_code,:new.board_num,2,sysdate,1);
+	end if;
 	update moons_board set board_share = board_share+1 where board_num=:new.board_num;
   end;
 /
@@ -629,7 +654,9 @@ for each row
   	like_actor NUMBER;
   begin
 	select user_code into like_actor from moons_board where board_num=:new.board_num;
-	insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date,notice_state) values(like_actor,:new.user_code,:new.board_num,3,sysdate,1);
+	if like_actor!=:new.user_code then
+		insert into moons_notice(user_code,notice_actor,board_num,notice_type,notice_date,notice_state) values(like_actor,:new.user_code,:new.board_num,3,sysdate,1);
+	end if;
 	update moons_board set board_like = board_like+1 where board_num=:new.board_num;
   end;
 /
@@ -656,7 +683,9 @@ for each row
   	reply_actor NUMBER;
   begin	  
 	select user_code into reply_actor from moons_board where board_num=:new.board_num;  
-	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,4,sysdate,1);
+	if reply_actor!=:new.user_code then
+		insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,4,sysdate,1);
+	end if;
 	update moons_board set board_reply = board_reply+1 where board_num=:new.board_num;
   end;
 /
@@ -698,10 +727,12 @@ after insert on moons_reply
     reply_receiver number;
   begin
     if notice_reply_pkg.reply_step!=0 then
-    select user_code into reply_receiver from moons_reply where board_num=notice_reply_pkg.board_num and reply_ref=notice_reply_pkg.reply_ref and reply_step=notice_reply_pkg.reply_step-1;
-	insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_receiver,notice_reply_pkg.user_code,notice_reply_pkg.board_num,notice_reply_pkg.reply_num,5,sysdate,1);
-	update moons_board set board_reply=board_reply+1 where board_num=notice_reply_pkg.board_num;
-  end if;
+      select user_code into reply_receiver from moons_reply where board_num=notice_reply_pkg.board_num and reply_num=notice_reply_pkg.reply_ref and reply_step=notice_reply_pkg.reply_step-1;
+      if reply_receiver!=notice_reply_pkg.user_code then
+		  insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_receiver,notice_reply_pkg.user_code,notice_reply_pkg.board_num,notice_reply_pkg.reply_num,5,sysdate,1);
+	  end if;
+	  update moons_board set board_reply=board_reply+1 where board_num=notice_reply_pkg.board_num;
+  	end if;
   end;
 /
 
@@ -845,12 +876,13 @@ select * from moons_charge;
 select * from moons_withdraw;
 select * from moons_file;
 select * from moons_report;
+select * from moons_link;
 
 select * from user_triggers;
 
 -- 관리자 계정
 insert into moons_user values(0,'default','admin','admin','admin',NULL,NULL,0,NULL);
-insert into moons_follow values(1,2);
+insert into moons_follow values(2,1);
 insert into moons_follow values(9,1);
 insert into moons_like values(1,13,sysdate);
 insert into moons_like values(1,14,sysdate);
@@ -859,6 +891,21 @@ insert into moons_share values(2,1,sysdate);
 insert into moons_reply values(moons_reply_num_seq.nextval,1,2,'퍼가요',sysdate,0,0);
 insert into moons_dm values(2,1,'안녕',sysdate,1);
 insert into moons_report values(7,1,'그냥',sysdate,1);
+insert into moons_scrap values(2,5,sysdate);
+
+insert into moons_link values(1,1,1);
+insert into moons_link values(1,2,2);
+insert into moons_link values(1,3,3);
+insert into moons_link values(1,4,4);
+insert into moons_link values(1,5,5);
+insert into moons_link values(1,6,6);
+
+insert into moons_link values(2,1,1);
+insert into moons_link values(2,2,2);
+insert into moons_link values(2,3,3);
+insert into moons_link values(2,4,4);
+insert into moons_link values(2,5,5);
+insert into moons_link values(2,6,6);
 
 delete from moons_dm;
 delete from moons_user;
@@ -873,6 +920,7 @@ delete from moons_point;
 delete from moons_charge;
 delete from moons_withdraw;
 delete from moons_report where board_num=9
+delete from moons_link
 
 -- 노티스 중복 제거
 DELETE FROM moons_notice
@@ -893,3 +941,21 @@ from moons_follow
 where follow_following = 1 and user_code not in (select follow_following
 											 from moons_follow
 											 where user_code=1)
+											 
+select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
+		r.board_num as rbnum, r.user_code as rucode, 
+		(select user_nickname from moons_user where user_code=r.user_code) as runick, 
+		(select user_photo from moons_user where user_code=r.user_code) as user_photo,
+		m.*, u.*, r.*, 
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_like
+		 where user_code=1 and board_num=m.board_num) as isLike,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_share
+		 where user_code=1 and board_num=m.board_num) as isShare,
+		(select case when count(*) > 0 then 1 else 0 end 
+		 from moons_report
+		 where report_reporter=1 and board_num=m.board_num) as isReport 
+		from moons_board m, moons_user u, moons_reply r
+		where m.board_num=5 and m.user_code=u.user_code and m.board_num=r.board_num(+)
+		order by reply_ref, reply_date											 

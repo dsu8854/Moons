@@ -14,6 +14,11 @@ public class UserDTO {
 	private String user_introduce;
 	private MultipartFile filename;
 	
+	private int postCount;
+	private int followCount;
+	private int followerCount;
+	private int follow_check;
+	
 	public UserDTO() {
 		
 	}
@@ -96,5 +101,37 @@ public class UserDTO {
 
 	public void setFilename(MultipartFile filename) {
 		this.filename = filename;
+	}
+
+	public int getPostCount() {
+		return postCount;
+	}
+
+	public void setPostCount(int postCount) {
+		this.postCount = postCount;
+	}
+
+	public int getFollowCount() {
+		return followCount;
+	}
+
+	public void setFollowCount(int followCount) {
+		this.followCount = followCount;
+	}
+
+	public int getFollowerCount() {
+		return followerCount;
+	}
+
+	public void setFollowerCount(int followerCount) {
+		this.followerCount = followerCount;
+	}
+	
+	public int getFollow_check() {
+		return follow_check;
+	}
+	
+ 	public void setFollow_check(int follow_check) {
+		this.follow_check = follow_check;
 	}
 }

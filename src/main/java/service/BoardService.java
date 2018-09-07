@@ -25,5 +25,7 @@ public interface BoardService {
 	public void postFileProcess(HashMap<String, Object> map);
 	public List<String> selectFileProcess(int board_num);
 	public void deletePostProcess(int board_num);
-	public List<ReplyDTO> selectReplyListProcess(ReplyDTO rdto);
+	public List<ReplyDTO> insertReplyProcess(ReplyDTO rdto);
+	public List<ReplyDTO> deleteReplyProcess(ReplyDTO rdto);
+	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto);
 }//end interface

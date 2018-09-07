@@ -11,7 +11,7 @@
 			select rownum rm,a.*
 			from(	select n.*, a.user_photo, a.user_nickname
 					from moons_notice n, moons_user a
-					where n.user_code=#{user_code} and n.user_code=a.user_code
+					where n.user_code=#{user_code} and n.notice_actor=a.user_code
 					order by n.notice_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+10]]>
 		<!-- select b.*

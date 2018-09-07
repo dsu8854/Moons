@@ -21,7 +21,22 @@
         		   from moons_share
 				   where user_code=#{my_code} and board_num=m.board_num) as isShare
 				  from moons_board m, moons_user u
-				  where m.user_code=u.user_code and m.user_code=#{writer_code}
+				  where m.user_code=u.user_code and 
+				  <choose>
+				  	  <when test="listType==1">
+				  		  m.user_code=#{writer_code}
+				  	  </when>
+				  	  <when test="listType==2">
+				  	      m.board_num in (select board_num 
+                           				  from moons_scrap
+                           				  where user_code=#{writer_code})
+				  	  </when>
+				  	  <when test="listType==3">
+				  	      m.board_num in (select board_num 
+                           				  from moons_like
+                           				  where user_code=#{writer_code})
+				  	  </when>
+				  </choose>
 				  order by board_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
@@ -31,7 +46,21 @@
 		from(select rownum rm, a.*
 			 from(select board_num, board_subject, board_photo
 				  from moons_board
-				  where user_code=#{writer_code}
+				  <choose>
+				  	  <when test="listType==1">
+				  	      where user_code=#{writer_code}
+				  	  </when>
+				      <when test="listType==2">
+				          where board_num in (select board_num
+                                  			 from moons_scrap
+                                  			 where user_code=#{writer_code})
+				      </when>
+				      <when test="listType==3">
+				          where board_num in (select board_num 
+                                  			 from moons_like
+                                  			 where user_code=#{writer_code})
+				      </when>
+				  </choose>
 				  order by board_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
@@ -61,7 +90,7 @@
 	</delete>
 	
 	<insert id="post" parameterType="dto.BoardDTO">	
-		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},'movie',#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1)
+		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},#{board_movie},#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1,1)
 		<selectKey resultType="int" keyProperty="board_num" order="AFTER">
 	        SELECT LAST_NUMBER-1
 	        FROM USER_SEQUENCES
@@ -99,22 +128,40 @@
 	</resultMap>
 	
 	<select id="selDetail" parameterType="hashmap" resultMap="b_view_reply">
-		select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
-		r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
-		m.*, u.*, r.*, 
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_like
-		 where user_code=#{user_code} and board_num=m.board_num) as isLike,
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_share
-		 where user_code=#{user_code} and board_num=m.board_num) as isShare
-		from moons_board m, moons_user u, moons_reply r
-		where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
-		order by reply_ref, reply_date
+		<choose>
+			<when test="user_code!=null">
+				select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
+				r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
+				(select user_photo from moons_user where user_code=r.user_code) as user_photo,
+				m.*, u.*, r.*, 
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_like
+				 where user_code=#{user_code} and board_num=m.board_num) as isLike,
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_share
+				 where user_code=#{user_code} and board_num=m.board_num) as isShare,
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_report
+				 where report_reporter=#{user_code} and board_num=m.board_num) as isReport
+				from moons_board m, moons_user u, moons_reply r
+				where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
+				order by reply_ref, reply_date
+			</when>
+			<otherwise>
+				select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
+				r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
+				(select user_photo from moons_user where user_code=r.user_code) as user_photo,
+				m.*, u.*, r.*
+				from moons_board m, moons_user u, moons_reply r
+				where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
+				order by reply_ref, reply_date
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="selRepList" parameterType="dto.ReplyDTO" resultType="dto.ReplyDTO">
-		select r.*, (select user_nickname from moons_user where user_code=r.user_code) as user_nickname 
+		select r.*, (select user_nickname from moons_user where user_code=r.user_code) as user_nickname,
+		(select user_photo from moons_user where user_code=r.user_code) as user_photo
 		from moons_reply r 
 		where board_num=#{board_num} 
 		order by reply_ref, reply_date
@@ -136,8 +183,15 @@
 		)
 	</insert>
 	
-	<select id="selReStep">
-	</select>
+	<delete id="delReply" parameterType="int">
+		delete from moons_reply where reply_num=#{reply_num}
+	</delete>
+	
+	<update id="uptReply" parameterType="dto.ReplyDTO">
+		update moons_reply
+		set reply_content=#{reply_content}
+		where reply_num=#{reply_num}
+	</update>
 	
 	<select id="selWriter" parameterType="dto.BoardDTO" resultType="int">
 		select user_code from moons_board where board_num=#{board_num}
@@ -146,5 +200,4 @@
 	<select id="postCount" parameterType="int" resultType="int">
 		select count(*) from moons_board where user_code=#{user_code}
 	</select>
-	
 </mapper>   

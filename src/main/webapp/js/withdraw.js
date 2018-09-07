@@ -15,6 +15,24 @@ $(document).ready(function(){
 			success:withdrawlistMessage
 		});
 	});
+	
+	$('#withdrawBtn').on('click',function(){
+		var formdata = $('#withdrawForm').serialize();
+		$.ajax({
+			type:'POST',
+			dataType:'text',
+			data:formdata,
+			url:'paywithdrawprocess.do',
+			success:function(res){
+				if(res) {
+					alert('신청 완료!');
+					location.href='payment.do';
+				} else {
+					alert('신청 실패!');
+				}
+			}
+		});
+	});
 });
 
 function withdrawlistMessage(data){

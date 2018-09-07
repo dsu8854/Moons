@@ -16,56 +16,52 @@ a {
 }
 
 .contents {
-	width: 100%;
-	height: 400px;
-	/* background-color: #d6d6d6; */
-	margin: 0 auto;
-	margin-top: 3%;
+	width: 1920px;
+	margin-top: 20px;
 }
 
 /* banner */
 .banner {
-	position: relative;
-	width: 100%;
+	width: 1920px;
 	height: 350px;
-	margin: 0 auto;
-	padding: 0;
-	overflow: hidden;
+	margin-top: 90px;
 }
 
 .banner-images {
 	position: absolute;
-	margin: 0px;
-	padding: 0;
 	list-style: none;
+	grid-template-columns: repeat(6, 1fr);
+	display: grid;
+	margin-left: 43px;
 }
 
 .banner-images div {
 	float: left;
-	width: 340px;
-	height: 350px;
-	margin: 0;
-	padding: 0;
+	width: 300px;
+    height: 300px;
+    margin-right: 5px;
+    margin-bottom: 5px;
 	box-sizing: border-box;
 	position: relative;
+	
+	background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 /* 텍스트 //////////////////////////*/
 .imgtext {
-	z-index: 10px;
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	color: blue;
-	font-size: 20pt;
-	font-weight: bolder;
-	padding: 0;
-	margin: 0;
+	text-align: center;
+    color: #FFF;
+    margin-top: 50%;
+    overflow: hidden;
+    font-size: large;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 2;
 }
 
 #imgonetext, #imgfourtext {
-	top: 10%;
-	left: 10%;
-	position: absolute;
 }
 
 #imgthreetext, #imgsixtext, #imgseventext, #imgeighttext, #imgninetext {
@@ -98,7 +94,7 @@ a {
 }
 
 #recomen-box {
-	margin: 3% 0 0 10%;
+	margin: 0 0 0 265px;
 	display: flex;
 }
 
@@ -120,21 +116,23 @@ a {
 	height: 400px;
 }
 
-table {
+#square-box table {
 	display: inline-block;
+	cursor:pointer;
 	border: 1px solid gray;
 }
 
-tr {
+#square-box table tr {
 	height: 120px;
 	border: 1px solid gray;
 }
 
-td {
+#square-box table td {
 	width: 120px;
 	border: 1px solid gray;
 	text-align: center;
 	vertical-align: middle;
+	cursor:pointer;
 }
 
 #square-box {
@@ -153,6 +151,11 @@ td {
 #title {
 	font-size: 14pt;
 	padding: 5px;
+	color: black;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 200px;
 }
 
 #contents {
@@ -265,4 +268,12 @@ td {
 	color: #fff;
 	opacity: .5;
 	filter: alpha(opacity = 50);
+}
+
+.linkArea {
+    display: grid;
+}
+
+.bottomLinkArea {
+	margin-right: 30px;
 }

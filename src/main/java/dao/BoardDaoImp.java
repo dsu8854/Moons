@@ -110,4 +110,14 @@ public class BoardDaoImp implements BoardDAO{
 	public void InsertReplyMethod(ReplyDTO rdto) {
 		boardSqlSession.insert("board.insReply", rdto);
 	}
+	
+	@Override
+	public void deleteReplyMehtod(int reply_num) {
+		boardSqlSession.delete("board.delReply", reply_num);
+	}
+
+	@Override
+	public void updateReplyMehtod(ReplyDTO rdto) {
+		boardSqlSession.update("board.uptReply", rdto);
+	}
 }//end class

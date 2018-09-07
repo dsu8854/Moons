@@ -24,6 +24,8 @@ public class BoardDTO {
 	private String user_introduce;	//작성자 소개를 저장하기 위한 변수
 	private Boolean isLike;			//좋아요 여부
 	private Boolean isShare;		//공유 여부 
+	private Boolean isReport;
+	private int location;
 	
 	public BoardDTO() {
 	
@@ -172,5 +174,20 @@ public class BoardDTO {
 	public void setReplyList(List<ReplyDTO> replyList) {
 		this.replyList = replyList;
 	}
-	
+
+	public Boolean getIsReport() {
+		return isReport;
+	}
+
+	public void setIsReport(Boolean isReport) {
+		this.isReport = isReport;
+	}
+
+	public int getLocation() {
+		return location;
+	}
+
+	public void setLocation(int location) {
+		this.location = location;
+	}
 }// end class

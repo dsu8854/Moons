@@ -65,7 +65,6 @@ body{
 
 .itembox{
 	display:inline-block;
-	/* border:1px solid red; */
 	width:150px;
 	vertical-align: top;
 	margin:5px;
@@ -87,4 +86,48 @@ body{
 
 .li:nth-of-type(even){
 	background-color: #f0f0f0;
+}
+
+.userBox{
+	display:inline-block;
+	/* border:1px solid red; */
+	width:280px;
+	height:360px;
+	vertical-align:top;
+	text-align:center;
+	margin:5px;
+	border-radius: 5px;
+	background-color: white;
+	padding: 10px;
+	line-height:20px;
+	box-shadow: 1px 1px rgba(30,30,30,0.3);
+	position: relative;
+	box-sizing: border-box;
+}
+
+.userBox #userPhoto{
+	width:140px;
+	height: auto;
+	cursor: pointer;
+}
+
+.userBox #userNickname{
+	cursor: pointer;
+	font-size: 12pt;
+}
+
+.userBox #userID{
+	cursor: pointer;
+	font-size: 10pt;
+	color:#888888;
+}
+
+.userBox #userIntro{
+	width:100%;
+	font-size:10pt;
+	height: 80px;
+	overflow: hidden;
+}
+.userBox .userBtn{
+	
 }

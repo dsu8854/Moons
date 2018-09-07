@@ -26,4 +26,6 @@ public interface BoardDAO {
 	public void deletePostMethod(int board_num);
 	public List<ReplyDTO> selectReplyListMethod(ReplyDTO rdto);
 	public void InsertReplyMethod(ReplyDTO rdto);
+	public void deleteReplyMehtod(int reply_num);
+	public void updateReplyMehtod(ReplyDTO rdto);
 }//end interface

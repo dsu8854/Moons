@@ -43,9 +43,7 @@ public class NoticeController {
 		Map<String, Integer> map =new HashMap<String, Integer>();
 		map.put("user_code",user_code);
 		map.put("start", Integer.parseInt(start));
-		System.out.println("read:"+read);
 		if(read.equals("y") || noticeService.noticeListProcess(map).size()==0) {
-			System.out.println("readcheck");
 			noticeService.readNoticeProcess(user_code);
 		}
 		return noticeService.noticeListProcess(map);

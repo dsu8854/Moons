@@ -16,6 +16,7 @@ public class ReplyDTO {
 	private int reply_step;
 	
 	private String user_nickname; 	//댓글작성자 닉네임을 저장하기 위한 변수
+	private String user_photo;
 	
 	public ReplyDTO() {
 	}
@@ -83,5 +84,12 @@ public class ReplyDTO {
 	public void setUser_nickname(String user_nickname) {
 		this.user_nickname = user_nickname;
 	}
-	
+
+	public String getUser_photo() {
+		return user_photo;
+	}
+
+	public void setUser_photo(String user_photo) {
+		this.user_photo = user_photo;
+	}
 }//end class

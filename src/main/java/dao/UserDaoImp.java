@@ -1,9 +1,11 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import dto.BoardDTO;
 import dto.FollowDTO;
 import dto.UserDTO;
 
@@ -127,5 +129,19 @@ public class UserDaoImp implements UserDAO {
 	public void updateProfilePhotoMethod(UserDTO udto) {
 		userSqlSession.update("user.profile_photo",udto);
 	}
+
+	@Override
+	public List<BoardDTO> selectMainTopMethod() {
+		return userSqlSession.selectList("user.selMainTop");
+	}
+
+	@Override
+	public List<BoardDTO> selectMainBottomMethod() {
+		return userSqlSession.selectList("user.selMainBottom");
+	}
 	
+	@Override
+	public List<UserDTO> searchUserMethod(Map<String, String> map) {
+		return userSqlSession.selectList("user.searchUser", map);
+	}
 }

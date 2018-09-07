@@ -35,6 +35,8 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 
 .content_h3_wrap{
 	width: 1000px;  
+	margin-left: 460px;
+	margin-top: 20px;
 }
 
 /*작성자날짜부분*/
@@ -130,9 +132,9 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 }
    
 .timelineWrap .card_page2 .cover_img{
-	width: 150px;
-    height: 200px;  
-    margin: 56px 0 0 0;     
+	width: 200px;
+    height: 250px;  
+    margin: 35px 0 0 0;
 }
 
 

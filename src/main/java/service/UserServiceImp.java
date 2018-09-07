@@ -3,7 +3,9 @@ package service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import dao.UserDAO;
+import dto.BoardDTO;
 import dto.FollowDTO;
 import dto.UserDTO;
 
@@ -164,5 +167,20 @@ public class UserServiceImp implements UserService {
 	@Override
 	public void insertFollowProcess(FollowDTO fdto) {
 		userDao.insertFollowMethod(fdto);
+	}
+
+	@Override
+	public List<BoardDTO> selectMainTopProcess() {
+		return userDao.selectMainTopMethod();
+	}
+
+	@Override
+	public List<BoardDTO> selectMainBottomProcess() {
+		return userDao.selectMainBottomMethod();
+	}
+	
+	@Override
+	public List<UserDTO> searchUserProcess(Map<String, String> map) {
+		return userDao.searchUserMethod(map);
 	}
 }

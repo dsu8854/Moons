@@ -16,13 +16,11 @@
 								<strong class="user_name"><%=session.getAttribute("user_nickname")%></strong>
 								<!-- <p class="text_profile_id">MoonS.co.kr/@han2233</p> -->
 							</div>
+							
+							
 						</c:otherwise>
 					</c:choose>
-				</a> <a
-					class="wrap_side_ico ico_side_likeit text_hide brunchLikeLink #side_likeit"
-					href="/likeit"></a> <a
-					class="wrap_side_ico ico_side_history text_hide #side_history"
-					href="/me/history"></a> <span class="img_side_menu ico_alim_new">NEW</span>
+				</a>
 			</div>
 			<div class="wrap_side_service_menu logout" style="height: 416px;">
 				<ul>

@@ -1,11 +1,14 @@
 $(document).ready(function(){
-	var url=window.location.href.split('=')[1]; //현재 페이지의 movieSeq
-	
+	var url=window.location.href.slice(window.location.href.indexOf('title=')+1,window.location.href.length);
+	var title=url.split('&')[0].split('=')[1]; //현재 페이지의 title
+	var director=url.split('&')[1].split('=')[1]; //현재 페이지의 director
+	var movie=decodeURI(title)+'*'+decodeURI(director);
+
 	//최초 영화정보 호출
 	$.ajax({
 		type:'GET',
 		dataType:'xml',
-		url:'movieOpen.do?movieSeq='+url,
+		url:'movieOpen.do?title='+title+'&director='+director,
 		success:viewMessage
 	});
 	
@@ -15,11 +18,10 @@ $(document).ready(function(){
 		if($('#comment_write').val()==''){
 			return false;
 		}
-		console.log("comment_submit");
 		$.ajax({
 			type:'GET',
 			dataType:'json',
-			url:'moviecommentprocess.do?comment_write='+$('#comment_write').val()+'&movieSeq='+url,
+			url:'moviecommentprocess.do?comment_write='+$('#comment_write').val()+'&movie='+movie,
 			success:commentMessage
 		});
 		$('#comment_write').val('');
@@ -46,12 +48,12 @@ $(document).ready(function(){
 		$(value).attr('src',$(this).attr('src').replace('off','on'));
 	});	
 	
-	//별점시작////// index: 15~24
+	//별점시작////// index: 15~24 
 	//처음 뜨는 내별점
 	$.ajax({
 		type:'GET',
 		dataType:'json',
-		url:'movieratingprocess.do?score='+$('#score').text()+'&movieSeq='+url+'&stat=',
+		url:'movieratingprocess.do?score='+$('#score').text()+'&movie='+movie+'&stat=',
 		success:ratingMessage
 	});
 	
@@ -95,22 +97,31 @@ $(document).ready(function(){
 			});	
 			$('#score').text('0');
 		}else{
-			if(prevScore==0)
+			if(prevScore=='0')
 				stat='ins';
 			else
-				stat='upt'
+				stat='upt';
 			
 			//클릭한 점수 반영
 			$('#score').text($(this).index()-14);
 		}
+		console.log(movie);
 		$.ajax({
 			type:'GET',
 			dataType:'json',
-			url:'movieratingprocess.do?score='+$('#score').text()+'&movieSeq='+url+'&stat='+stat,
+			url:'movieratingprocess.do?score='+$('#score').text()+'&stat='+stat+'&movie='+movie,
 			success:ratingMessage
 		});
 	});
 	/////////별점끝////////////
+	
+	////영화감독 이름 누르면 관련 영화로 검색///
+	$('#directorNm').on('click',function(){
+		$('#searchFrm #searchField').val($('#directorNm').text());
+		$('#searchFrm #searchType option:eq(1)').prop('selected', true);
+		$('#searchFrm #searchLoc').val("movie.do");
+		$('#searchFrm').submit();
+	});
 	
 	///////관련영화 타임라인//////
 	var start=0;
@@ -137,12 +148,15 @@ function viewMessage(data){
 							+$(this).find('repRlsDate').text().substring(5,7)+'.'
 							+$(this).find('repRlsDate').text().substring(7,9));
 		$('#pubDate').text($(this).find('pubDate').text());
-		$('#directorNm').text($(this).find('directorNm').text());
+		$('#directorNm').text($(this).find('directorNm').text().replace(/<!HS>/gi,'').replace(/<!HE>/gi,''));
 		var actor="";	
 		$(this).find('actorNm').each(function(index,value){
-			if(index>4)
+			if (index > 4)
 				return false;
-			actor+=$(value).text()+"|";
+			if (index == 0)
+				actor += $(value).text().substring(1, $(value).text().length - 1);
+			else
+				actor += " | "+ $(value).text().substring(1, $(value).text().length - 1);
 		});
 		$('#actorNm').text(actor);
 		$('#rating').text($(this).find('ratingGrade').text());
@@ -162,11 +176,20 @@ function commentMessage(data){
 	console.log("commentajax");
 	$('.comment_list').empty();
 	$.each(data,function(index, value){
-		var str='<div class="comment"><img src="'+value.user_photo+'" />'
-		+'<div id="content_box"><p id="comment_info">'
+		var str='<div class="comment">';
+		
+		if(value.board_photo==null)
+			str+='<img src="images/basic.png" />';
+		else
+			str+='<img src="images/'+value.user_photo+'" />';
+		
+		str='<div id="content_box"><p id="comment_info">'
 		+'<span id="comment_name">'+value.user_nickname+'</span>&nbsp;&nbsp;'
-		+'<span id="comment_date">'+value.comment_date+'</span><br/></p>'
-		+'<p id="comment_content">'+value.comment_content+'</div></div>';
+		+'<span id="comment_date">';	
+		var d=new Date(value.comment_date);
+		str+= d.getFullYear()+'-'+(d.getMonth()<10?'0'+(d.getMonth()+1):(d.getMonth()+1))+'-'
+			+(d.getDate()<10?'0'+d.getDate():d.getDate())+'</span><br/></p>';
+		str+='<p id="comment_content">'+value.comment_content+'</div></div>';
 		$('.comment_list').append(str);	
 	});	 
 }//end commentMessage

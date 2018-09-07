@@ -136,4 +136,22 @@
 	<definition name="findSuccess" extends="intro">
 		<put-attribute name="body" value="/WEB-INF/view/main/findSuccess.jsp" />
 	</definition>
+	
+	<definition name="adminMain" template="/WEB-INF/view/template/layoutAdmin.jsp">
+		<put-attribute name="title" value="Moons"/>
+		<put-attribute name="header" value="/WEB-INF/view/template/adminHeader.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/view/main/adminMain.jsp"/>
+	</definition>
+	
+	<definition name="adminReport" extends="adminMain">
+		<put-attribute name="body" value="/WEB-INF/view/main/adminReport.jsp"/>
+	</definition>
+	
+	<definition name="adminWithdraw" extends="adminMain">
+		<put-attribute name="body" value="/WEB-INF/view/main/adminWithdraw.jsp"/>
+	</definition>
+	
+	<definition name="adminManage" extends="adminMain">
+		<put-attribute name="body" value="/WEB-INF/view/main/adminManage.jsp"/>
+	</definition>
 </tiles-definitions>

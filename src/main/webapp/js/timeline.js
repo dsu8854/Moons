@@ -1,42 +1,9 @@
+var listType;
+var viewType;
+var user_code;
+
 $(document).ready(function(){
-	var submenu1 = $("#u_0_16").next();
-	var submenu2 = $("#u_0_17").next();
-	var i = 0;
-	$('.content_line').find('img').parent().remove();
-	
-	$('.board_grid_wrap').css({"display":"none"});				// 그리드 뷰 안보이기 
-	$('#grid_view').css({"border-top":"none"});					// 그리드 뷰 위쪽 줄 안보이기
-	
-	$("#u_0_16").on('click',function(){ // 타임라인 태그
-		if(i==0 || i==1){
-			submenu1.slideToggle();
-			i=1;
-		}
-		else if(i==2){
-			submenu1.slideToggle();
-			submenu2.slideUp();
-			i=1;
-		}
-		else if(i==2){
-			submenu1.slideToggle();
-			submenu2.slideUp();
-			i=1;
-		}
-	});
-	
-	$("#u_0_17").on('click',function(){ // 더보기 태그	
-		if(i==0 || i==2){
-			submenu2.slideToggle();
-			i=2;
-		}else if(i==1){
-			submenu2.slideToggle();
-			submenu1.slideUp();
-			i=2;
-		}
-	});
-		
-	// profile.jsp --> my_frm1버튼
-	// 수정하기 버튼 클릭시 실행
+	user_code=$('#profileForm').children('input[name=user_code]').val();
 	$('#profileBtn').on('click',function(){
 		$('#profileForm').attr('action','profile.do').submit();
 	});
@@ -44,6 +11,7 @@ $(document).ready(function(){
 	$('#followListBtn').on('click',function(){
 		$('#profileForm').attr('action','follow.do').submit();
 	});
+	
 	$('#followerListBtn').on('click',function(){
 		$('#profileForm').attr('action','follower.do').submit();
 	});
@@ -53,31 +21,213 @@ $(document).ready(function(){
 	});
 	
 	$('#grid_view').on('click',function(){		// 그리드뷰로 보기
-		$('.content_h3_wrap').css({"display":"none"});
-		$('.board_grid_wrap').css({"display":"grid"});		// 안보이는 걸 grid로 변경 
-		$('.board_grid').css({"display":"grid"});		// 안보이는 걸 grid로 변경 
+		
 	});// 그리드뷰로 보기
 	
-	$('#list_view').on('click',function(){	
-		$('.board_grid_wrap').css({"display":"none"});		// 그리드 뷰 안보이기
+	$('#list_view').on('click',function(){
+		viewType=1;
 		
-		$('.content_h3_wrap').css({"display":"inline-block"});	// 리스트 뷰 보이기 
-		$('#grid_view').css({"border-top":"2px white solid"});			// 그리드 뷰 위쪽 줄 안보이기
-		$('#list_view').css({"border-top":"2px aqua solid"});	// 리스트 뷰 위쪽줄 보이기
-		
-	});// 리스트뷰로 보기
+		var formdata = new FormData();
+		formdata.append('user_code',user_code);
+		formdata.append('listType',listType);
+		formdata.append('viewType',viewType);
 
-	$('#list_view').hover(function(){						// 리스트 뷰 버튼 마우스 포인터
-		$('#grid_view').css({"border-top":"2px white solid"});			// 그리드 뷰 위쪽 줄 안보이기
-		$('#list_view').css({"border-top":"2px aqua solid"});	// 리스트 뷰 위쪽줄 보이기
+		$('#list_view').css({"border":"2px red solid"});	
+		$('#grid_view').css({"border":"2px gray solid"});	
+		
+		$('.content_h3_wrap').css({'display':'inline-block'});
+		$('.board_grid_wrap').css({'display':'none'});
+		
+		$('.content_h3_wrap').empty();
+		$.ajax({
+			url : 'timelineMenu.do?',
+			type : 'POST',
+			dataType : 'json',
+			data : formdata,
+			processData: false,
+		    contentType: false,
+			success : function(res) {
+				$.each(res, function(index, value){
+					var source = '<div class="board_card">'+
+							   	 '<div class="card_page1">'+
+							   	 '<div class="card_head">'+
+							   	 '<a href="javascript:timeline()" class="card_writer">';
+					
+					if(value.user_photo==null)
+						source+='<img src="images/basic.png" class="img_writer" alt="">';
+					else
+						source+='<img src="images/'+value.user_photo+'" class="img_writer" alt="">';
+					
+						source+=value.user_nickname+
+								'</a>'+
+								'<form id="timelineForm" method="post">'+
+								'<input type="hidden" name="user_code" value="'+value.user_code+'"/>'+
+								'</form>';
+					
+					var now = moment(new Date());
+					var board = moment(value.board_date);
+					
+					if(board.date()==now.date()){
+						if(board.hours()==now.hours())
+							source+='<span class="write_date">'+(now.minutes()-board.minutes())+'분전</span>';
+						else
+							source+='<span class="write_date">'+(now.hours()-board.hours())+'시간전</span>';
+					} else {
+						source+='<span class="write_date">'+board.format("YYYY-MM-DD")+'</span>';
+					}
+
+						source+='</div>'+
+								'<div class="content_part">'+
+								'<div class="content_title">'+value.board_subject+'</div>'+
+								'<div class="content_line">'+value.board_content+'</div>'+
+								'<a href="timelineDetail.do?board_num='+value.board_num+'" class="more">더보기</a>'+
+								'</div>'+
+								'</div>'+
+								'<div class="card_page2">'+
+								'<a href="timelineDetail.do?board_num='+value.board_num+'" class="detail_view">';
+						
+					if(value.board_photo==null)
+						source+='<img src="images/back.jpg" class="cover_img" alt="">';
+					else
+						source+='<img src="images/'+value.board_photo+'" class="cover_img" alt="">';
+						
+						source+='</a>'+
+								'</div>'+
+								'<div class="card_page3">'+
+								'<div class="area_taging">';
+						
+					var totalTag = value.board_hashtag.split(',');
+					$.each(totalTag,function(index,value){
+						source+='<span><a href="태그이동페이지" class="txt_taging">'+value+'</a></span>';
+					});
+						
+						source+='</div>'+
+								'<div class="content_write">'+
+								'<span class="like_icon icon_link">'+
+								'<form id="likeForm" method="post">'+
+								'<input type="hidden" id="isLike" name="isLike" value="'+value.isLike+'" />'+
+								'<input type="hidden" name="board_num" value="'+value.board_num+'" />'+
+								'</form>';
+						
+					if(value.isLike)	
+						source+='<img src="images/like1.png" class="icon_img">';
+					else
+						source+='<img src="images/like2.png" class="icon_img">';
+						
+						source+='<span id="likecnt">'+value.board_like+'</span>'+
+								'</span>'+
+								'<span class="comment_icon content_icon">'+
+								'<a href="댓글페이지이동" class="icon_link">'+
+								'<img src="images/comment1.png" class="icon_img">'+
+								'<img src="images/comment2.png" class="icon_img">'+value.board_reply+
+								'</a>'+
+								'</span>'+ 
+								'<span class="share_icon icon_link">'+
+								'<form id="shareForm" method="post">'+
+								'<input type="hidden" id="isShare" name="isShare" value="'+value.isShare+'" />'+
+								'<input type="hidden" name="board_num" value="'+value.board_num+'" />'+
+								'</form>';
+						
+					if(value.isLike)	
+						source+='<img src="images/share1.png" class="icon_img">';
+					else
+						source+='<img src="images/share2.png" class="icon_img">';	
+						
+						source+='<span id="sharecnt">'+value.board_share+'</span>'+
+								'</span>'+
+								'</div>'+
+								'</div>'+
+								'</div>';
+						
+					$('.content_h3_wrap').append(source);
+					
+					$('.content_line').find('img').parent().remove();
+					$('.content_line').find('iframe').parent().remove();
+				});
+			}
 		});
+	});// 리스트뷰로 보기
 	
-	$('#grid_view').hover(function(){						// 그리드 뷰 버튼 마우스 포인터
-		$('#list_view').css({"border-top":"2px white solid"});			// 리스트 뷰 위쪽 줄 안보이기
-		$('#grid_view').css({"border-top":"2px aqua solid"});	// 그리드 뷰 위쪽줄 보이기
+	$('#grid_view').on('click',function(){
+		viewType=2;
+		
+		var formdata = new FormData();
+		formdata.append('user_code',user_code);
+		formdata.append('listType',listType);
+		formdata.append('viewType',viewType);
+		
+		$('#list_view').css({"border":"2px gray solid"});	
+		$('#grid_view').css({"border":"2px red solid"});	
+		
+		$('.content_h3_wrap').css({'display':'none'});
+		$('.board_grid_wrap').css({'display':'grid'});
+		
+		$('.board_grid_wrap').empty();
+		$.ajax({
+			url : 'timelineMenu.do?',
+			type : 'POST',
+			dataType : 'json',
+			data : formdata,
+			processData: false,
+		    contentType: false,
+			success : function(res) {
+				$.each(res, function(index, value){
+					var source;
+					if(value.board_photo==null) {
+						source='<a href="timelineDetail.do?board_num='+value.board_num+'" class="link_detail">'+
+							   '<div class="board_grid" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(images/back.jpg); background-position: center; background-repeat: no-repeat; background-size: cover;" >'+
+							   '<div class="board_subject">'+value.board_subject+'</div></div></a>';
+					} else {
+						source='<a href="timelineDetail.do?board_num='+value.board_num+'" class="link_detail">'+
+							   '<div class="board_grid" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(images/'+value.board_photo+'); background-position: center; background-repeat: no-repeat; background-size: cover;" >'+
+							   '<div class="board_subject">'+value.board_subject+'</div></div></a>';
+					}
+					$('.board_grid_wrap').append(source);
+					$('.board_grid').css({'display':'grid'});
+				});
+			}
+		});
 	});
+	
+	$('#my_review').on('click',function(){
+		listType=1;	
+		$.each($('#view_clear').children('button'),function(index,value){
+			$(value).css({"border":"2px gray solid"});
+		});
+		$(this).css({"border":"2px red solid"});
+		$('#list_view').trigger('click');
+	});
+	
+	$('#scrap_review').on('click',function(){
+		listType=2;
+		$.each($('#view_clear').children('button'),function(index,value){
+			$(value).css({"border":"2px gray solid"});
+		});
+		$(this).css({"border":"2px red solid"});
+		$('#list_view').trigger('click');
+	});
+	
+	$('#like_review').on('click',function(){
+		listType=3;
+		$.each($('#view_clear').children('button'),function(index,value){
+			$(value).css({"border":"2px gray solid"});
+		});
+		$(this).css({"border":"2px red solid"});
+		$('#list_view').trigger('click');
+	});
+	
+	$('#my_review').trigger('click');
 });
 
 function timeline() {
 	$('#timelineForm').attr('action','timeline.do').submit();
+}
+
+function getFormatDate(date){
+	var year = date.getFullYear();              //yyyy
+	var month = (1 + date.getMonth());          //M
+	month = month >= 10 ? month : '0' + month;  // month 두자리로 저장
+	var day = date.getDate();                   //d
+	day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+	return  year + '' + month + '' + day;
 }

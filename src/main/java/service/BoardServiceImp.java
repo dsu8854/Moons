@@ -99,11 +99,22 @@ public class BoardServiceImp implements BoardService{
 	public void deletePostProcess(int board_num) {
 		boardDao.deletePostMethod(board_num);
 	}
+	
+	@Override
+	public List<ReplyDTO> insertReplyProcess(ReplyDTO rdto) {
+		boardDao.InsertReplyMethod(rdto);
+		return boardDao.selectReplyListMethod(rdto);
+	}
+	
+	@Override
+	public List<ReplyDTO> deleteReplyProcess(ReplyDTO rdto) {
+		boardDao.deleteReplyMehtod(rdto.getReply_num());
+		return boardDao.selectReplyListMethod(rdto);
+	}
 
 	@Override
-	public List<ReplyDTO> selectReplyListProcess(ReplyDTO rdto) {
-		boardDao.InsertReplyMethod(rdto);
-		
+	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto) {
+		boardDao.updateReplyMehtod(rdto);
 		return boardDao.selectReplyListMethod(rdto);
 	}
 }//end class

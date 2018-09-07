@@ -24,7 +24,7 @@ public class NaverLoginBO {
 
 	private final static String CLIENT_ID = "4LYyTJe4x9KNcDetQBAQ";
 	private final static String CLIENT_SECRET = "A4e97xDj6F";
-	private final static String REDIRECT_URI = "http://localhost:8090/moons/loginProNaver.do";
+	private final static String REDIRECT_URI = "http://192.168.10.61:8090/moons/loginProNaver.do";
 	private final static String SESSION_STATE = "oauth_state";
 	
 	/* 프로필 조회 API URL */

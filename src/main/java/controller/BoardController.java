@@ -41,7 +41,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/timeline.do")
 	public String timeline(Model model, HttpSession session, int user_code) {
-		HashMap<String, Integer> map_list = new HashMap<String, Integer>();
+		/*HashMap<String, Integer> map_list = new HashMap<String, Integer>();
 		HashMap<String, Integer> map_grid = new HashMap<String, Integer>();
 		
 		map_list.put("my_code", (int) session.getAttribute("user_code"));
@@ -49,30 +49,100 @@ public class BoardController {
 		map_list.put("start", 0);
 		
 		map_grid.put("writer_code",user_code);
-		map_grid.put("start", 0);
+		map_grid.put("start", 0);*/
 		
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
 
-		model.addAttribute("userInfo", userService.selectInfoProcess(user_code)); // 닉네임, 아이디, 사진, 자기소개
-		model.addAttribute("postCount", boardService.postCountProcess(user_code));
+		model.addAttribute("userInfo", userService.selectInfoProcess(user_code)); // 닉네임, 아이디, 사진, 자기소개, 게시물수, 팔로잉수, 팔로워수
+		
+		/*model.addAttribute("postCount", boardService.postCountProcess(user_code));
 		model.addAttribute("following", userService.followCountProcess(udto));
 		model.addAttribute("follower", userService.followerCountProcess(udto));
 		model.addAttribute("bList", boardService.selectListProcess(map_list));
-		model.addAttribute("bGrid", boardService.selectGridProcess(map_grid));
+		model.addAttribute("bGrid", boardService.selectGridProcess(map_grid));*/
 		return "timeline";
 	}
 	
-	@RequestMapping(value="/timelineDetail.do")
-	public String detail(Model model, HttpSession session, int board_num) {
-		int user_code = (int) session.getAttribute("user_code");
-		
+	@RequestMapping(value="/timelineMenu.do")
+	@ResponseBody
+	public List<BoardDTO> timelineMenu(Model model, HttpSession session, int user_code, int listType, int viewType) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("user_code",user_code);
-		map.put("board_num", board_num);
 		
-		model.addAttribute("bdto", boardService.selectDetailProcess(map));
-		model.addAttribute("userInfo", userService.selectInfoProcess(user_code));
+		if(viewType==1) {
+			map.put("my_code", (int) session.getAttribute("user_code"));
+			map.put("writer_code", user_code);
+			map.put("start", 0);
+			map.put("listType", listType);
+			
+			return boardService.selectListProcess(map);
+		} else {			
+			map.put("writer_code",user_code);
+			map.put("start", 0);
+			map.put("listType", listType);
+			
+			return boardService.selectGridProcess(map);
+		}
+	}
+	
+	@RequestMapping(value="/timelineAdd.do",method=RequestMethod.POST)
+	public @ResponseBody List<BoardDTO> timelineList(Model model, HttpSession session, int user_code, int start, int listType, int viewType) {
+		HashMap<String, Integer> map= new HashMap<String,Integer>();
+		
+		if(viewType==1) {
+			map.put("my_code", (int) session.getAttribute("user_code"));
+			map.put("writer_code", user_code);
+			map.put("start", start);
+			map.put("listType", listType);
+			
+			return boardService.selectListProcess(map);
+		} else {			
+			map.put("writer_code",user_code);
+			map.put("start", start);
+			map.put("listType", listType);
+			
+			return boardService.selectGridProcess(map);
+		}
+	}
+	
+	/*// List 형식
+	@RequestMapping(value="/timelineList.do",method=RequestMethod.POST)
+	public @ResponseBody List<BoardDTO> timelineList(Model model, HttpSession session, int user_code, int start) {
+		HashMap<String, Integer> map= new HashMap<String,Integer>();
+		map.put("my_code",user_code);
+		map.put("writer_code", start);
+		map.put("start", start);
+	
+		return boardService.selectListProcess(map);
+	}
+	
+	// Grid 형식
+	@RequestMapping(value="/timelineGrid.do",method=RequestMethod.POST)
+	public @ResponseBody List<BoardDTO> timelineGrid(Model model, int user_code, int start){
+		HashMap<String, Integer> map= new HashMap<String,Integer>();
+		map.put("writer_code",user_code);
+		map.put("start", start);
+		
+		return boardService.selectGridProcess(map);
+	}*/
+	
+	@RequestMapping(value="/timelineDetail.do")
+	public String detail(Model model, HttpSession session, int board_num) {		
+		if(session.getAttribute("user_code")!=null) {
+			int user_code = (int) session.getAttribute("user_code");
+		
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("user_code",user_code);
+			map.put("board_num", board_num);
+		
+			model.addAttribute("bdto", boardService.selectDetailProcess(map));
+			model.addAttribute("userInfo", userService.selectInfoProcess(user_code));
+		} else {
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("board_num", board_num);
+			
+			model.addAttribute("bdto", boardService.selectDetailProcess(map));
+		}
 		
 		return "timelineDetail";
 	}
@@ -83,16 +153,25 @@ public class BoardController {
 	public List<ReplyDTO> replyIns(ReplyDTO rdto, HttpSession sesssion){
 		int user_code=(int)sesssion.getAttribute("user_code");
 		rdto.setUser_code(user_code);
-		
-		System.out.println("글번호 : " + rdto.getBoard_num());
-		System.out.println("작성내용 : " + rdto.getReply_content());
-		System.out.println("원댓글 : " + rdto.getReply_ref());
-		System.out.println("댓글단계 : " + rdto.getReply_step());
-
-		return boardService.selectReplyListProcess(rdto);
+		return boardService.insertReplyProcess(rdto);
 	}
 	
-	 
+	//댓글삭제
+	@RequestMapping(value="/replyDelete.do")
+	@ResponseBody
+	public List<ReplyDTO> replyDel(ReplyDTO rdto, int board_num) {
+		rdto.setBoard_num(board_num);
+		return boardService.deleteReplyProcess(rdto);
+	}
+	
+	//댓글수정
+	@RequestMapping(value="/replyUpdate.do")
+	@ResponseBody
+	public List<ReplyDTO> repModify(ReplyDTO rdto, int board_num){
+		rdto.setBoard_num(board_num);
+		return boardService.updateReplyProcess(rdto);
+	}
+		 
 	//좋아요 클릭시 +1증가시켜 ajax로 뿌리기 위한 메소드
 	@RequestMapping(value="/likePro.do")
 	public @ResponseBody int likePro(BoardDTO bdto, HttpSession session) throws Exception {
@@ -135,27 +214,6 @@ public class BoardController {
 	@RequestMapping(value="/write.do")
 	public String writeForm() {
 		return "write";
-	}
-	
-	// List 형식
-	@RequestMapping(value="/timelineList.do",method=RequestMethod.POST)
-	public @ResponseBody List<BoardDTO> timelineList(Model model, HttpSession session, int user_code, int start) {
-		HashMap<String, Integer> map= new HashMap<String,Integer>();
-		map.put("my_code",user_code);
-		map.put("writer_code", start);
-		map.put("start", start);
-	
-		return boardService.selectListProcess(map);
-	}
-	
-	// Grid 형식
-	@RequestMapping(value="/timelineGrid.do",method=RequestMethod.POST)
-	public @ResponseBody List<BoardDTO> timelineGrid(Model model, int user_code, int start){
-		HashMap<String, Integer> map= new HashMap<String,Integer>();
-		map.put("writer_code",user_code);
-		map.put("start", start);
-		
-		return boardService.selectGridProcess(map);
 	}
 	
 	@RequestMapping(value="/uploadFile.do",method=RequestMethod.POST)

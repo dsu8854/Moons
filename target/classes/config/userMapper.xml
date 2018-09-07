@@ -61,7 +61,16 @@
 	</select>
 	
 	<select id="selInfo" parameterType="int" resultType="dto.UserDTO">
-		select user_code, user_id, user_nickname, user_photo, user_introduce, user_point
+		select user_code, user_id, user_nickname, user_photo, user_introduce, user_point,
+			   (select count(*) 
+				from moons_board 
+				where user_code=#{user_code}) as postCount,
+			   (select count(*)
+				from moons_follow
+				where user_code=#{user_code}) as followCount,
+			   (select count(*)
+				from moons_follow
+				where follow_following=#{user_code}) as followerCount
 		from moons_user
 		where user_code=#{user_code}
 	</select>
@@ -140,4 +149,27 @@
 		where user_code=#{user_code}
 	</update>
 	
+	<select id="selMainTop" resultType="dto.BoardDTO">
+		select location, l.board_num, board_photo, board_subject
+		from moons_link l, moons_board b
+		where l.board_num=b.board_num and l.link_type=1
+	</select>
+	
+	<select id="selMainBottom" resultType="dto.BoardDTO">
+		select location, l.board_num, board_photo, board_subject, board_content
+		from moons_link l, moons_board b
+		where l.board_num=b.board_num and l.link_type=2
+	</select>
+	
+	<select id="searchUser" parameterType="map" resultType="dto.UserDTO">
+		select b.*
+		from (select rownum rm, a.*
+			from (select u.user_code, u.user_id, u.user_nickname, u.user_photo, u.user_introduce,
+																(select count(*)
+																 from moons_follow f
+																 where f.user_code=#{user_code} and f.follow_following=u.user_code) as follow_check
+				from moons_user u
+				where u.user_id LIKE '%'||#{search}||'%' or u.user_nickname LIKE '%'||#{search}||'%')a)b
+		<![CDATA[where rm>#{startCount} and rm<=#{startCount}+#{listCount} ]]>
+	</select>
 </mapper>

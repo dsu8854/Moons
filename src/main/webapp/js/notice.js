@@ -34,10 +34,14 @@ $(document).ready(function(){
 });
 
 function noticelistMessage(data){
+	console.log('여기');
 	$.each(data,function(index, value){
 		var str='<tr><td><img src="images/'+value.user_photo+'" /></td><td>'
+		+'<input type="hidden" id="my_code" value="'+value.user_code+'" />'
+		+'<input type="hidden" id="user_code" value="'+value.notice_actor+'" />'
 		+'<input type="hidden" id="actor" value="'+value.user_nickname+'" />'
 		+'<input type="hidden" id="type" value="'+value.notice_type+'" />'
+		+'<input type="hidden" id="board_num" value="'+value.board_num+'" />'
 		+'<input type="hidden" id="amount" value="'+value.notice_amount+'" />'
 		+'<input type="hidden" id="read" value="'+value.notice_read+'" />'
 		+'<a href="#" id="notice_content"> </a><br/>'
@@ -55,8 +59,10 @@ function contentProcess(){
 		var content;
 		var type=$(this).find('#type').val();
 		var actor=$(this).find('#actor').val();
-		var link='#';
+		var link;
 		var amount=$(this).find('#amount').val();
+		var my_code=$(this).find('#my_code').val();
+		var board_num=$(this).find('#board_num').val();
 		switch(type){
 			/*
 			[type]						b_num		r_num		amount
@@ -71,26 +77,26 @@ function contentProcess(){
 			case '1':		
 				content=actor+'님이 당신을 팔로우합니다.';
 				//link:actor의 프로필
-				link='#1';
+				link='follow.do?user_code='+my_code;
 				break;
 			case '2':
 				content=actor+'님이 당신의 글을 공유했습니다.';
 				//link:글 주소 //글내용
-				link='#2';
+				link='timelineDetail.do?board_num='+board_num;
 				break;
 			case '3':
 				content=actor+'님이 당신의 글을 좋아합니다.';
 				//link:글 주소 //글내용
-				link='#3';
+				link='timelineDetail.do?board_num='+board_num;
 				break;
 			case '4':
 				content=actor+'님이 당신의 글에 리플을 남겼습니다';
 				//link:글 주소//리플내용추가
-				link='#4';
+				link='timelineDetail.do?board_num='+board_num;
 				break;
 			case '5':
 				content=actor+'님이 당신의 리플에 리플을 남겼습니다';
-				link='#5';
+				link='timelineDetail.do?board_num='+board_num;
 				break;
 			case '6':
 				content=actor+'님이 당신을 태그했습니다.';
@@ -98,7 +104,7 @@ function contentProcess(){
 				break;
 			case '7':
 				content=actor+'님이 당신에게 '+amount+' P를 후원했습니다.'
-				link='#7';
+				link='payment.do';
 				break;
 			case '8':
 				content='회원님의 글이 신고에 의해 삭제되었습니다.'
@@ -110,11 +116,16 @@ function contentProcess(){
 				break;
 			case '10':
 				content='인출이 완료되었습니다.'
-				link='#10';
+				link='paywithdrawlist.do';
 				break;
 			default:
 				break;
 		}
+		/*var form = new FormData(),
+        request = new XMLHttpRequest();
+        form.append("image", resp,"test.png");
+        request.open("POST","/moons/uploadPhoto.do", true);
+    	request.send(form);*/
 		$(this).find('#notice_content').text(content).attr('href',link);
 	});
 	

@@ -1,9 +1,12 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import dto.BoardDTO;
 import dto.FollowDTO;
 import dto.UserDTO;
 
@@ -30,5 +33,7 @@ public interface UserService {
 	public void insertFollowProcess(FollowDTO fdto);
 	
 	public void updateProfilePhotoProcess(UserDTO udto);
-	
+	public List<BoardDTO> selectMainTopProcess();
+	public List<BoardDTO> selectMainBottomProcess();
+	public List<UserDTO> searchUserProcess(Map<String, String> map);
 }

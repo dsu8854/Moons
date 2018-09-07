@@ -8,7 +8,7 @@
 	var current_page;
 
 	$(document).ready(function() {
-		webSocket = new WebSocket("ws://localhost:8090/moons/chatws.do");
+		webSocket = new WebSocket("ws://192.168.10.61:8090/moons/chatws.do");
 		webSocket.onopen = onOpen;
 		webSocket.onmessage = onMessage;
 		webSocket.onclose = onClose;
@@ -20,6 +20,10 @@
 		countNotice();
 		countDm();
 
+		$('#adminBtn').on('click', function(){
+			location.href = "adminMain.do";
+		});
+		
 		$('#noticeBtn').on('click', function() {
 			location.href = "notice.do";
 		});
@@ -140,34 +144,52 @@
 		<a href="index.do"><img src="images/logo.JPG" width="170" height="50" id="logo"></a>
 	</div>
 	<div class="search-box">
-        <input type="text" name="search" id="searchField" placeholder="검색어를 입력해 주세요." />
-        <button type="button" id="searchBtn" value="검색"><img alt="" src="images/search.jpg" width="30" height="30"></button>
+        <form id="searchFrm" method="POST" action="search.do">
+        	<input type="text" name="search" id="searchField" placeholder="검색어를 입력해 주세요." />
+			<select name="type" id="searchType">
+				<option value="movie" selected="selected">영화</option>
+				<option value="director">감독</option>
+				<option value="user">유저</option>
+			</select>
+			<input type="hidden" name="location" id="searchLoc" value=""/>
+        <button type="submit" id="searchBtn" value="검색"><img alt="" src="images/search.jpg" width="30" height="30"></button>
+        </form>
     </div> 
     <!-- 자동완성 -->
     <div id="suggest">
          <dl>
             <dt id="suggestMovieSubject">영화</dt>
             <dd id="suggestMovie"></dd>
-            <dt id="suggsetAuthorSubject">작가</dt>
-            <dd id="suggsetAuthor"></dd>
+            <dt id="suggestUserSubject">유저</dt>
+            <dd id="suggestUser"></dd>
          </dl>
     </div>
 	<div class="right-button">
-		<div class="noticeArea">
-			<input type="button" value="알림" id="noticeBtn" />
-			<span class="noticeCountArea">
-				<span class="noticeCount"></span>
-			</span>
-		</div>
-		<div class="messageArea">
-			<input type="button" value="메세지" id="messageBtn" /> 
-			<span class="messageCountArea">
-				<span class="messageCount"></span>
-			</span>
-		</div>
-		<div class="paymentArea">
-			<input type="button" value="결제내역" id="paymentBtn" />
-		</div>
+		<c:set var="user_code" value='<%=session.getAttribute("user_code")%>' />
+		<c:choose>
+			<c:when test="${user_code==0 }">
+				<div class="adminArea">
+					<input type="button" value="관리자" id="adminBtn" />
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="noticeArea">
+					<input type="button" value="알림" id="noticeBtn" />
+					<span class="noticeCountArea">
+						<span class="noticeCount"></span>
+					</span>
+				</div>
+				<div class="messageArea">
+					<input type="button" value="메세지" id="messageBtn" /> 
+					<span class="messageCountArea">
+						<span class="messageCount"></span>
+					</span>
+				</div>
+				<div class="paymentArea">
+					<input type="button" value="결제내역" id="paymentBtn" />
+				</div>
+			</c:otherwise>
+		</c:choose>
 	</div>
 	<div class="overlay"></div>
 	<div id="sidebarWrap">
@@ -188,10 +210,7 @@
 						<div class="my_profile">
 							<strong class="user_name"><%=session.getAttribute("user_nickname")%></strong>
 						</div>
-					</a> 
-					<a class="wrap_side_ico ico_side_likeit text_hide brunchLikeLink #side_likeit" href="/likeit"></a> 
-					<a class="wrap_side_ico ico_side_history text_hide #side_history" href="/me/history"></a> 
-					<span class="img_side_menu ico_alim_new">NEW</span>
+					</a>
 				</div>
 				<div class="wrap_side_service_menu logout" style="height: 416px;">
 					<ul>
@@ -214,12 +233,6 @@
 						<li class="now_page">
 							<a class="menu_word4 #side_brunch" href="index.do">
 								<span class="bar_left"></span>MoonS
-								<span class="bar_right"></span>
-							</a>
-						</li>
-						<li>
-							<a class="menu_word5 #side_now brunchNowLink" href="/now">
-								<span class="bar_left"></span>Now ReviewS
 								<span class="bar_right"></span>
 							</a>
 						</li>

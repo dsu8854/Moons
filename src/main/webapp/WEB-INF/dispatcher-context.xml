@@ -112,6 +112,10 @@
 		<property name="paymentSqlSession" ref="sqlSession"></property>
 	</bean>
 	
+	<bean class="dao.AdminDaoImp" id="adminDao">
+		<property name="adminSqlSession" ref="sqlSession"/>
+	</bean>
+	
 	<!-- [8] Service 빈 선언 -->
 	<bean id="userService" class="service.UserServiceImp">
 		<property name="userDao" ref="userDao" />
@@ -141,6 +145,10 @@
 		<property name="paymentDao" ref="paymentDao" />
 	</bean>
 	
+	<bean class="service.AdminServiceImp" id="adminService">
+		<property name="adminDao" ref="adminDao"/>
+	</bean>
+	
 	<bean class="controller.UserController" />
 	<bean class="controller.MailController" />
 	<bean class="controller.BoardController" />
@@ -149,6 +157,7 @@
 	<bean class="controller.NoticeController" />
 	<bean class="controller.SearchController" />
 	<bean class="controller.PaymentController" />
+	<bean class="controller.AdminController"/>
 	
 	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<property name="definitions">
@@ -171,7 +180,8 @@
 			<bean class="interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/list.do"/>
+			<mvc:mapping path="/index.do"/>
+			<mvc:mapping path="/timeline.do"/>
 			<mvc:mapping path="/exit.do"/>
 			<mvc:mapping path="/profile.do"/>
 			<mvc:mapping path="/updateInfoForm.do"/>

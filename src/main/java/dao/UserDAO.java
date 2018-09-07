@@ -1,7 +1,9 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
+import dto.BoardDTO;
 import dto.FollowDTO;
 import dto.UserDTO;
 
@@ -29,5 +31,7 @@ public interface UserDAO {
 	public void insertFollowMethod(FollowDTO fdto);		// 팔로우 신청
 	
 	public void updateProfilePhotoMethod(UserDTO udto);
-	
+	public List<BoardDTO> selectMainTopMethod();
+	public List<BoardDTO> selectMainBottomMethod();
+	public List<UserDTO> searchUserMethod(Map<String, String> map);
 }

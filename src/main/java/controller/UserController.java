@@ -35,6 +35,7 @@ import service.UserService;
 import socket.WebSocketHandler;
 
 // http://localhost:8090/moons/intro.do
+// http://192.168.10.61:8090/moons/intro.do
 
 @Controller
 public class UserController {
@@ -60,7 +61,10 @@ public class UserController {
 	
 	// 메인 화면
 	@RequestMapping(value="/index.do")
-	public String index() {
+	public String index(Model model) {
+		model.addAttribute("topLink", userService.selectMainTopProcess());
+		model.addAttribute("bottomLink", userService.selectMainBottomProcess());
+		
 		return "index";
 	}
 	

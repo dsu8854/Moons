@@ -5,7 +5,7 @@ import java.net.URL;
 
 public class KakaoLoginBO {
 	private final static String clientId="98e3d6c2b978895622a5cf46cf1a0f6c"; //카카오에서 받은 REST API 키
-	private final static String redirectUri="http://localhost:8090/moons/loginProKakao.do"; //카카오에 등록한 redirectUri
+	private final static String redirectUri="http://192.168.10.61:8090/moons/loginProKakao.do"; //카카오에 등록한 redirectUri
 	private final static String adminKey="9b160e46187a41c4d6274e015fc0bd57"; //카카오에서 받은 Admin 키
 	
 	public URL getAuthorizationUrl() throws MalformedURLException {

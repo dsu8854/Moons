@@ -61,6 +61,7 @@ public class PaymentController {
 		model.addAttribute("user_code",user_code);
 		model.addAttribute("user_photo",udto.getUser_photo());
 		model.addAttribute("user_point",udto.getUser_point());
+		
 		return "paymentPage";
 	} 
 	
@@ -94,9 +95,7 @@ public class PaymentController {
 		try {
 		pdto.setPoint_donater(user_code);
 		paymentService.donateProcess(pdto);
-		System.out.println("여기는 들어오니?");
 		WebSocketMessage<String> sendMsg = new TextMessage("5|"+pdto.getPoint_receiver());
-		System.out.println(sendMsg.getPayload());
 		WebSocketHandler handler = WebSocketHandler.getInstance();
 		if(handler.getUserList().get(String.valueOf(pdto.getPoint_receiver()))!=null) {
 			handler.handleMessage(handler.getUserList().get(String.valueOf(pdto.getPoint_receiver())), sendMsg);
@@ -114,7 +113,8 @@ public class PaymentController {
 	} 
 	
 	@RequestMapping("/paywithdrawprocess.do")
-	public String paywidthdrawinsertproccess(Model model, HttpSession session, 
+	@ResponseBody
+	public boolean paywidthdrawinsertproccess(Model model, HttpSession session, 
 			String name, String identitynum0, String identitynum1, int point, String bank, String account, String holder) {
 		int user_code = (int) session.getAttribute("user_code");
 		WithdrawDTO wdto = new WithdrawDTO();
@@ -125,20 +125,24 @@ public class PaymentController {
 		wdto.setWithdraw_account(account);
 		wdto.setWithdraw_bank(bank);
 		wdto.setWithdraw_holder(holder);
-		paymentService.withdrawinsertProcess(wdto);
-		return "paywithdraw";
+		try {
+			paymentService.withdrawinsertProcess(wdto);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	} 
 	
 	@RequestMapping("/paywithdrawlist.do")
 	public String paywidthdrawlist(Model model, HttpSession session) {
 		int user_code = (int) session.getAttribute("user_code");
 		
-		Map<String, String> map= new HashMap<String,String>();
+		Map<String,String> map= new HashMap<String,String>();
 		map.put("user_code",Integer.toString(user_code));
 		map.put("start", "0");
 		model.addAttribute("withdrawlist", paymentService.withdrawListProcess(map));
 		return "paywithdrawlist";
-	} 
+	}
 	
 	@RequestMapping("/withdrawListOpen.do")
 	@ResponseBody

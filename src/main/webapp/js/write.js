@@ -1,6 +1,7 @@
 var fileArray = new Array();
 
 $(document).ready(function(){
+	var movie;
 	var files;
 	var count=0;
 	
@@ -78,6 +79,69 @@ $(document).ready(function(){
 		}
 	});
 			
+	//영화선택
+	$('.choiceMovieBox').on('click',function(){
+		if($('.choiceMovieBox').attr('id')=='boxOFF') return false;
+		$('#choiceBox').css('display','block');
+		
+	});
+	
+	$('.closeBox').on('click',function(){
+		$('#choiceBox').css('display','none');
+		$('#resultBox').empty();
+		$('#searchMovie').val('');
+	});
+	
+	//자동완성:자동검색 이벤트  ajax 발생
+	$('#searchMovie').on('keyup', function(){
+		$('#resultBox').empty();
+
+		if($('#searchMovie').val()==""){
+			return false;
+		}
+		
+		$.ajax({
+			type:'GET',
+			dataType:'xml',
+			url:'searchMovieOpen.do?search='+$('#searchMovie').val()+'&listCount=12&startCount=0&detail=Y',
+			success:choiceMovieMessage
+		});
+	});
+	
+	/*var start = 0;
+	$('#resultBox').scroll(function() {
+		if ($('#resultBox').outerHeight() <= $('#resultBox').scrollHeight() - $('#resultBox').scrollTop()) {
+			start += 12;
+			$.ajax({
+				type:'GET',
+				dataType:'xml',
+				url:'searchMovieOpen.do?search='+$('#searchMovie').val()+'&listCount=12&startCount='+start+'&detail=N',
+				success:choiceMovieMessage
+			});
+		}
+	});*/
+
+	$(document).on('click','.itembox',function(){
+		//$('#resultBox').empty();
+		//$('#searchMovie').val('');
+		$('#choiceBox').css('display','none');
+		$('#choiceMovie').find('img').attr('src',$(this).find('img').attr('src'));
+		
+		var m= '<li id="movieInfo"><span id="movieTitle">'+$(this).find('#title').text()+'</span><br/>'
+			+'<span id="movieSubTitle">'+$(this).find('#subtitle').text()+'</span><br/>'
+			+'<span id="moviePubDate">'+$(this).find('#pubDate').text()+'</span><br/>'
+			+'<span id="movieDirector">'+$(this).find('#director').text()+'</span><br/>'
+			+'<span id="movieActor">'+$(this).find('#actor').text()+'</span></li>';
+		
+		movie=$(this).find('#title').text()+'*'+$(this).find('#director').text();
+		$('#choicemovieInfo').remove();
+		$('.choiceMovieBox').append(m);
+	});
+	
+	$('.itembox').on('mouseover',function(){
+		
+	});
+	
 	$('#btnSave').on('click',function(){
 		$('[name=board_content]').val($('#summernote').summernote('code'));
 		$('[name=board_subject]').val($('#board_subject_cover').text());
@@ -93,6 +157,9 @@ $(document).ready(function(){
 		$('.wrap_right_inner').css("display","none");
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
+		$('#board_movie').val(movie);
+		$('.choiceMovieBox').css('cursor','default');
+		$('.choiceMovieBox').attr('id','boxOFF');
 	});
 		
 	$('#btn_mody').click(function(){
@@ -104,6 +171,8 @@ $(document).ready(function(){
 		$('#background_img').css("display","block");
 		$('#summernote_wrap').css('display','block');
 		$('#board_content').css('display','none');
+		$('.choiceMovieBox').css('cursor','pointer');
+		$('.choiceMovieBox').attr('id','boxON');
 	});
 	
 	$('#btn_modyc').click(function(){
@@ -121,12 +190,49 @@ $(document).ready(function(){
 		$('.wrap_right_inner').css("display","none");
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
+		$('#board_movie').val(movie);
+		$('.choiceMovieBox').css('cursor','default');
+		$('.choiceMovieBox').attr('id','boxOFF');
 	});
 	
 	$('#btnPost').on('click',function(){
 		$('#postForm').attr('action','post.do').submit();
 	});
+	
 });
+
+function choiceMovieMessage(data){
+	var xmlData = $(data).find('Result');
+
+	$(xmlData).find('Row').each(function(index) {	
+		var actor = "";
+		$(this).find('actorNm').each(function(index, value) {
+			if (index > 2)
+				return false;
+			
+			if (index == 0)
+				actor += $(value).text().substring(1, $(value).text().length - 1);
+			else
+				actor += ", "+ $(value).text().substring(1, $(value).text().length - 1);
+		});
+		
+		var str='<div class="itembox"><ul><li id="image"><img src="'
+			+ $(this).find('posters').text().split('|')[0]+ '"/></li><li id="title">'
+			+ $(this).find('title').text()+ '</li><li id="subtitle">'
+			+ $(this).find('titleOrg').text()+ '</li><li id="pubDate">'
+			+ $(this).find('prodYear').text()+ '</li><li id="director">'
+			+ $(this).find('directorNm').text()+ '</li><li id="actor">'
+			+ actor + '</li></ul></div>';
+				
+		$(document.getElementsByTagName('img')).each(function(index, item) {
+			if ($(item).attr('src') == "  ") {
+				$(item).attr('src', 'images/noimage.png');
+			}
+		});
+		
+		$('#resultBox').append(str);
+	});
+}
 
 function sendFile(file,el){
 	var form_data = new FormData();

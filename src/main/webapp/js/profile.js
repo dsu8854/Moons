@@ -39,8 +39,6 @@ $(document).ready(function() {
 			$uploadCrop.croppie('result', {
 				type:'blob'
 			}).then(function (resp) {
-					
-				console.log(resp);
 				var form = new FormData(),
                 request = new XMLHttpRequest();
                 form.append("image", resp,"test.png");
