@@ -14,6 +14,17 @@ public class UserDTO {
 	private String user_introduce;
 	private MultipartFile filename;
 	
+	private int follow_check;
+	
+	
+	public int getFollow_check() {
+		return follow_check;
+	}
+
+	public void setFollow_check(int follow_check) {
+		this.follow_check = follow_check;
+	}
+
 	public UserDTO() {
 		
 	}

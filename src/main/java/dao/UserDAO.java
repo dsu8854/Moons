@@ -1,6 +1,8 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dto.FollowDTO;
 import dto.UserDTO;
@@ -30,4 +32,5 @@ public interface UserDAO {
 	
 	public void updateProfilePhotoMethod(UserDTO udto);
 	
+	public List<UserDTO> searchUserMethod(Map<String, String> map);
 }

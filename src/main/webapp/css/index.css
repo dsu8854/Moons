@@ -120,21 +120,23 @@ a {
 	height: 400px;
 }
 
-table {
+#square-box table {
 	display: inline-block;
+	cursor:pointer;
 	border: 1px solid gray;
 }
 
-tr {
+#square-box table tr {
 	height: 120px;
 	border: 1px solid gray;
 }
 
-td {
+#square-box table td {
 	width: 120px;
 	border: 1px solid gray;
 	text-align: center;
 	vertical-align: middle;
+	cursor:pointer;
 }
 
 #square-box {

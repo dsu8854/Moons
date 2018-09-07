@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -164,5 +165,10 @@ public class UserServiceImp implements UserService {
 	@Override
 	public void insertFollowProcess(FollowDTO fdto) {
 		userDao.insertFollowMethod(fdto);
+	}
+
+	@Override
+	public List<UserDTO> searchUserProcess(Map<String, String> map) {
+		return userDao.searchUserMethod(map);
 	}
 }

@@ -13,17 +13,23 @@ $(document).ready(function(){
 	});
 	
 	//search.do가 아닌곳에서 검색버튼 클릭시
+	var url=window.location.href;
 	$('#searchbtn').click(function(){
 		if(!(window.location.href.indexOf("search.do")>=0))
-			location.href='search.do?value='+$('#searchField').val();
+			$('#searchLoc').val(url.slice(url.indexOf('/moons/') + 1, url.length));
+			$('#searchFrm').submit();
+			//location.href='search.do?value='+$('#searchField').val()+'&searchType='+$('#searchType option:selected').val();
 	});
 	 $('#searchField').on('keypress',function(event){
 		 if(event.keyCode==13){
 			if($('#searchField').val()=="")
 					return false;
 				
-			if(!(window.location.href.indexOf("search.do")>=0))
-				location.href='search.do?value='+$('#searchField').val();
+			if(!(window.location.href.indexOf("search.do")>=0)){
+				//location.href='search.do?value='+$('#searchField').val()+'&searchType='+$('#searchType option:selected').val();
+				$('#searchLoc').val(url.slice(url.indexOf('/moons/') + 7, url.length));
+			}
+			$('#searchFrm').submit();
 		 }
 	 });
 	
@@ -39,8 +45,15 @@ $(document).ready(function(){
 		$.ajax({
 			type:'GET',
 			dataType:'xml',
-			url:'searchOpen.do?search='+$('#searchField').val()+'&listCount=4&startCount=0&detail=N',
-			success:suggestMessage
+			url:'searchMovieOpen.do?search='+$('#searchField').val()+'&listCount=4&startCount=0&detail=N',
+			success:suggestMovieMessage
+		});
+		
+		$.ajax({
+			type:'GET',
+			dataType:'json',
+			url:'searchUserOpen.do?search='+$('#searchField').val()+'&listCount=4&startCount=0',
+			success:suggestUserMessage
 		});
 	});
 	
@@ -54,20 +67,17 @@ $(document).ready(function(){
 });
 
 	
-function suggestMessage(data){
+function suggestMovieMessage(data){
 	var xmlData = $(data).find('Result');
 	
 	$('#suggestMovie').empty();
 	
 	$(xmlData).find('Row').each(function(index){
-		var ap='<div class="searchBox"><div id="movieTitle">'+ $(this).find('title').text() +'<br/>';
-		ap+='<span id="code" style="display:none;">' +$(this).find('movieSeq').text();
-		ap += '</div><div id="image"><img src="'+$(this).find('posters').text().split('|')[0]+'"/></div></div>';
+		var ap='<div class="searchMovieBox"><div id="movieTitle">'+ $(this).find('title').text() +'<br/>';
+		ap+='<input type="hidden" id="movieDirector" value="'+$(this).find('director').text()+'" /></div></div>';
 		
 		$(document).on('click','.searchBox',function(){
-			var a=$(this).find('#code').text().substring(1,$('#code').text().length-1);
-			console.log(a);
-			location.href='movie.do?movieSeq='+a;
+			location.href = 'movie.do?title='+$(this).find('#movieTitle').text()+'&director='+$(this).find('#movieDirector').val();
 		});
 		
 		$('#suggestMovie').append(ap);
@@ -80,3 +90,28 @@ function suggestMessage(data){
 	});
 
 }//end viewMessage
+
+function suggestUserMessage(data){
+	$('#suggestUser').empty();
+	console.log('suggestuser');
+	$.each(data, function(index, value){
+		var st='<div class="searchUserBox">'
+			+'<div id="image"><img src="'+value.user_photo+'"/></div>'
+			+'<div id="userName">'+ value.user_nickname 
+			+'&nbsp; <span id="userID"> @'+value.user_id +'</span></div>'
+			+'<input type="hidden" id="userCode" value="'+value.user_code+'"/></div>';
+		
+		$(document).on('click','.searchUserBox',function(){
+			location.href='timeline.do?user_code='+$(this).find('#userCode').val();
+		});
+		
+		$('#suggestUser').append(st);
+	}); 
+
+	$(document.getElementsByTagName('img')).each(function(index,item){
+		if($(item).attr('src')=="  "){
+			$(item).attr('src','images/noimage.png');
+		}
+	});
+
+}

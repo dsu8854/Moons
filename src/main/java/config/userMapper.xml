@@ -140,4 +140,16 @@
 		where user_code=#{user_code}
 	</update>
 	
+	<select id="searchUser" parameterType="map" resultType="dto.UserDTO">
+		select b.*
+		from (select rownum rm, a.*
+			from (select u.user_code, u.user_id, u.user_nickname, u.user_photo, u.user_introduce,
+																(select count(*)
+																 from moons_follow f
+																 where f.user_code=#{user_code} and f.follow_following=u.user_code) as follow_check
+				from moons_user u
+				where u.user_id LIKE '%'||#{search}||'%' or u.user_nickname LIKE '%'||#{search}||'%')a)b
+		<![CDATA[where rm>#{startCount} and rm<=#{startCount}+#{listCount} ]]>
+	</select>
+
 </mapper>

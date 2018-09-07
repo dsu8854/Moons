@@ -28,20 +28,8 @@
 					<input type="hidden" name="board_subject" />
 					<input type="hidden" name="board_content" />
 					<input type="hidden" name="board_photo" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 					<input type="hidden" name="fileArray" />
-=======
->>>>>>> 6d40ef6e12960486959e87119ec9efa6240147e9
-=======
-					<input type="hidden" name="fileArray" />
->>>>>>> 8225c35fc7c16b49d841d47c14ec3340bb2edb4c
-=======
->>>>>>> 98aeb36bcdfc1da8895d4dfdd13318848138d6c8
-=======
->>>>>>> fa720e9f01bd055e3c48ed3cb2d146aeea95247e
+					<input type="hidden" name="movie" />
 				</form>
 			</div>
 				<div class="wrap_right_inner_modi" style="display: none">
@@ -73,6 +61,22 @@
 		</div>
 	</div>
 </div>
+
+<ul class="choiceMovieBox" >
+	<li id="choiceMovie">
+		<img src="images/moviechoice.png" width="120px"/>
+	</li>
+	<li id="choicemovieInfo">
+		영화를 선택해 주세요
+	</li>
+</ul>
+<!-- 영화선택 -->
+<div id="choiceBox">
+	<div id="searchBox"><input type="text" id="searchMovie" placeholder="영화제목을 입력해주세요"/></div>
+	<span class="closeBox">X</span>
+	<div id="resultBox"><br/><br/><br/><br/><br/><br/><br/><br/><br/>리뷰를 남기고 싶은 영화를 클릭해 주세요</div>
+</div>
+
 <div class="service_body" id="service_body">
 	<div id="board_content"></div>
 	<div id="summernote_wrap">

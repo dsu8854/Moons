@@ -1,140 +1,272 @@
 @charset "UTF-8";
 html {
 	height: 100%;
-	}
-	body {
+}
+body {
 	margin: 0;
 	height: 100%;
-	}
-	form{
+}
+form{
 	position: relative;
 	height: 100%;
 
-	}
-	
-	.editor-wrapper{
-		width: 100%;
-		height: 100%;	
-	}
-	.service_header{
-		position:relative;
-		height: 40%;
-		border-bottom: 1px solid #c8c8c8;
-	}
-	.background-cover{
+}
+
+.editor-wrapper{
+	width: 100%;
+	height: 100%;	
+}
+.service_header{
+	position:relative;
+	height: 40%;
+	border-bottom: 1px solid #c8c8c8;
+}
+.background-cover{
 	position:absolute;
 	height: 100%;
 	width: 100%;
 	background-color:rgba(0, 0, 0, 0); 
-	} 
-	
-	.service_body{
-		margin:30px 500px 0px 500px;
-		height:auto;  
-		min-height: 50%;
-	}
-	.service_footer{
+} 
+
+.service_body{
+	margin:30px 500px 0px 500px;
+	height:auto;  
+	min-height: 50%;
+	z-index:10;
+}
+.service_footer{
 	position:absolute;
 	bottom:10;
 	height:10%;  
 	margin:30px 500px 0px 0;
 	width: 100%;
 	vertical-align: middle;
-		text-align: center;  
-	}
-	
-	
-	#hash_div{
+	text-align: center;  
+}
+
+#hash_div{
 	border-bottom:1px dotted gray;   
-		display: inline-block;
-		margin:0px 0px 50px 0px;
-	}
-	
-	.wrap_inner{
-		height:390px;	
-	}
-	.f{
-		height:100px;
-	}
-	.title{
-		height:250px;
-	}
-	.cover_item{
+	display: inline-block;
+	margin:0px 0px 50px 0px;
+}
+
+.wrap_inner{
+	height:390px;	
+}
+.f{
+	height:100px;
+}
+.title{
+	height:250px;
+}
+.cover_item{
 	position:absolute;
 	margin:0px 0px 0px 0px;
 	width:500px;
 	left: 400px;
 	top: 220px;
+}
+
+.cover_cell{
+	
+	z-index:10;
+	
+}
+.cover_title{
+	color:black;
+	font-weight:bold;
+	opacity:0.5;	
+}
+
+.cover_title:empty:before {
+	content: "제목을 입력하세요";
+}
+	
+.cover_subtitle,#board_hashtag{
+	font-weight:bold;
+	opacity:0.5;
+	font-size: 10pt; 
+}
+
+.wrap_inner{
+	padding:30px 0 0 0;
+}
+.f_l{
+	float:left;
+	margin:0 0 0 30px;
+}
+.f_r{
+	
+}
+.background_img{
+	float:right;
+	position: absolute;
+	top:100px;
+	right:200px;
 	}
 	
-	
-	
-	.cover_cell{
-		
-		z-index:10;
-		
-	}
-	.cover_title{
-		color:black;
-		font-weight:bold;
-		opacity:0.5;	
-	}
-	
-	.cover_title:empty:before {
-		content: "제목을 입력하세요";
-	}
-		
-	.cover_subtitle,#board_hashtag{
-		font-weight:bold;
-		opacity:0.5;
-		font-size: 10pt; 
-	
-	}
-	
-	.wrap_inner{
-		padding:30px 0 0 0;
-	}
-	.f_l{
-		float:left;
-		margin:0 0 0 30px;
-	}
-	.f_r{
-		
-	}
-	.background_img{
-		float:right;
-		position: absolute;
-		top:100px;
-		right:200px;
-		
-		}
-	.background_upload_btn{
-		padding: 30px 0px 0px 0px;
-		
-	}
+.background_upload_btn{
+	padding: 30px 0px 0px 0px;
+}
 	
 .glyphicon{
-		font-size:2em;
-		font-weight:lighter;
-		margin: 0px 10px 0px 10px;
-	}
+	font-size:2em;
+	font-weight:lighter;
+	margin: 0px 10px 0px 10px;
+}
+
+.wrap_right_inner,.wrap_right_inner_in,.wrap_right_inner_modi{
+	float:right;
+	position:relative;
+	margin:0px 20px 0px 0px;
 	
-	.wrap_right_inner,.wrap_right_inner_in,.wrap_right_inner_modi{
-		float:right;
-		position:relative;
-		margin:0px 20px 0px 0px;
-		
-	}
+}
+
+.save_btn{
 	
-	.save_btn{
-		
-	
-	}
+
+}
 
  #btn_delete{
-		padding:0px 0px 0px 0px;
-	}
+	padding:0px 0px 0px 0px;
+}
  #board_content{
- 	height:100%
+ 	height:100%;
  	display:none;
+ 	z-index:10;
+ }
  
+.choiceMovieBox{
+	display:inline-block;
+	width:500px;
+	height:190px;
+	margin:10px;
+	padding:10px;
+	box-sizing: border-box;
+	border: 1px solid #dddddd;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#choiceMovie{
+	float: left;
+	background-image: url('../images/moviechoice.png');
+	width: 120px;
+	height: 170px;
+}
+
+#choicemovieInfo{
+	float: left;
+	color:#aaaaaa;
+	text-align:center;
+	width:350px;
+	height:100%;
+	padding:10px;
+	line-height: 150px;
+}
+
+#movieInfo{
+	float: left;
+	text-align:left;
+	width:350px;
+	height:100%;
+	padding:10px;
+}
+
+#choiceBox{
+	display:none;
+	position: absolute;
+	top:35%;
+	left:20%;
+	width:700px;
+	height: 600px;
+	background-color: white;
+	border:1px solid #bbbbbb;
+	border-radius:10px;
+	box-shadow: 3px 3px 5px 3px rgba(0,0,0,0.2);
+	z-index: 800;
+	padding:10px;
+}
+
+#resultBox{
+	width:100%;
+	height:540px;
+	overflow-y:scroll;
+	overflow-x:hidden;
+	scroll-behavior: smooth;
+}
+
+#resultBox::-webkit-scrollbar {
+	width: 8px; 
+	height: 8px; 
+	border: 3px solid #fff;
+}
+#resultBox::-webkit-scrollbar-button:start:decrement, #choiceBox::-webkit-scrollbar-button:end:increment {
+	display: block; 
+	height: 10px; 
+	background: #efefef;
+}
+#resultBox::-webkit-scrollbar-track {
+	background: #efefef; 
+	-webkit-border-radius: 10px; 
+/* 	border-radius:10px;  */
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.2);
+	}
+#resultBox::-webkit-scrollbar-thumb {
+	height: 50px; 
+	width: 50px; 
+	background: rgba(0,0,0,.2); 
+	-webkit-border-radius: 8px; 
+	border-radius: 8px; 
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.1);
+}
+
+#searchBox{
+	position: absolute;
+	top:5px;
+	left:0px;
+	width: 100%;
+	height: 40px;
+}
+#searchBox #searchMovie{
+	width:500px;
+	height: 40px;
+	text-indent: 20px;
+	font-size: 14px;
+	z-index: 810;
+}
+
+.closeBox{
+	position: relative;
+	font-size:30px;
+	top:0px;
+	left: 320px;
+	z-index: 810;
+	cursor: pointer;
+	color:#cccccc;
+}
+
+#resultBox{
+	width: 100%;
+}
+
+.itembox{
+	display:inline-block;
+	width:140px;
+	vertical-align: top;
+	margin:5px;
+	cursor: pointer;
+	border-radius: 5px;
+	background-color: white;
+	padding: 3px;
+	box-shadow: 1px 1px rgba(30,30,30,0.3);
+}
+
+.itembox #image {
+	text-align:center;
+}
+
+.itembox #image img{
+	width:120px;
+	height: auto;
+}

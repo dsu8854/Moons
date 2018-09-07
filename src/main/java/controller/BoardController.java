@@ -183,7 +183,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/post.do",method=RequestMethod.POST)
-	public String post(Model model, HttpSession session, BoardDTO bdto, String[] fileArray){
+	public String post(Model model, HttpSession session, BoardDTO bdto, String[] fileArray, String movie){
 		int user_code = (int) session.getAttribute("user_code");
 		bdto.setUser_code(user_code);
 		

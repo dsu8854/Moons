@@ -1,3 +1,24 @@
+select * from moons_follow
+
+CREATE TABLE moons_follow (
+	user_code        NUMBER NULL, -- 유저식별코드
+	follow_following NUMBER NULL  -- 팔로잉
+);
+
+insert into moons_follow values(1,2);
+insert into moons_follow values(1,4);
+
+select * from moons_user
+
+update moons_user set user_photo='images/no-photo.png'
+update moons_user set user_introduce='자기소개입니다 자기소개입니다 테스트1입니다. 자기소개~' where user_id='test2';	
+select b.*
+		from (select rownum rm, a.*
+			from (select user_code, user_id, user_nickname, user_photo, user_introduce
+				from moons_user
+				where user_id LIKE '%테%' or user_nickname LIKE '%테%')a)b
+		where rm>0 and rm<=4
+
 select * from MOONS_CHARGE
 
 CREATE TABLE moons_charge (

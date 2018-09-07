@@ -140,16 +140,24 @@
 		<a href="index.do"><img src="images/logo.JPG" width="170" height="50" id="logo"></a>
 	</div>
 	<div class="search-box">
-        <input type="text" name="search" id="searchField" placeholder="검색어를 입력해 주세요." />
-        <button type="button" id="searchBtn" value="검색"><img alt="" src="images/search.jpg" width="30" height="30"></button>
+		<form id="searchFrm" method="POST" action="search.do">
+        	<input type="text" name="search" id="searchField" placeholder="검색어를 입력해 주세요." />
+			<select name="type" id="searchType">
+				<option value="movie" selected="selected">영화</option>
+				<option value="director">감독</option>
+				<option value="user">유저</option>
+			</select>
+			<input type="hidden" name="location" id="searchLoc" value=""/>
+        <button type="submit" id="searchBtn" value="검색"><img alt="" src="images/search.jpg" width="30" height="30"></button>
+        </form>
     </div> 
     <!-- 자동완성 -->
     <div id="suggest">
          <dl>
             <dt id="suggestMovieSubject">영화</dt>
             <dd id="suggestMovie"></dd>
-            <dt id="suggsetAuthorSubject">작가</dt>
-            <dd id="suggsetAuthor"></dd>
+            <dt id="suggestUserSubject">유저</dt>
+            <dd id="suggestUser"></dd>
          </dl>
     </div>
 	<div class="right-button">
@@ -197,7 +205,7 @@
 					<ul>
 						<li>
 							<a class="menu_word5 #side_ready" href="javascript:timeline()">
-								<span class="bar_left"></span>My Review
+								<span class="bar_left"></span>내가 쓴 리뷰
 								<span class="bar_right"></span>
 							</a>
 							<form id="myTimelineForm" method="post"> 
@@ -206,38 +214,38 @@
 						</li>
 						<li>
 							<a class="menu_word5 #side_ready" href="write.do">
-								<span class="bar_left"></span>Review Write
+								<span class="bar_left"></span>리뷰쓰기
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li class="hr"></li>
 						<li class="now_page">
 							<a class="menu_word4 #side_brunch" href="index.do">
-								<span class="bar_left"></span>MoonS
+								<span class="bar_left"></span>MoonS 홈
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
 							<a class="menu_word5 #side_now brunchNowLink" href="/now">
-								<span class="bar_left"></span>Now ReviewS
+								<span class="bar_left"></span>MoonS Now
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
-							<a class="menu_word5 #side_publish brunchPublishLink" href="ranking.do">
-								<span class="bar_left"></span>Movie Introduce
+							<a class="menu_word5 #side_publish brunchPublishLink" href="/publish">
+								<span class="bar_left"></span>영화소개관
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
-							<a class="menu_word2 #side_feed brunchFeedLink" href="javascript:timeline()">
-								<span class="bar_left"></span>Review Feed
+							<a class="menu_word2 #side_feed brunchFeedLink" href="timeline.do">
+								<span class="bar_left"></span>피드
 								<span class="bar_right"></span>
 							</a>
 						</li>
 						<li>
 							<a class="menu_word6 #side_mag" href="/magazine">
-							<span class="bar_left"></span>Hot Review
+							<span class="bar_left"></span>이달의 리뷰
 							<span class="bar_right"></span>
 							</a>
 						</li>

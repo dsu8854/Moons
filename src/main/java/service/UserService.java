@@ -1,6 +1,7 @@
 package service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,5 +31,6 @@ public interface UserService {
 	public void insertFollowProcess(FollowDTO fdto);
 	
 	public void updateProfilePhotoProcess(UserDTO udto);
-	
+
+	public List<UserDTO> searchUserProcess(Map<String, String> map);
 }

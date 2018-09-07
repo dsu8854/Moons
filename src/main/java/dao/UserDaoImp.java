@@ -1,8 +1,10 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 
 import dto.FollowDTO;
 import dto.UserDTO;
@@ -126,6 +128,12 @@ public class UserDaoImp implements UserDAO {
 	@Override
 	public void updateProfilePhotoMethod(UserDTO udto) {
 		userSqlSession.update("user.profile_photo",udto);
+	}
+
+	@Override
+	public List<UserDTO> searchUserMethod(Map<String, String> map) {
+		System.out.println(map.get("search")+map.get("startCount")+map.get("listCount"));
+		return userSqlSession.selectList("user.searchUser", map);
 	}
 	
 }

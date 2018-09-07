@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" Content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no">
+<script src="js/index.js"></script> 
+<link href="css/reset.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript">
 $(document).ready(function() {
@@ -96,9 +98,9 @@ $(document).ready(function() {
 	<div class="keyword-box">
 		<div id="square-box">
 			<table>
-				<tr><td><a href="">로맨스</a></td><td><a href="">판타지</a></td><td><a href="">액션</a></td><td><a href="">코미디</a></td><td><a href="">에로</a></td><td><a href="">단편</a></td><td><a href="">다큐멘터리</a></td></tr>
-				<tr><td><a href="">청춘</a></td><td><a href="">호러</a></td><td><a href="">드라마</a></td><td><a href="">SF</a></td><td><a href="">범죄</a></td><td><a href="">역사</a></td><td><a href="">뮤지컬</a></td></tr>
-				<tr><td><a href="">반전</a></td><td><a href="">모험</a></td><td><a href="">애니메이션</a></td><td><a href="">미스터리</a></td><td><a href="">괴수</a></td><td><a href="">스포츠</a></td><td><a href="">예술</a></td></tr>    
+				<tr><td>멜로</td><td>로맨스</td><td>액션</td><td>코메디</td><td>에로</td><td>가족</td><td>스릴러</a></td></tr>
+				<tr><td>어드벤처</td><td>호러</td><td>드라마</td><td>SF</a></td><td>범죄</td><td>역사</td><td>뮤지컬</td></tr>
+				<tr><td>판타지</td><td>모험</td><td>애니메이션</td><td>미스터리</td><td>공포</td><td>스포츠</td><td>예술</td></tr>    
 			</table>
 		</div> 
 	</div>
@@ -160,18 +162,25 @@ $(document).ready(function() {
 			</div> 
 		</div>    
 	</div>
-		
+	
+	<a href="http://www.naver.com" class="link_application #home_forwriter" target="_blank">
+				<img src="https://t1.daumcdn.net/brunch/static/test/new_pc_top/5.png" class="img_application">
+			</a> 
+	
+	
 <footer id="dkFoot" class="foot_brunch">
 		<div class="inner_foot">
 			<div class="area_quotation">
-				<q class="txt_quotation">A genius can't win one who does his best, a person who tries his best can't win the one who enjoys what he does.</q>
-				<span class="txt_by">MoonS</span>
+				<q class="txt_quotation">You can make anything by writing.</q>
+				<span class="txt_by">C.S.Lewis</span>
 			</div>
 			<ul class="list_info">
-				<li><a href="about.do" target="_blank" class="link_info">About MoonS</a></li>
-				<li><a href="privacy.do" target="_blank" class="link_info privacy">개인정보 처리방침</a></li>
-				<li><a href="contact.do" target="_blank" class="link_info">오시는길</a></li>
+				<li><a href="/policy/terms" target="_blank" class="link_info">이용약관</a></li>
+				<li><a href="/policy/privacy" target="_blank" class="link_info privacy">개인정보 처리방침</a></li>
+				<li><a href="/policy/oppolicy" target="_blank" class="link_info">운영정책</a></li>
+				<li><a href="http://cs.kakao.com/helps?category=89&amp;locale=ko&amp;service=54" target="_blank" class="link_info">고객센터</a></li>
+				<li><a href="/contact" target="_blank" class="link_info">출간제안</a></li>
 			</ul>
-			<small class="txt_copyright"><a href="about.do" class="link_corp" target="_blank">© MoonS Corp.</a></small>
+			<small class="txt_copyright"><a href="http://kakaocorp.com" class="link_corp" target="_blank">© Kakao Corp.</a></small>
 		</div>
 	</footer>

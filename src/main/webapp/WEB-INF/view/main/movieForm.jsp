@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="js/movie.js"></script> 
 <link rel="stylesheet" href="css/movie.css">
 <div class="movieWrap">
@@ -15,18 +16,15 @@
 		<hr/>
 		<h1>줄거리</h1>
 		<span id="plot">plot</span>
-		<br/>
-		
+		<br/><br/>
 		<h2 id="more">상세 영화 정보</h2>
 		<p id="add">
 
-		제작사 company
-		
-		주제곡 themeSong
-		영화제 수상 내역 Awards1
-		수상내역 기타 Award2
-	
-		누적관람인원 audiAcc
+		<h1>제작사</h1> company<br/>
+		<h1>주제곡</h1> themeSong<br/>
+		<h1>영화제 수상 내역</h1> Awards1<br/>
+		<h1>수상내역 기타</h1> Award2<br/>
+		<h1>누적관람인원</h1> audiAcc<br/>
 		</p>
 	</div>
 </div>
@@ -53,7 +51,9 @@
 				<div id="content_box">
 					<p id="comment_info">
 						<span id="comment_name">${commdto.user_nickname}</span>&nbsp;&nbsp;
-						<span id="comment_date">${commdto.comment_date }</span><br/>
+						<span id="comment_date">
+							<fmt:formatDate value="${commdto.comment_date }" pattern="yyyy-MM-dd" />
+						</span><br/>
 					</p>
 					<p id="comment_content">${commdto.comment_content }</p>
 				</div>

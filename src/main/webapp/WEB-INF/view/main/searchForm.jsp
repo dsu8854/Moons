@@ -11,21 +11,23 @@
 <link rel="stylesheet" href="css/search.css">
 </head>
 <body>
-	<!-- <div id="suggest">
+	<input type="hidden" id="searchVal" value="${search }" />
+	<input type="hidden" id="typeVal" value="${type }" />
+	<input type="hidden" id="prevLoc" value="${preloc }" />
+	<div id="suggest">
 		<dl>
 			<dt id="suggestMovieSubject">영화</dt>
 			<dd id="suggestMovie"></dd>
-			<dt id="suggsetAuthorSubject">작가</dt>
-			<dd id="suggsetAuthor"></dd>
+			<dt id="suggestUserSubject">유저</dt>
+			<dd id="suggestUser"></dd>
 		</dl>
 	</div>
-
-	<input type="text" name="search" id="search" placeholder="검색 내용을 입력해주세요" value="" />
-	<input type="button" id="searchbtn" value="검색" /> -->
+	
 	<div class="searchMenu">
 			<ul>
-				<li>영화</li>
-				<li>유저</li>
+				<li value="movie">영화</li>
+				<li value="director">감독</li>
+				<li value="user">유저</li>
 			</ul>
 		</div>
 	<div id="searchWrap">
