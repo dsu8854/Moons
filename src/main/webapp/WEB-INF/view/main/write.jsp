@@ -29,7 +29,7 @@
 					<input type="hidden" name="board_content" />
 					<input type="hidden" name="board_photo" />
 					<input type="hidden" name="fileArray" />
-					<input type="hidden" name="movie" />
+					<input type="hidden" name="board_movie" id="board_movie"/>
 				</form>
 			</div>
 				<div class="wrap_right_inner_modi" style="display: none">
@@ -62,7 +62,7 @@
 	</div>
 </div>
 
-<ul class="choiceMovieBox" >
+<ul class="choiceMovieBox" id="boxON">
 	<li id="choiceMovie">
 		<img src="images/moviechoice.png" width="120px"/>
 	</li>

@@ -111,16 +111,19 @@ ALTER TABLE moons_dm
 -- board
 CREATE TABLE moons_board (
 	board_num     NUMBER        NOT NULL, -- num
-	user_code     NUMBER        NULL,     -- 작성자
-	board_movie   VARCHAR2(100) NOT NULL, -- 관련영화코드
-	board_subject VARCHAR2(180) NOT NULL, -- 제목
-	board_content VARCHAR2(4000)    NULL,     -- 내용
-	board_file    VARCHAR2(4000)    NULL,     -- 첨부파일
-	board_like    NUMBER        DEFAULT 0, -- 좋아요 수
-	board_share   NUMBER        DEFAULT 0, -- 공유된 수
-	board_date    DATE          NOT NULL, -- 날짜
-	board_hashtag VARCHAR2(4000)    NULL      -- 해시태그
-);
+   user_code     NUMBER        NULL,     -- 작성자
+   board_movie   VARCHAR2(300) NOT NULL, -- 관련영화코드
+   board_subject VARCHAR2(180) NOT NULL, -- 제목
+   board_content CLOB     NULL,     -- 내용
+   board_like    NUMBER        DEFAULT 0, -- 좋아요 수
+    board_share   NUMBER        DEFAULT 0, -- 공유된 수
+    board_reply   NUMBER        DEFAULT 0, -- 댓글 수
+   board_date    DATE          NOT NULL, -- 날짜
+   board_hashtag VARCHAR2(1000)    NULL,      -- 해시태그
+   board_photo     VARCHAR2(200) NULL,   -- 대표 이미지
+   board_privacy NUMBER      NOT NULL,
+   board_state     NUMBER      NOT NULL
+   )
 
 -- board
 ALTER TABLE moons_board

@@ -1,3 +1,60 @@
+CREATE TABLE moons_file (
+   board_num     NUMBER   NULL,
+   file_name     VARCHAR2(200) NOT NULL
+);
+
+-- file
+ALTER TABLE moons_file
+   ADD
+      CONSTRAINT FK_moons_board_TO_moons_file -- board -> file
+      FOREIGN KEY (
+         board_num -- 게시물번호
+      )
+      REFERENCES moons_board ( -- board
+         board_num -- num
+      );
+
+
+create sequence moons_user_code_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+create sequence moons_board_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+create sequence moons_reply_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+create sequence moons_point_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+create sequence moons_charge_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+create sequence moons_withdraw_num_seq
+start with 1 
+increment by 1
+nocache
+nocycle;
+
+select * from moons_board
+
+select * from moons_rating
+
 select * from moons_follow
 
 CREATE TABLE moons_follow (

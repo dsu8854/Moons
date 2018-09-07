@@ -183,10 +183,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/post.do",method=RequestMethod.POST)
-	public String post(Model model, HttpSession session, BoardDTO bdto, String[] fileArray, String movie){
+	public String post(Model model, HttpSession session, BoardDTO bdto, String[] fileArray){
 		int user_code = (int) session.getAttribute("user_code");
 		bdto.setUser_code(user_code);
-		
+		System.out.println("movie:"+bdto.getBoard_movie());
 		ArrayList<String> fileList = new ArrayList<String>();
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		

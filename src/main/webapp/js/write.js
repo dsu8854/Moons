@@ -1,6 +1,7 @@
 var fileArray = new Array();
 
 $(document).ready(function(){
+	var movie;
 	var files;
 	var count=0;
 	
@@ -80,6 +81,7 @@ $(document).ready(function(){
 			
 	//영화선택
 	$('.choiceMovieBox').on('click',function(){
+		if($('.choiceMovieBox').attr('id')=='boxOFF') return false;
 		$('#choiceBox').css('display','block');
 		
 	});
@@ -125,12 +127,13 @@ $(document).ready(function(){
 		$('#choiceBox').css('display','none');
 		$('#choiceMovie').find('img').attr('src',$(this).find('img').attr('src'));
 		
-		var m= '<li id="movieInfo">'+$(this).find('#title').text()+'<br/>'
-			+$(this).find('#subtitle').text()+'<br/>'
-			+$(this).find('#pubDate').text()+'<br/>'
-			+$(this).find('#director').text()+'<br/>'
-			+$(this).find('#actor').text()+'</li>';
+		var m= '<li id="movieInfo"><span id="movieTitle">'+$(this).find('#title').text()+'</span><br/>'
+			+'<span id="movieSubTitle">'+$(this).find('#subtitle').text()+'</span><br/>'
+			+'<span id="moviePubDate">'+$(this).find('#pubDate').text()+'</span><br/>'
+			+'<span id="movieDirector">'+$(this).find('#director').text()+'</span><br/>'
+			+'<span id="movieActor">'+$(this).find('#actor').text()+'</span></li>';
 		
+		movie=$(this).find('#title').text()+'*'+$(this).find('#director').text();
 		$('#choicemovieInfo').remove();
 		$('.choiceMovieBox').append(m);
 	});
@@ -154,6 +157,9 @@ $(document).ready(function(){
 		$('.wrap_right_inner').css("display","none");
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
+		$('#board_movie').val(movie);
+		$('.choiceMovieBox').css('cursor','default');
+		$('.choiceMovieBox').attr('id','boxOFF');
 	});
 		
 	$('#btn_mody').click(function(){
@@ -165,6 +171,8 @@ $(document).ready(function(){
 		$('#background_img').css("display","block");
 		$('#summernote_wrap').css('display','block');
 		$('#board_content').css('display','none');
+		$('.choiceMovieBox').css('cursor','pointer');
+		$('.choiceMovieBox').attr('id','boxON');
 	});
 	
 	$('#btn_modyc').click(function(){
@@ -182,6 +190,9 @@ $(document).ready(function(){
 		$('.wrap_right_inner').css("display","none");
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
+		$('#board_movie').val(movie);
+		$('.choiceMovieBox').css('cursor','default');
+		$('.choiceMovieBox').attr('id','boxOFF');
 	});
 	
 	$('#btnPost').on('click',function(){

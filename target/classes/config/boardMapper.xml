@@ -61,7 +61,7 @@
 	</delete>
 	
 	<insert id="post" parameterType="dto.BoardDTO">	
-		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},'movie',#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1)
+		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},#{board_movie},#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1,1)
 		<selectKey resultType="int" keyProperty="board_num" order="AFTER">
 	        SELECT LAST_NUMBER-1
 	        FROM USER_SEQUENCES
