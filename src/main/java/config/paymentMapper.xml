@@ -31,7 +31,7 @@
 	
 	<insert id="withdrawins" parameterType="dto.WithdrawDTO">
 		insert into moons_withdraw
-		values (moons_withdraw_num_seq.nextval,#{user_code},#{withdraw_name},#{withdraw_identitynum},#{withdraw_amount},#{withdraw_bank},#{withdraw_account},#{withdraw_holder},sysdate,0)
+		values (moons_withdraw_num_seq.nextval,#{user_code},#{withdraw_name},#{withdraw_identitynum},#{withdraw_amount},#{withdraw_bank},#{withdraw_account},#{withdraw_holder},sysdate,1)
 	</insert>
 	
 	<select id="chargelist" parameterType="map" resultType="dto.ChargeDTO">

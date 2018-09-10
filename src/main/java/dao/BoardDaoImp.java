@@ -120,4 +120,14 @@ public class BoardDaoImp implements BoardDAO{
 	public void updateReplyMehtod(ReplyDTO rdto) {
 		boardSqlSession.update("board.uptReply", rdto);
 	}
+
+	@Override
+	public List<BoardDTO> selectTimelineMovieMethod(HashMap<String, Object> map) {
+		return boardSqlSession.selectList("board.selTimelineMovie", map);
+	}
+
+	@Override
+	public List<BoardDTO> selectTimelineHashtagMethod(HashMap<String, Object> map) {
+		return boardSqlSession.selectList("board.selTimelineHashtag", map);
+	}
 }//end class

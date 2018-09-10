@@ -1,28 +1,20 @@
-@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+.timelineArea {
+	width: 1000px;  
+    margin-left: 515px;
+    margin-top: 80px;
+}
 
-/* reset */
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,
-h6,pre,code,form,fieldset,legend,input,
-textarea,p,blockquote,th,td{margin:0;padding:0;}
-img{border:none;vertical-align:top;}
-fieldset{border:none;}
-li{list-style:none;}
-input,select,button,select{vertical-align:middle;}
-h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
-address,caption,cite,code,
-dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
-
-.timelineWrap .board_card{
+.board_card{
     font-family: 'Noto Sans KR';
 	position:relative;
     background-color:white; 
 	width:720px;
 	height:320px;
 	padding-left:5px
-	}
+}
 
 /*컨텐츠부분*/
-.timelineWrap .card_page1{
+.card_page1{
 	position:absolute;
 	top:0;
 	width:650px; 
@@ -31,12 +23,6 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 	border-left:1px solid #f0f3f3;
     border-right:1px solid #f0f3f3;
     border-top: 1px solid #f0f3f3;  
-}
-
-.content_h3_wrap{
-	width: 1000px;  
-	margin-left: 460px;
-	margin-top: 20px;
 }
 
 /*작성자날짜부분*/
@@ -48,7 +34,7 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 }
 
 /*작성자사진*/
-.timelineWrap .img_writer{
+.img_writer {
     width: 42px;
     height: 42px;
 	border-radius:50%;
@@ -61,16 +47,16 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     float: left; 
 }
 
-.content_part{
+.content_part {
 	margin-top: 55px;  
 }
 
-.content_line{
+.content_line {
 	margin-top: 10px;
 }
 
 /*작성일자*/
-.timelineWrap .write_date {
+.write_date {
 	color:#959595;
     display: inline-block;
     float: right;
@@ -79,7 +65,7 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 }
 
 /*제목부분*/
-.timelineWrap .content_title{
+.content_title{
 	display: block;
     max-height: 1.5em;
     overflow: hidden;
@@ -88,10 +74,10 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     letter-spacing: -1px;
     margin-top: 10px;
     font-size: 20px;
-	}
+}
 
 /*내용부분*/
-.timelineWrap .card_page1 .content_line{
+.content_line{
 	margin-top: 27px;  
     line-height:1.5em;
     max-height:120px;
@@ -104,7 +90,7 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 }
 
 /*더보기*/
-.timelineWrap .more {
+.more {
     font-size: 14px;
     color: black;
     display: inline-block;
@@ -118,11 +104,8 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     text-decoration: underline
 }
 
-
-
-
 /*커버이미지부분*/
-.timelineWrap .card_page2{
+.card_page2 {
 	left: 677px;
     top: 0px;
     position: absolute;
@@ -131,12 +114,11 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     border: 1px solid #f0f3f3;
 }
    
-.timelineWrap .card_page2 .cover_img{
+.cover_img{
 	width: 200px;
     height: 250px;  
     margin: 35px 0 0 0;
 }
-
 
 /*태그와아이콘부분*/
 .card_page3 {
@@ -151,13 +133,13 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
 }
 
 /*태그부분*/
-.timelineWrap .area_taging{
+.area_taging{
 	display:block;
 	line-height:20px;
 	overflow:hidden;  
 	float: left;  
     margin: 15px 0 0 10px;
-	}
+}
 
 
 .txt_taging {
@@ -171,9 +153,8 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     color: #00c3bd;
 }
 
-
 /*아이콘부분*/
-.timelineWrap .card_page3 .content_write{
+.content_write{
     margin-top: 5px;
     line-height: 1.5em;
     overflow: hidden;
@@ -181,8 +162,7 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     line-height: 35px;
 } 
 
-
-.timelineWrap .icon_img {
+.icon_img {
     width: 35px;
     height: 35px;
 }
@@ -204,20 +184,15 @@ dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
     display: none
 }
 
-/* .like_icon .icon_img:last-child{
-	display: none;
-}
-
-.like_icon:hover .icon_img:first-child{
-	display: none;
-}
-
-.like_icon:hover .icon_img:last-child{
-	display: inline-block;
-} */
-
 .icon_link {
 	display: inline-block;
     text-decoration: none;
     color:#959595;
+}
+
+#board_hashtag {
+	font-size: 20pt;
+    position: relative;
+    left: -420px;
+    top: 35px;
 }

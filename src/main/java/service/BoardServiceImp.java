@@ -6,8 +6,6 @@ import java.util.List;
 import dao.BoardDAO;
 import dto.BoardDTO;
 import dto.ReplyDTO;
-import dto.UserDTO;
-
 
 public class BoardServiceImp implements BoardService{
 	private BoardDAO boardDao;
@@ -116,5 +114,15 @@ public class BoardServiceImp implements BoardService{
 	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto) {
 		boardDao.updateReplyMehtod(rdto);
 		return boardDao.selectReplyListMethod(rdto);
+	}
+
+	@Override
+	public List<BoardDTO> selectTimelineMovieProcess(HashMap<String, Object> map) {
+		return boardDao.selectTimelineMovieMethod(map);
+	}
+
+	@Override
+	public List<BoardDTO> selectTimelineHashtagProcess(HashMap<String, Object> map) {
+		return boardDao.selectTimelineHashtagMethod(map);
 	}
 }//end class

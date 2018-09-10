@@ -30,6 +30,7 @@
 					<input type="hidden" name="board_photo" />
 					<input type="hidden" name="fileArray" />
 					<input type="hidden" name="board_movie" id="board_movie"/>
+					<input type="hidden" name="board_hashtag" />
 				</form>
 			</div>
 				<div class="wrap_right_inner_modi" style="display: none">
@@ -42,8 +43,6 @@
 					<span class="glyphicon glyphicon-picture" id="upfile1" style="cursor: pointer"></span>
 					<input type="file" class="header_background_img" id="header_background_img" style="display: none">
 				</div>
-				<br /> <span class="glyphicon glyphicon-text-background" id="btn_colorChange" style="cursor: pointer"></span> 
-				<br />
 				<br />
 				<span class="glyphicon glyphicon-trash" id="btn_delete" style="cursor: pointer"></span>
 			</div>
@@ -83,7 +82,7 @@
 </div>
 <div class="service_footer" id="service_footer">
 	<div id="hash_div">
-		<!--<td><input type="text" name="board_hashtag" id="board_hashtag" size="30" maxlength=30/></td> -->
-		<div class="board_hashtag" id="board_hashtag" contenteditable="true">Hashtag #moons~ #오늘의 띵작</div>
+		해시태그
+		<div class="board_hashtag" id="board_hashtag" contenteditable="true" data-text="ex)#천만관객"></div>
 	</div>
 </div>

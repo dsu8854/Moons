@@ -90,7 +90,7 @@
 	</delete>
 	
 	<insert id="post" parameterType="dto.BoardDTO">	
-		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},#{board_movie},#{board_subject},#{board_content},0,0,0,sysdate,'#즐거움',#{board_photo},1,1)
+		insert into moons_board values(moons_board_num_seq.nextval,#{user_code},#{board_movie},#{board_subject},#{board_content},0,0,0,sysdate,#{board_hashtag},#{board_photo},1,1)
 		<selectKey resultType="int" keyProperty="board_num" order="AFTER">
 	        SELECT LAST_NUMBER-1
 	        FROM USER_SEQUENCES
@@ -142,7 +142,10 @@
 				 where user_code=#{user_code} and board_num=m.board_num) as isShare,
 				(select case when count(*) > 0 then 1 else 0 end 
 				 from moons_report
-				 where report_reporter=#{user_code} and board_num=m.board_num) as isReport
+				 where report_reporter=#{user_code} and board_num=m.board_num) as isReport,
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_follow
+				 where user_code=#{user_code} and follow_following=m.user_code) as checkFollow
 				from moons_board m, moons_user u, moons_reply r
 				where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
 				order by reply_ref, reply_date
@@ -200,4 +203,40 @@
 	<select id="postCount" parameterType="int" resultType="int">
 		select count(*) from moons_board where user_code=#{user_code}
 	</select>
+	
+	<select id="selTimelineMovie" parameterType="hashmap" resultType="dto.BoardDTO">
+		select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+				  user_nickname, user_photo,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_like
+				   where user_code=#{user_code} and board_num=m.board_num) as isLike,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_share
+				   where user_code=#{user_code} and board_num=m.board_num) as isShare
+				  from moons_board m, moons_user u
+				  where m.user_code=u.user_code and <![CDATA[m.board_movie like '%'||#{board_movie}||'%']]>
+				  order by board_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
+	
+	<select id="selTimelineHashtag" parameterType="hashmap" resultType="dto.BoardDTO">
+		select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+				  user_nickname, user_photo,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_like
+				   where user_code=#{user_code} and board_num=m.board_num) as isLike,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_share
+				   where user_code=#{user_code} and board_num=m.board_num) as isShare
+				  from moons_board m, moons_user u
+				  where m.user_code=u.user_code and m.board_hashtag like '%'||#{board_hashtag}||'%'
+				  order by board_date desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select> 
 </mapper>   

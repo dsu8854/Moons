@@ -190,7 +190,7 @@ a{
     margin: 20px;
 }
 
-#writer_page {
+.writer_page {
     padding: 5px 15px 5px;
     border-radius: 18px;
     margin-right: 5px;
@@ -471,10 +471,6 @@ a{
     margin: 82px 0 0 -70px;
 }
 
-#reportclick {
-	vertical-align: middle;
-}
-
 .menulogo {
 	text-align: left;
 	padding: 1% 0% 0% 1%;
@@ -489,10 +485,18 @@ a{
     padding: 6px 16px 6px 6px;
 }
 
-.report_icon {
+.report_icon, .copy_icon {
     width: 100px;
     height: 25px;
-    margin-right: 25px;
     text-align: center;
     padding: 8px 2px 4px 2px;
+}
+
+.copy_icon {
+	margin-right: 50px;
+}
+
+#urlArea {
+	position: absolute;
+    left: -500px;
 }

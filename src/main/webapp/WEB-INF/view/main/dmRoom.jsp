@@ -59,7 +59,7 @@
 			<div class="dmfooter">
 				<input type="hidden" name="user_code" value="${nowUser }" />
 				<input type="hidden" name="dm_receiver" value="${dm_receiver }" />
-				
+				<input type="hidden" name="user_nickname" value="${yourInfo.user_nickname }" />
 				<img src="images/mesImg.png" class="mesImg">
 				<input type="text" name="dm_content" id="nowMes" autocomplete="off" >
 	        	

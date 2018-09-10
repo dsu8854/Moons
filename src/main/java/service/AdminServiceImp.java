@@ -1,9 +1,12 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import dao.AdminDAO;
+import dto.BoardDTO;
 import dto.ChargeDTO;
+import dto.LinkDTO;
 import dto.ReportDTO;
 import dto.WithdrawDTO;
 
@@ -46,5 +49,15 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public void updateWithdrawProcess(WithdrawDTO wdto) {
 		adminDao.updateWithdrawMethod(wdto);
+	}
+
+	@Override
+	public void updateLinkProcess(LinkDTO ldto) {
+		adminDao.updateLinkMethod(ldto);
+	}
+
+	@Override
+	public List<BoardDTO> selectBoardListProcess(HashMap<String, Integer> map) {
+		return adminDao.selectBoardListMethod(map);
 	}
 }

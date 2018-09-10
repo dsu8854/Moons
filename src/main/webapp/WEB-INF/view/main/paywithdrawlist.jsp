@@ -36,11 +36,14 @@
 			</td>
 			<td>
 				<c:choose>
-					<c:when test="${wdto.withdraw_state==0 }">
+					<c:when test="${wdto.withdraw_state==1 }">
 						<font color="#cc0000">진행중</font>	
 					</c:when>
-					<c:when test="${wdto.withdraw_state==1 }">
+					<c:when test="${wdto.withdraw_state==2 }">
 						<font color="#00b300">승인</font>
+					</c:when>
+					<c:when test="${wdto.withdraw_state==3 }">
+						<font color="#cc0000">거절</font>
 					</c:when>
 				</c:choose>
 			</td>

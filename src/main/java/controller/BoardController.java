@@ -134,7 +134,7 @@ public class BoardController {
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("user_code",user_code);
 			map.put("board_num", board_num);
-		
+			
 			model.addAttribute("bdto", boardService.selectDetailProcess(map));
 			model.addAttribute("userInfo", userService.selectInfoProcess(user_code));
 		} else {
@@ -275,7 +275,6 @@ public class BoardController {
 		String saveDirectory = root + "images" + File.separator;
 		
 		for(String str : fList) {
-			System.out.println("파일 삭제");
 			File fe = new File(saveDirectory, str);
 			if(fe.exists())
 				fe.delete();
@@ -285,5 +284,62 @@ public class BoardController {
 	
 		model.addAttribute("user_code", user_code);
 		return "redirect:/timeline.do";
+	}
+	
+	@RequestMapping(value="/timelineMovie.do")
+	@ResponseBody
+	public List<BoardDTO> timelineMovie(Model model, HttpSession session, String board_movie) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("user_code", (int) session.getAttribute("user_code"));
+		map.put("board_movie", board_movie);
+		map.put("start", 0);
+		
+		return boardService.selectTimelineMovieProcess(map);
+	}
+	
+	@RequestMapping(value="/timelineMovieAdd.do")
+	@ResponseBody
+	public List<BoardDTO> timelineMovieAdd(Model model, HttpSession session, String board_movie, int start) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("user_code", (int) session.getAttribute("user_code"));
+		map.put("board_movie", board_movie);
+		map.put("start", start);
+		
+		return boardService.selectTimelineMovieProcess(map);
+	}
+	
+	@RequestMapping(value="/timelineHashtag.do")
+	public String timelineHashtag(Model model, String board_hashtag) {
+		model.addAttribute("board_hashtag", board_hashtag);
+		
+		return "timelineHashtag";
+	}
+	
+	@RequestMapping(value="/timelineHashtagList.do")
+	@ResponseBody
+	public List<BoardDTO> timelineHashtagList(Model model, HttpSession session, String board_hashtag) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("user_code", (int) session.getAttribute("user_code"));
+		map.put("board_hashtag", board_hashtag);
+		map.put("start", 0);
+		
+		model.addAttribute("board_hashtag", board_hashtag);
+		
+		return boardService.selectTimelineHashtagProcess(map);
+	}
+	
+	@RequestMapping(value="/timelineHashtagAdd.do")
+	@ResponseBody
+	public List<BoardDTO> timelineHashtagAdd(HttpSession session, String board_hashtag, int start) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("user_code", (int) session.getAttribute("user_code"));
+		map.put("board_hashtag", board_hashtag);
+		map.put("start", start);
+		
+		return boardService.selectTimelineHashtagProcess(map);
 	}
 }

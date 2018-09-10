@@ -92,7 +92,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				WebSocketMessage<String> sendMsg = new TextMessage("dm|0|"+msgArr[2]+"|"+msgArr[3]);
 				dmRoomList.get(msgArr[1]).sendMessage(sendMsg);
 			} else if(userList.containsKey(msgArr[1])){
-				WebSocketMessage<String> sendMsg = new TextMessage("dm|1|"+msgArr[2]+"|"+msgArr[3]);
+				WebSocketMessage<String> sendMsg = new TextMessage("dm|1|"+msgArr[2]+"|"+msgArr[3]+"|"+msgArr[4]);
 				userList.get(msgArr[1]).sendMessage(sendMsg);
 			}
 			break;

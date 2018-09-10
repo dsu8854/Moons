@@ -10,13 +10,6 @@ $(document).ready(function(){
 		var reader = new FileReader();
 		reader.readAsDataURL(files[0]);
 		sendFile(files[0],this);
-		/*reader.onload=function(){
-			$('.service_header').css({"background":"url('"+reader.result+"')","background-size":"100% 100%"});
-			$('.glyphicon').css({"color":"white"});
-			$('.cover_title').css({"color":"white"});
-			$('.cover_subtitle').css({"color":"white"});
-			$('.background-cover').css({"background-color":"rgba(0, 0, 0, 0.4)"});
-		}*/
 	});
 	
 	$('#btn_delete').on('click', function(){ 
@@ -59,6 +52,8 @@ $(document).ready(function(){
 		minheight: null,
 		maxheight: null,
 		focus:true,
+		fontNames: ['fontA',  'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', ],
+		fontNamesIgnoreCheck: ['fontA'],
 		popover: {
 			image: [['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
 					['float', ['floatLeft', 'floatRight', 'floatNone']],
@@ -107,23 +102,8 @@ $(document).ready(function(){
 			success:choiceMovieMessage
 		});
 	});
-	
-	/*var start = 0;
-	$('#resultBox').scroll(function() {
-		if ($('#resultBox').outerHeight() <= $('#resultBox').scrollHeight() - $('#resultBox').scrollTop()) {
-			start += 12;
-			$.ajax({
-				type:'GET',
-				dataType:'xml',
-				url:'searchMovieOpen.do?search='+$('#searchMovie').val()+'&listCount=12&startCount='+start+'&detail=N',
-				success:choiceMovieMessage
-			});
-		}
-	});*/
 
 	$(document).on('click','.itembox',function(){
-		//$('#resultBox').empty();
-		//$('#searchMovie').val('');
 		$('#choiceBox').css('display','none');
 		$('#choiceMovie').find('img').attr('src',$(this).find('img').attr('src'));
 		
@@ -143,6 +123,27 @@ $(document).ready(function(){
 	});
 	
 	$('#btnSave').on('click',function(){
+		var hashtag = $('#board_hashtag').text().split(' ');
+		var isCorrect=true;
+		$.each(hashtag,function(index,item){
+			console.log('#포함여부',item.substring(1,item.length));
+			if(item.charAt(0)!='#'){
+				alert('해시태그 형식이 올바르지 않습니다.(#해시태그1 #해시태그2...)');
+				isCorrect=false;
+				return false;
+			} else if(item.match(/#/g)!=null) {
+				if(item.match(/#/g).length > 1) {
+					alert('해시태그 형식이 올바르지 않습니다.(#해시태그1 #해시태그2...)');
+					isCorrect=false;
+					return false;
+				}
+			}
+		});
+		
+		if(!isCorrect){
+			return false;
+		}
+		
 		$('[name=board_content]').val($('#summernote').summernote('code'));
 		$('[name=board_subject]').val($('#board_subject_cover').text());
 		$('#board_photo').val($('#board_subject_cover').text());
@@ -158,6 +159,7 @@ $(document).ready(function(){
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
 		$('#board_movie').val(movie);
+		$('[name=board_hashtag]').val($('#board_hashtag').text());
 		$('.choiceMovieBox').css('cursor','default');
 		$('.choiceMovieBox').attr('id','boxOFF');
 	});
@@ -191,6 +193,7 @@ $(document).ready(function(){
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#background_img').css("display","none");
 		$('#board_movie').val(movie);
+		$('[name=board_hashtag]').val($('#board_hashtag').text());
 		$('.choiceMovieBox').css('cursor','default');
 		$('.choiceMovieBox').attr('id','boxOFF');
 	});

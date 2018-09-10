@@ -82,6 +82,44 @@ $(document).ready(function() {
 		console.log(title+','+director);
 		location.href = 'movie.do?title='+title+'&director='+director;
 	});
+	
+	$(document).on('click','#followApplyBtn', function() { // 팔로우 신청 버튼
+		if (confirm("정말로 팔로우를 신청하시겠습니까?") == true) {
+			var formdata = $(this).siblings('#followForm').serialize();
+			$.ajax({
+				url: 'followApply.do',
+				type: 'POST',
+				dataType: 'text',
+				data: formdata,
+				success: function(res) {
+					if(res) {
+						location.reload();
+					}
+				}
+			});
+		}
+	});
+	
+	$(document).on('click','#followDeleteBtn', function() { // 팔로우 신청 버튼
+		if (confirm("정말로 팔로우를 취소하시겠습니까?") == true) {
+			var formdata = $(this).siblings('#followForm').serialize();
+			$.ajax({
+				url: 'followDelete.do',
+				type: 'POST',
+				dataType: 'text',
+				data: formdata,
+				success: function(res) {
+					if(res) {
+						location.reload();
+					}
+				}
+			});
+		}
+	});
+	
+	$(document).on('click','#dmBtn', function() { // 팔로우 신청 버튼
+		$(this).siblings('#dmForm').attr('action','dmRoom.do').submit();
+	});
 });
 
 function searchAjax(type, listCount, startCount) {
@@ -194,30 +232,30 @@ function diretorSuccessMessage(data) {
 
 function userSuccessMessage(data) {
 	$.each(data, function(index, value) {
-		var str='<div class="userBox">';
+		if($('#user_code').val()!=value.user_code){
+			var str='<div class="userBox">';
 		
-		if(value.board_photo==null)
-			str+='<img src="images/basic.png" id="userPhoto" /><br/>';
-		else
-			str+='<img src="images/'+value.user_photo+'" id="userPhoto" /><br/>';
+			if(value.user_photo==null)
+				str+='<img src="images/basic.png" id="userPhoto" /><br/>';
+			else
+				str+='<img src="images/'+value.user_photo+'" id="userPhoto" /><br/>';
 			
-		str+='<span id="userNickname">'+value.user_nickname+'</span><br/>'
-			+'<span id="userID">@'+value.user_id+'</span><br/><br/>'
-			+'<p id="userIntro">'+value.user_introduce+'</p><br/>';
+			str+='<span id="userNickname">'+value.user_nickname+'</span><br/>'
+				+'<span id="userID">@'+value.user_id+'</span><br/><br/>'
+				+'<p id="userIntro">'+value.user_introduce+'</p><br/>';
 		
-		if(value.follow_check>0){
-			str+='<input type="button" class="userBtn" id="unfollow" value="언팔로우"/>';
-		}else{
-			str+='<input type="button" class="userBtn" id="follow" value="팔로우"/>';
-		}
-			str+='&nbsp;<input type="button" class="userBtn" id="dm" value="쪽지"/></div>';
+			if(value.follow_check>0){
+				str+='<input type="button" class="userBtn" id="followDeleteBtn" value="언팔로우"/>';
+			}else{
+				str+='<input type="button" class="userBtn" id="followApplyBtn" value="팔로우"/>';
+			}
 		
-		$('#searchWrap').append(str);
-	});
-
-	$(document.getElementsByTagName('img')).each(function(index, item) {
-		if ($(item).attr('src') == "  ") {
-			$(item).attr('src', 'images/noimage.png');
+			str+='&nbsp;<input type="button" class="userBtn" id="dmBtn" value="쪽지"/>'
+				+'<form id="followForm" method="post"><input type="hidden" value="'+value.user_code+'" name="follow_following"></form>'
+				+'<form id="dmForm" method="post"><input type="hidden" value="'+value.user_code+'" name="dm_receiver"></form>'
+				+'</div>';
+		
+			$('#searchWrap').append(str);
 		}
 	});
 }// end viewMessage

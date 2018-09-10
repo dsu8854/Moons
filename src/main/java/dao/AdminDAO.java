@@ -1,8 +1,11 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 
+import dto.BoardDTO;
 import dto.ChargeDTO;
+import dto.LinkDTO;
 import dto.ReportDTO;
 import dto.WithdrawDTO;
 
@@ -13,4 +16,6 @@ public interface AdminDAO {
 	public List<WithdrawDTO> selectWithdrawListMethod(int withdraw_state);
 	public List<ChargeDTO> selectChargeListMethod();
 	public void updateWithdrawMethod(WithdrawDTO wdto);
+	public void updateLinkMethod(LinkDTO ldto);
+	public List<BoardDTO> selectBoardListMethod(HashMap<String,Integer> map);
 }

@@ -7,7 +7,7 @@ $(document).ready(function() {
 		location.href = "adminWithdraw.do";
 	});
 
-	$('#manageBtn').on('click', function() {
-		location.href = "adminManage.do";
+	$('#boardBtn').on('click', function() {
+		location.href = "adminBoard.do";
 	});
 });

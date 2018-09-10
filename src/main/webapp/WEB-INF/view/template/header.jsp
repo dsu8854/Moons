@@ -6,9 +6,28 @@
 	var user_code;
 	var prev_page;
 	var current_page;
+	var receiver;
 
 	$(document).ready(function() {
-		webSocket = new WebSocket("ws://192.168.10.61:8090/moons/chatws.do");
+		toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-bottom-right",
+			"preventDuplicates": false,
+			"onclick": clickEvent,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "3000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
+		
+		webSocket = new WebSocket("ws://localhost:8090/moons/chatws.do");
 		webSocket.onopen = onOpen;
 		webSocket.onmessage = onMessage;
 		webSocket.onclose = onClose;
@@ -62,6 +81,7 @@
 
 		if (data == 'notice') {
 			$('.noticeCount').text(parseInt($('.noticeCount').text())+1);
+			toastr.info('알림이 도착했습니다.');
 		} else {
 			var chk_cmd = data.split("|");
 			if (chk_cmd[0] == 'dm') {
@@ -84,6 +104,13 @@
 					$('.messageCount').text(parseInt($('.messageCount').text())+1);
 					$('#roomCount_'+chk_cmd[2]).text(parseInt($('#roomCount_'+chk_cmd[2]).text())+1);
 					$('#roomMessage_'+chk_cmd[2]).text(chk_cmd[3]);
+					toastr.success(chk_cmd[3], chk_cmd[4]);
+					receiver = parseInt(chk_cmd[1]);
+					
+					/* toastr.options.onclick = function (event) {
+						alert('여기');
+						location.href="dmRoom.do?dm_receiver="+chk_cmd[1];
+			        }; */
 				}
 			}
 		}
@@ -133,7 +160,18 @@
 	function timeline() {
 		$('#myTimelineForm').attr('action','timeline.do').submit();
 	}
+	
+	function clickEvent(e) {
+		if($(e.currentTarget).hasClass('toast-success')){
+			$('#noticeDmForm').children('input').val(receiver);
+			$('#noticeDmForm').submit();
+		} else {
+			location.href='notice.do';
+		}
+	}
 </script>
+<link href="css/toastr.css" type="text/css" rel="stylesheet" />
+<script src="js/toastr.js"></script> 
 <script src="js/sidebar.js"></script>
 <link rel="stylesheet" href="css/sidebar.css">
 <script src="js/header.js"></script>
@@ -191,6 +229,9 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+	<form id="noticeDmForm" action="dmRoom.do" method="post">
+		<input type="hidden" name="dm_receiver" />
+	</form>
 	<div class="overlay"></div>
 	<div id="sidebarWrap">
 		<nav id="sidebar">

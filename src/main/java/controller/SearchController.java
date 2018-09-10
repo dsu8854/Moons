@@ -148,16 +148,14 @@ public class SearchController {
    
    @RequestMapping(value = "/searchUserOpen.do", produces = "application/json;charset=UTF-8")
     public @ResponseBody  List<UserDTO> userProcess(String search, String listCount, String startCount,HttpSession session) throws IOException {
-	   //int user_code = (int) session.getAttribute("user_code");
-	   int user_code=1;
+	   int user_code = (int) session.getAttribute("user_code");
 	   
-	   System.out.println(search+","+listCount+","+startCount);
 	   Map<String, String> map = new HashMap<String,String>();
 	   map.put("user_code", Integer.toString(user_code));
 	   map.put("search", search);
 	   map.put("listCount", listCount);
 	   map.put("startCount", startCount);
-	   System.out.println("size:"+ userservice.searchUserProcess(map).size());
-	  return userservice.searchUserProcess(map);
+	   
+	   return userservice.searchUserProcess(map);
    }
 }

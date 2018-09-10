@@ -153,12 +153,14 @@
 		select location, l.board_num, board_photo, board_subject
 		from moons_link l, moons_board b
 		where l.board_num=b.board_num and l.link_type=1
+		order by location
 	</select>
 	
 	<select id="selMainBottom" resultType="dto.BoardDTO">
 		select location, l.board_num, board_photo, board_subject, board_content
 		from moons_link l, moons_board b
 		where l.board_num=b.board_num and l.link_type=2
+		order by location
 	</select>
 	
 	<select id="searchUser" parameterType="map" resultType="dto.UserDTO">

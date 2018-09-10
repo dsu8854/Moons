@@ -25,6 +25,7 @@ public class BoardDTO {
 	private Boolean isLike;			//좋아요 여부
 	private Boolean isShare;		//공유 여부 
 	private Boolean isReport;
+	private Boolean checkFollow;
 	private int location;
 	
 	public BoardDTO() {
@@ -183,6 +184,14 @@ public class BoardDTO {
 		this.isReport = isReport;
 	}
 
+	public Boolean getCheckFollow() {
+		return checkFollow;
+	}
+
+	public void setCheckFollow(Boolean checkFollow) {
+		this.checkFollow = checkFollow;
+	}
+	
 	public int getLocation() {
 		return location;
 	}

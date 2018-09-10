@@ -155,9 +155,7 @@ public class PaymentController {
 	}
 	
 	@RequestMapping("/paycharge.do")
-	public String paycharge(Model model, HttpSession session) {
-		int user_code = (int) session.getAttribute("user_code");
-		
+	public String paycharge() {
 		return "paycharge";
 	} 
 
@@ -168,8 +166,12 @@ public class PaymentController {
 		ChargeDTO cdto = new ChargeDTO();
 		cdto.setUser_code(user_code);
 		cdto.setCharge_amount(charge);
-		paymentService.chargeInsertProcess(cdto);
-		return true;
+		try {
+			paymentService.chargeInsertProcess(cdto);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	} 	
 	
 	@RequestMapping("/paychargelist.do")
@@ -180,7 +182,6 @@ public class PaymentController {
 		map.put("user_code",Integer.toString(user_code));
 		map.put("start", "0");
 		model.addAttribute("chargelist", paymentService.chargeListProcess(map));
-		System.out.println(paymentService.chargeListProcess(map).size());
 		return "paychargelist";
 	} 
 	
@@ -191,7 +192,6 @@ public class PaymentController {
 		Map<String, String> map= new HashMap<String, String>();
 		map.put("user_code",Integer.toString(user_code));
 		map.put("start", Integer.toString(start));
-		System.out.println("listopen:"+paymentService.chargeListProcess(map).size());
 		return paymentService.chargeListProcess(map);
 	}
 }

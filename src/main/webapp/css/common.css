@@ -38,3 +38,13 @@
 section {
 	text-align: center;
 }
+
+.toast-title {
+	text-align: left; 
+	height: 20px;
+}
+
+.toast-message {
+	text-align: left;	
+	height: 20px;
+}

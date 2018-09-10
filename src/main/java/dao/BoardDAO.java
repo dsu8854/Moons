@@ -28,4 +28,6 @@ public interface BoardDAO {
 	public void InsertReplyMethod(ReplyDTO rdto);
 	public void deleteReplyMehtod(int reply_num);
 	public void updateReplyMehtod(ReplyDTO rdto);
+	public List<BoardDTO> selectTimelineMovieMethod(HashMap<String, Object> map);
+	public List<BoardDTO> selectTimelineHashtagMethod(HashMap<String, Object> map);
 }//end interface

@@ -5,8 +5,6 @@ import java.util.List;
 
 import dto.BoardDTO;
 import dto.ReplyDTO;
-import dto.UserDTO;
-
 
 public interface BoardService {
 	public List<BoardDTO> selectListProcess(HashMap<String, Integer> map);	
@@ -28,4 +26,6 @@ public interface BoardService {
 	public List<ReplyDTO> insertReplyProcess(ReplyDTO rdto);
 	public List<ReplyDTO> deleteReplyProcess(ReplyDTO rdto);
 	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto);
+	public List<BoardDTO> selectTimelineMovieProcess(HashMap<String, Object> map);
+	public List<BoardDTO> selectTimelineHashtagProcess(HashMap<String, Object> map);
 }//end interface

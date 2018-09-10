@@ -191,6 +191,18 @@ $(document).ready(function(){
 	$('#writer_photo').on('click',function(){
 		$(this).next().attr('action','timeline.do').submit();
 	});
+	
+	$('#copyclick').on('click',function(){
+		$('#urlArea').text(window.location.href);
+		$('#urlArea').select();
+		document.execCommand('copy');
+		alert('클립보드에 주소가 복사되었습니다. Ctrl + V 로 붙여넣기 하세요.');
+		return false;
+	});
+	
+	$('.time_tag').on('click',function(){
+		return false;
+	});
 });
 
 function reply_list(res){
@@ -248,3 +260,45 @@ function reply_list(res){
 		$('.reply_content').val('');
 	});
 };
+
+function donateForm() {
+	$('#donateForm').submit();
+}
+
+function followApply() {
+	if (confirm("정말로 팔로우를 신청하시겠습니까?") == true) {
+		var formdata = $('#followForm').serialize();
+		$.ajax({
+			url: 'followApply.do',
+			type: 'POST',
+			dataType: 'text',
+			data: formdata,
+			success: function(res) {
+				if(res) {
+					location.reload();
+				}
+			}
+		});
+	}
+}
+
+function followDelete() {
+	if (confirm("정말로 팔로우를 취소하시겠습니까?") == true) {
+		var formdata = $('#followForm').serialize();
+		$.ajax({
+			url: 'followDelete.do',
+			type: 'POST',
+			dataType: 'text',
+			data: formdata,
+			success: function(res) {
+				if(res) {
+					location.reload();
+				}
+			}
+		});
+	}
+}
+
+function timelineHashtag(board_hashtag) {
+	location.href = 'timelineHashtag.do?board_hashtag='+encodeURIComponent(board_hashtag);
+}

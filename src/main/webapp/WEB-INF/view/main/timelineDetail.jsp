@@ -35,9 +35,9 @@
 
 <div id="etc_info">
     <div id="time_hashtag">
-    <c:set var="totalTag" value="${fn:split(bdto.board_hashtag,',') }" />
+    <c:set var="totalTag" value="${fn:split(bdto.board_hashtag,' ') }" />
 	<c:forEach items="${totalTag }" var="resTag" begin="0" end="${fn:length(totalTag) }">
-	<span><a href="태그이동페이지" class="time_tag">#${resTag }</a></span>
+		<span><a href="" onclick="javascript:timelineHashtag('${resTag}')" class="time_tag">${resTag }</a></span>
 	</c:forEach>
     </div>
     
@@ -91,6 +91,10 @@
 						</c:when>
 					</c:choose>
 				</span>
+				<span class="copy_icon icon_link">
+					<a href="복사클릭" id="copyclick"><span class="btn_one">복사하기</span></a>
+					<textarea id="urlArea"></textarea>
+				</span>
 				<div class="reportArea">
 					<textarea rows="10" placeholder="신고사유를 작성해주세요." id="report_reason"></textarea>
 					<input type="button" value="제출" id="reportBtn" />
@@ -127,8 +131,21 @@
 			</c:when>
 			<c:when test="${bdto.user_code!=user_code}">
 				<div id="writer_contact">
-					<a href="작성자페이지이동링크"><span id="writer_page">후원하기</span></a>
-					<a href="구독하기이벤트적용해야될듯 일단 a태그로 그냥 걸어둠"><span id="writer_page">팔로잉</span></a>
+					<a href="javascript:donateForm()"><span class="writer_page">후원하기</span></a>
+					<c:choose>
+						<c:when test="${!bdto.checkFollow}">
+							<a href="javascript:followApply()"><span class="writer_page">팔로우</span></a>
+						</c:when>
+						<c:otherwise>
+							<a href="javascript:followDelete()"><span class="writer_page">팔로우 취소</span></a>
+						</c:otherwise>
+					</c:choose>
+					<form action="donateForm.do" id="donateForm" method="post">
+						<input type="hidden" name="point_receiver" value="${bdto.user_code}" />
+					</form>
+					<form id="followForm" method="post">
+						<input type="hidden" name="follow_following" value="${bdto.user_code}" />
+					</form>
 				</div>
 			</c:when>
 		</c:choose>

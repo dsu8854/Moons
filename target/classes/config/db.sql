@@ -605,7 +605,7 @@ create or replace trigger notice_follow
 after insert on moons_follow
 for each row
   begin
-	insert into moons_notice(user_code,notice_actor,notice_type,notice_date,notice_state) values(:new.user_code,:new.follow_following,1,sysdate,1);
+	insert into moons_notice(user_code,notice_actor,notice_type,notice_date,notice_state) values(:new.follow_following,:new.user_code,1,sysdate,1);
   end;
 /
 
@@ -614,7 +614,7 @@ create or replace trigger notice_follow_cancel
 after delete on moons_follow
 for each row
   begin
-	delete from moons_notice where user_code=:old.user_code and notice_actor=:old.follow_following and notice_type=1;
+	delete from moons_notice where user_code=:old.follow_following and notice_actor=:old.user_code and notice_type=1;
   end;
 /
 
@@ -909,13 +909,14 @@ insert into moons_link values(2,6,6);
 
 delete from moons_dm;
 delete from moons_user;
-delete from moons_board;
+delete from moons_comment;
+delete from moons_rating;
+delete from moons_board where board_num=12;
 delete from moons_follow;
 delete from moons_reply;
 delete from moons_like;
 delete from moons_share;
 delete from moons_notice;
-delete from moons_user where user_code=6;
 delete from moons_point;
 delete from moons_charge;
 delete from moons_withdraw;
@@ -943,19 +944,37 @@ where follow_following = 1 and user_code not in (select follow_following
 											 where user_code=1)
 											 
 select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
-		r.board_num as rbnum, r.user_code as rucode, 
-		(select user_nickname from moons_user where user_code=r.user_code) as runick, 
-		(select user_photo from moons_user where user_code=r.user_code) as user_photo,
-		m.*, u.*, r.*, 
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_like
-		 where user_code=1 and board_num=m.board_num) as isLike,
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_share
-		 where user_code=1 and board_num=m.board_num) as isShare,
-		(select case when count(*) > 0 then 1 else 0 end 
-		 from moons_report
-		 where report_reporter=1 and board_num=m.board_num) as isReport 
-		from moons_board m, moons_user u, moons_reply r
-		where m.board_num=5 and m.user_code=u.user_code and m.board_num=r.board_num(+)
-		order by reply_ref, reply_date											 
+				r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
+				(select user_photo from moons_user where user_code=r.user_code) as user_photo,
+				m.*, u.*, r.*, 
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_like
+				 where user_code=2 and board_num=m.board_num) as isLike,
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_share
+				 where user_code=2 and board_num=m.board_num) as isShare,
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_report
+				 where report_reporter=2 and board_num=m.board_num) as isReport,
+				(select case when count(*) > 0 then 1 else 0 end 
+				 from moons_follow
+				 where user_code=2 and follow_following=m.user_code) as checkFollow
+				from moons_board m, moons_user u, moons_reply r
+				where m.board_num=9 and m.user_code=u.user_code and m.board_num=r.board_num(+)
+				order by reply_ref, reply_date
+				
+select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+				  user_nickname, user_photo,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_like
+				   where user_code=2 and board_num=m.board_num) as isLike,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_share
+				   where user_code=2 and board_num=m.board_num) as isShare
+				  from moons_board m, moons_user u
+				  where m.user_code=u.user_code and m.board_hashtag like '%#재밌다%'
+				  order by board_date desc)a)b
+		where rm>0 and rm<=0+8

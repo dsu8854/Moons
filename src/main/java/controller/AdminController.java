@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import dto.BoardDTO;
 import dto.ChargeDTO;
+import dto.LinkDTO;
 import dto.ReportDTO;
 import dto.WithdrawDTO;
 import service.AdminService;
@@ -76,8 +79,41 @@ public class AdminController {
 		return "redirect:/adminWithdraw.do";
 	}
 	
-	@RequestMapping(value="/adminManage.do")
-	public String adminManage(Model model) {
-		return "adminManage";
+	@RequestMapping(value="/adminBoard.do")
+	public String adminBoard() {
+		return "adminBoard";
+	}
+	
+	@RequestMapping(value="/adminBoardList.do")
+	@ResponseBody
+	public List<BoardDTO> adminBoardList(int search_type) {
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		
+		map.put("search_type", search_type);
+		map.put("start",0);
+		
+		return adminService.selectBoardListProcess(map);
+	}
+	
+	@RequestMapping(value="/adminBoardAdd.do")
+	@ResponseBody
+	public List<BoardDTO> adminBoardAdd(int search_type, int start) {
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		
+		map.put("search_type", search_type);
+		map.put("start",start);
+		
+		return adminService.selectBoardListProcess(map);
+	}
+	
+	@RequestMapping(value="/adminLinkUpdate.do")
+	@ResponseBody
+	public boolean adminLinkUpdate(LinkDTO ldto) {
+		try {
+			adminService.updateLinkProcess(ldto);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 }

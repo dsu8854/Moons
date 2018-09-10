@@ -16,15 +16,21 @@ $(document).ready(function(){
 	$('#comment_submit').on('click',function(){
 		//작성칸 비어있으면 수행안함
 		if($('#comment_write').val()==''){
+			alert('코멘트를 작성해주세요.');
 			return false;
 		}
 		$.ajax({
 			type:'GET',
 			dataType:'json',
 			url:'moviecommentprocess.do?comment_write='+$('#comment_write').val()+'&movie='+movie,
-			success:commentMessage
+			success:function(res){
+				if(res) {
+					location.reload();
+				} else {
+					alert('코멘트 작성에 실패하였습니다.');
+				}
+			}
 		});
-		$('#comment_write').val('');
 	});
 	
 	//더보기 클릭시 영화에대한 추가정보 보여줌
@@ -130,6 +136,64 @@ $(document).ready(function(){
 			start+=3;
 		}
 	});
+	
+	$(document).on('click', '.like_icon', function(){
+		var icon = this;
+		if($('.icon_img',icon).attr('src')=='images/like2.png')
+			$('.icon_img',icon).attr('src','images/like1.png');
+		else
+			$('.icon_img',icon).attr('src','images/like2.png');
+		
+		var formdata = $('#likeForm',icon).serialize();
+		
+		$.ajax({
+			url: 'likePro.do?',
+			type: 'POST',
+			dataType: 'text',
+			data: formdata,
+			success: function(res) {
+				$('#likecnt',icon).text(res);
+			}
+		});
+		
+		if($('#isLike',icon).val()=='true') {
+			$('#isLike',icon).val('false');
+			alert('좋아요를 취소하였습니다.');
+		} else if($('#isLike',icon).val()=='false'){
+			$('#isLike',icon).val('true');
+			alert('해당 글을 좋아합니다.');
+		}
+	});
+	
+	$(document).on('click', '.share_icon', function(){
+		var icon = this;
+		if($('.icon_img',icon).attr('src')=='images/share2.png')
+			$('.icon_img',icon).attr('src','images/share1.png');
+		else
+			$('.icon_img',icon).attr('src','images/share2.png');
+		
+		var formdata = $('#shareForm',icon).serialize();
+		
+		$.ajax({
+			url: 'sharePro.do?',
+			type: 'POST',
+			dataType: 'text',
+			data: formdata,
+			success: function(res) {
+				$('#sharecnt',icon).text(res);
+			}
+		});
+		
+		if($('#isShare',icon).val()=='true') {
+			$('#isShare',icon).val('false');
+			alert('공유를 취소하였습니다.');
+		} else if($('#isShare',icon).val()=='false'){
+			$('#isShare',icon).val('true');
+			alert('해당 글을 공유하였습니다.');
+		}
+	});
+	
+	timelineMovie(movie);
 });
 
 function viewMessage(data){
@@ -172,28 +236,6 @@ function viewMessage(data){
 
 }//end viewMessage
 
-function commentMessage(data){
-	console.log("commentajax");
-	$('.comment_list').empty();
-	$.each(data,function(index, value){
-		var str='<div class="comment">';
-		
-		if(value.board_photo==null)
-			str+='<img src="images/basic.png" />';
-		else
-			str+='<img src="images/'+value.user_photo+'" />';
-		
-		str='<div id="content_box"><p id="comment_info">'
-		+'<span id="comment_name">'+value.user_nickname+'</span>&nbsp;&nbsp;'
-		+'<span id="comment_date">';	
-		var d=new Date(value.comment_date);
-		str+= d.getFullYear()+'-'+(d.getMonth()<10?'0'+(d.getMonth()+1):(d.getMonth()+1))+'-'
-			+(d.getDate()<10?'0'+d.getDate():d.getDate())+'</span><br/></p>';
-		str+='<p id="comment_content">'+value.comment_content+'</div></div>';
-		$('.comment_list').append(str);	
-	});	 
-}//end commentMessage
-
 function ratingMessage(res){
 	//별점시작////// index: 15~24
 	var score=res;//저장되어있는 사용자의 별점
@@ -204,3 +246,119 @@ function ratingMessage(res){
 		$(value).attr('src',$(this).attr('src').replace('off','on'));
 	});
 }//end ratingMessage
+
+function timelineMovie(board_movie) {
+	var formdata = new FormData();
+	formdata.append('board_movie',board_movie);
+	$.ajax({
+		url : 'timelineMovie.do?',
+		type : 'POST',
+		dataType : 'json',
+		data : formdata,
+		processData: false,
+	    contentType: false,
+		success : function(res) {
+			$.each(res, function(index, value){
+				var source = '<div class="board_card">'+
+						   	 '<div class="card_page1">'+
+						   	 '<div class="card_head">'+
+						   	 '<a href="javascript:timeline()" class="card_writer">';
+				
+				if(value.user_photo==null)
+					source+='<img src="images/basic.png" class="img_writer" alt="">';
+				else
+					source+='<img src="images/'+value.user_photo+'" class="img_writer" alt="">';
+				
+					source+=value.user_nickname+
+							'</a>'+
+							'<form id="timelineForm" method="post">'+
+							'<input type="hidden" name="user_code" value="'+value.user_code+'"/>'+
+							'</form>';
+				
+				var now = moment(new Date());
+				var board = moment(value.board_date);
+				
+				if(board.date()==now.date()){
+					if(board.hours()==now.hours())
+						source+='<span class="write_date">'+(now.minutes()-board.minutes())+'분전</span>';
+					else
+						source+='<span class="write_date">'+(now.hours()-board.hours())+'시간전</span>';
+				} else {
+					source+='<span class="write_date">'+board.format("YYYY-MM-DD")+'</span>';
+				}
+
+					source+='</div>'+
+							'<div class="content_part">'+
+							'<div class="content_title">'+value.board_subject+'</div>'+
+							'<div class="content_line">'+value.board_content+'</div>'+
+							'<a href="timelineDetail.do?board_num='+value.board_num+'" class="more">더보기</a>'+
+							'</div>'+
+							'</div>'+
+							'<div class="card_page2">'+
+							'<a href="timelineDetail.do?board_num='+value.board_num+'" class="detail_view">';
+					
+				if(value.board_photo==null)
+					source+='<img src="images/back.jpg" class="cover_img" alt="">';
+				else
+					source+='<img src="images/'+value.board_photo+'" class="cover_img" alt="">';
+					
+					source+='</a>'+
+							'</div>'+
+							'<div class="card_page3">'+
+							'<div class="area_taging">';
+					
+				var totalTag = value.board_hashtag.split(' ');
+				$.each(totalTag,function(index,value){
+					source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
+				});
+					
+					source+='</div>'+
+							'<div class="content_write">'+
+							'<span class="like_icon icon_link">'+
+							'<form id="likeForm" method="post">'+
+							'<input type="hidden" id="isLike" name="isLike" value="'+value.isLike+'" />'+
+							'<input type="hidden" name="board_num" value="'+value.board_num+'" />'+
+							'</form>';
+					
+				if(value.isLike)	
+					source+='<img src="images/like1.png" class="icon_img">';
+				else
+					source+='<img src="images/like2.png" class="icon_img">';
+					
+					source+='<span id="likecnt">'+value.board_like+'</span>'+
+							'</span>'+
+							'<span class="comment_icon content_icon">'+
+							'<a href="timelineDetail.do?board_num='+value.board_num+'" class="icon_link">'+
+							'<img src="images/comment1.png" class="icon_img">'+
+							'<img src="images/comment2.png" class="icon_img">'+value.board_reply+
+							'</a>'+
+							'</span>'+ 
+							'<span class="share_icon icon_link">'+
+							'<form id="shareForm" method="post">'+
+							'<input type="hidden" id="isShare" name="isShare" value="'+value.isShare+'" />'+
+							'<input type="hidden" name="board_num" value="'+value.board_num+'" />'+
+							'</form>';
+					
+				if(value.isShare)	
+					source+='<img src="images/share1.png" class="icon_img">';
+				else
+					source+='<img src="images/share2.png" class="icon_img">';	
+					
+					source+='<span id="sharecnt">'+value.board_share+'</span>'+
+							'</span>'+
+							'</div>'+
+							'</div>'+
+							'</div>';
+					
+				$('.timelineArea').append(source);
+				
+				$('.content_line').find('img').parent().remove();
+				$('.content_line').find('iframe').parent().remove();
+			});
+		}
+	});
+}
+
+function timeline() {
+	$('#timelineForm').attr('action','timeline.do').submit();
+}

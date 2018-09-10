@@ -44,10 +44,12 @@ function withdrawlistMessage(data){
 		str+= d.getFullYear()+'-'+(d.getMonth()<10?'0'+(d.getMonth()+1):(d.getMonth()+1))+'-'
 			+(d.getDate()<10?'0'+d.getDate():d.getDate())+'</td><td>';
 		
-		if(value.withdraw_state==0){
+		if(value.withdraw_state==1){
 			str+='<font color="#cc0000">진행중</font></td>';
-		}else if(value.withdraw_state==1){
+		}else if(value.withdraw_state==2){
 			str+='<font color="#00b300">승인</font></td>';
+		}else if(value.withdraw_state==3){
+			str+='<font color="#cc0000">거절</font></td>';
 		}
 		
 		$('#withdrawlistTable').append(str);

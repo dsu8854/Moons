@@ -96,9 +96,9 @@ $(document).ready(function(){
 								'<div class="card_page3">'+
 								'<div class="area_taging">';
 						
-					var totalTag = value.board_hashtag.split(',');
+					var totalTag = value.board_hashtag.split(' ');
 					$.each(totalTag,function(index,value){
-						source+='<span><a href="태그이동페이지" class="txt_taging">'+value+'</a></span>';
+						source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
 					});
 						
 						source+='</div>'+
@@ -117,7 +117,7 @@ $(document).ready(function(){
 						source+='<span id="likecnt">'+value.board_like+'</span>'+
 								'</span>'+
 								'<span class="comment_icon content_icon">'+
-								'<a href="댓글페이지이동" class="icon_link">'+
+								'<a href="timelineDetail.do?board_num='+value.board_num+'" class="icon_link">'+
 								'<img src="images/comment1.png" class="icon_img">'+
 								'<img src="images/comment2.png" class="icon_img">'+value.board_reply+
 								'</a>'+
@@ -128,7 +128,7 @@ $(document).ready(function(){
 								'<input type="hidden" name="board_num" value="'+value.board_num+'" />'+
 								'</form>';
 						
-					if(value.isLike)	
+					if(value.isShare)
 						source+='<img src="images/share1.png" class="icon_img">';
 					else
 						source+='<img src="images/share2.png" class="icon_img">';	
@@ -214,6 +214,62 @@ $(document).ready(function(){
 		});
 		$(this).css({"border":"2px red solid"});
 		$('#list_view').trigger('click');
+	});
+	
+	$(document).on('click', '.like_icon', function(){
+		var icon = this;
+		if($('.icon_img',icon).attr('src')=='images/like2.png')
+			$('.icon_img',icon).attr('src','images/like1.png');
+		else
+			$('.icon_img',icon).attr('src','images/like2.png');
+		
+		var formdata = $('#likeForm',icon).serialize();
+		
+		$.ajax({
+			url: 'likePro.do?',
+			type: 'POST',
+			dataType: 'text',
+			data: formdata,
+			success: function(res) {
+				$('#likecnt',icon).text(res);
+			}
+		});
+		
+		if($('#isLike',icon).val()=='true') {
+			$('#isLike',icon).val('false');
+			alert('좋아요를 취소하였습니다.');
+		} else if($('#isLike',icon).val()=='false'){
+			$('#isLike',icon).val('true');
+			alert('해당 글을 좋아합니다.');
+		}
+	});
+	
+	$(document).on('click', '.share_icon', function(){
+		var icon = this;
+		if($('.icon_img',icon).attr('src')=='images/share2.png')
+			$('.icon_img',icon).attr('src','images/share1.png');
+		else
+			$('.icon_img',icon).attr('src','images/share2.png');
+		
+		var formdata = $('#shareForm',icon).serialize();
+		
+		$.ajax({
+			url: 'sharePro.do?',
+			type: 'POST',
+			dataType: 'text',
+			data: formdata,
+			success: function(res) {
+				$('#sharecnt',icon).text(res);
+			}
+		});
+		
+		if($('#isShare',icon).val()=='true') {
+			$('#isShare',icon).val('false');
+			alert('공유를 취소하였습니다.');
+		} else if($('#isShare',icon).val()=='false'){
+			$('#isShare',icon).val('true');
+			alert('해당 글을 공유하였습니다.');
+		}
 	});
 	
 	$('#my_review').trigger('click');

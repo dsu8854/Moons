@@ -9,8 +9,7 @@ public class CommentServiceImp implements CommentService{
 	private CommnetDAO commentDao;
 	
 	public CommentServiceImp() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public void setCommentDao(CommnetDAO commentDao) {
@@ -24,8 +23,7 @@ public class CommentServiceImp implements CommentService{
 	}
 
 	@Override
-	public List<CommentDTO> commentInsertProcess(String movie, CommentDTO dto) {
+	public void commentInsertProcess(CommentDTO dto) {
 		commentDao.insertMethod(dto);
-		return commentDao.listMethod(movie);
 	}
 }

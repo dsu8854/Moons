@@ -1,5 +1,5 @@
 /* adminReport.jsp */
-.reportWrap, .withdrawWrap {
+.reportWrap, .withdrawWrap, .boardWrap {
 	margin: 2% 0 0 10%;
 }
 
@@ -66,20 +66,20 @@ th {
     margin: 47px 0 0 1400px;
 }
 
-.reportArea, .withdrawArea, .manageArea {
+.reportArea, .withdrawArea, .boardArea {
 	position: relative;
 	float: left;
 	margin: 0 4% 0 0;
 }
 
-.reportCountArea, .withdrawCountArea, .manageCountArea {
+.reportCountArea, .withdrawCountArea {
 	display: flex;
     position: absolute;
     right: -5%;
     top: -10%;
 }
 
-.reportCount, .withdrawCount, .manageCount {
+.reportCount, .withdrawCount {
 	background-color: #fa3e3e;
 	font-size: 1.3em;
     border-radius: 2px;
@@ -87,7 +87,7 @@ th {
     padding: 1px 3px;
 }
 
-#reportBtn, #withdrawBtn, #manageBtn {
+#reportBtn, #withdrawBtn, #boardBtn {
 	width: 80px;   
     height: 35px;    
    	/* margin:15% 0 0 0 ; */            

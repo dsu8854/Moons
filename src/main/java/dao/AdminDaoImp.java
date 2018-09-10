@@ -1,10 +1,13 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import dto.BoardDTO;
 import dto.ChargeDTO;
+import dto.LinkDTO;
 import dto.ReportDTO;
 import dto.WithdrawDTO;
 
@@ -47,5 +50,15 @@ public class AdminDaoImp implements AdminDAO {
 	@Override
 	public void updateWithdrawMethod(WithdrawDTO wdto) {
 		adminSqlSession.update("admin.uptWithdraw",wdto);
+	}
+
+	@Override
+	public void updateLinkMethod(LinkDTO ldto) {
+		adminSqlSession.update("admin.uptLink",ldto);
+	}
+
+	@Override
+	public List<BoardDTO> selectBoardListMethod(HashMap<String, Integer> map) {
+		return adminSqlSession.selectList("admin.selBoardList", map);
 	}
 }

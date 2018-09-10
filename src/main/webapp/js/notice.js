@@ -77,7 +77,7 @@ function contentProcess(){
 			case '1':		
 				content=actor+'님이 당신을 팔로우합니다.';
 				//link:actor의 프로필
-				link='follow.do?user_code='+my_code;
+				link='follower.do?user_code='+my_code;
 				break;
 			case '2':
 				content=actor+'님이 당신의 글을 공유했습니다.';

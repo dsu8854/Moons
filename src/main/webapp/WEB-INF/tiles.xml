@@ -90,6 +90,10 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/ranking.jsp"/>
 	</definition>
 	
+	<definition name="timelineHashtag" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/timelineHashtag.jsp"/>
+	</definition>
+	
 	<definition name="write" template="/WEB-INF/view/template/layoutWrite.jsp">
 		<put-attribute name="title" value="Moons" />
 		<put-attribute name="body" value="/WEB-INF/view/main/write.jsp" />
@@ -151,7 +155,7 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/adminWithdraw.jsp"/>
 	</definition>
 	
-	<definition name="adminManage" extends="adminMain">
-		<put-attribute name="body" value="/WEB-INF/view/main/adminManage.jsp"/>
+	<definition name="adminBoard" extends="adminMain">
+		<put-attribute name="body" value="/WEB-INF/view/main/adminBoard.jsp"/>
 	</definition>
 </tiles-definitions>

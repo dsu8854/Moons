@@ -10,6 +10,7 @@
 		where c.user_code=u.user_code and c.comment_movie=#{movie}
 		order by c.comment_date desc
 	</select>
+	
 	<insert id="commins" parameterType="dto.CommentDTO">
 		insert into moons_comment
 		values(#{user_code},#{comment_movie},#{comment_content},#{comment_date})

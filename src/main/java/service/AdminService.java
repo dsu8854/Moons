@@ -1,8 +1,11 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
 
+import dto.BoardDTO;
 import dto.ChargeDTO;
+import dto.LinkDTO;
 import dto.ReportDTO;
 import dto.WithdrawDTO;
 
@@ -13,4 +16,6 @@ public interface AdminService {
 	public List<WithdrawDTO> selectWithdrawListProcess(int withdraw_state);
 	public List<ChargeDTO> selectChargeListProcess();
 	public void updateWithdrawProcess(WithdrawDTO wdto);
+	public void updateLinkProcess(LinkDTO ldto);
+	public List<BoardDTO> selectBoardListProcess(HashMap<String,Integer> map);
 }

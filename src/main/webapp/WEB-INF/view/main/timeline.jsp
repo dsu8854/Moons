@@ -4,10 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src = "js/moment.js"></script>
-<script src = "js/timeline2.js"></script>
 <script src="js/timeline.js"></script>
-<link rel="stylesheet" href="css/timeline.css">  
-<link rel="stylesheet" href="css/timeline2.css">
+<link rel="stylesheet" href="css/timeline.css">
 
 <div class="timelineWrap">
 	<div id = "main_inner">

@@ -19,8 +19,8 @@
 			<span class="withdrawCount">0</span>
 		</span>
 	</div>
-	<div class="manageArea">
-		<input type="button" value="페이지관리" id="manageBtn" />
+	<div class="boardArea">
+		<input type="button" value="게시물관리" id="boardBtn" />
 	</div>
 </div>
 </div>

@@ -46,9 +46,9 @@ public class DmController {
 	}
 	
 	@RequestMapping(value="/dmIns.do")
-	public @ResponseBody DmDTO dmInsert(DmDTO ddto) throws Exception {
+	public @ResponseBody DmDTO dmInsert(DmDTO ddto, String user_nickname) throws Exception {
 		if(dmService.insertDmProcess(ddto)==1) {
-			WebSocketMessage<String> sendMsg = new TextMessage("6|"+ddto.getDm_receiver()+"|"+ddto.getUser_code()+"|"+ddto.getDm_content());
+			WebSocketMessage<String> sendMsg = new TextMessage("6|"+ddto.getDm_receiver()+"|"+ddto.getUser_code()+"|"+ddto.getDm_content()+"|"+user_nickname);
 			WebSocketHandler handler = WebSocketHandler.getInstance();
 			if(handler.getUserList().get(String.valueOf(ddto.getDm_receiver()))!=null)
 				handler.handleMessage(handler.getUserList().get(String.valueOf(ddto.getDm_receiver())), sendMsg);

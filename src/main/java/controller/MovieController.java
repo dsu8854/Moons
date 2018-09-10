@@ -7,8 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import dto.CommentDTO;
 import dto.RatingDTO;
 import service.CommentService;
 import service.RatingService;
-import service.UserService;
 
 @Controller
 public class MovieController {
@@ -28,13 +25,10 @@ public class MovieController {
 	private CommentService commentService;
 	@Autowired
 	private RatingService ratingService;
-	@Autowired
-	private UserService userService;
 	
 	@RequestMapping("/movie.do")
 	public String movieForm(Model model, String title, String director) {
 		String movie=title+"*"+director;
-		System.out.println(movie);
 		model.addAttribute("commList",commentService.commentListProcess(movie));
 		model.addAttribute("allrate",ratingService.checkAllRateProcess(movie)?ratingService.allRatingProcess(movie):0);
 		return "movie";
@@ -67,31 +61,32 @@ public class MovieController {
        }
        rd.close();
        conn.disconnect();
-      //System.out.println(sb.toString());
 	   return sb.toString();
 	}
 	
 	//코멘트 ajax
 	@RequestMapping("/moviecommentprocess.do")
 	@ResponseBody
-	public List<CommentDTO> commentProcess(String comment_write, String movie, HttpSession session) {
+	public boolean commentProcess(String comment_write, String movie, HttpSession session) {
 		int user_code = (int) session.getAttribute("user_code");
 		CommentDTO cdto = new CommentDTO();
 		cdto.setUser_code(user_code);
 		cdto.setComment_movie(movie);
 		cdto.setComment_content(comment_write);
 		cdto.setComment_date(new Date());
-		cdto.setUser_photo(userService.selectPhotoProcess(user_code));
-		cdto.setUser_nickname(userService.selectNickProcess(user_code));
-		return commentService.commentInsertProcess(movie, cdto);
+		
+		try {
+			commentService.commentInsertProcess(cdto);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 
 	//별점 ajax
 	@RequestMapping("/movieratingprocess.do")
 	@ResponseBody
 	public int ratingProcess(String score, String movie, String stat, HttpSession session) {
-		System.out.println("session:"+session.getAttribute("user_code").toString());
-		System.out.println(movie+stat);
 		int user_code = (int) session.getAttribute("user_code");
 		RatingDTO rdto = new RatingDTO();
 		rdto.setUser_code(user_code);

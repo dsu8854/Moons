@@ -29,7 +29,7 @@ $(document).ready(function(){
 	});
 	
 	$('.withdrawWrap').on('click','#accBtn',function(){
-		var form = btn.siblings('form');
+		var form = $(this).siblings('form');
 		form.children('[name=withdraw_state]').val(2);
 		form.attr('action','adminWithdrawUpdate.do').submit();
 	});

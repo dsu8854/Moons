@@ -27,5 +27,4 @@ public class CommentDaoImp implements CommnetDAO{
 	public void insertMethod(CommentDTO dto) {
 		commentSqlSession.insert("movie.commins", dto);	
 	}
-	
 }

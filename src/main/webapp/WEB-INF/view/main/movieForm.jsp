@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src = "js/moment.js"></script>
 <script src="js/movie.js"></script> 
 <link rel="stylesheet" href="css/movie.css">
 <div class="movieWrap">
@@ -68,10 +69,4 @@
 		</c:forEach>
 	</div>
 </div>
-<br/><br/><br/>
-이 영화를 주제로 작성된 리뷰
-<div class="timeline">
-	<c:forEach begin="1" end="3" step="1">
-		<div id="timecont">내용내용내용내용</div>
-	</c:forEach>
-</div>
+<div class="timelineArea"></div>
