@@ -65,8 +65,8 @@ $(document).ready(function(){
 	});
 	
 	$('.reportWrap').on('click','#linkBtn',function(){
-		var form = $(this).siblings('form');
-		form.attr('action','timelineDetail.do').submit();
+		var board_num = $(this).siblings('form').children('[name=board_num]').val();
+		timelineNewWindow(board_num);
 	});
 	
 	$('#accRepBtn').on('click',function(){
@@ -149,3 +149,7 @@ $(document).ready(function(){
 	else if($('#report_state').val()==4)
 		$('#selfDelBtn').trigger('click');
 });
+
+function timelineNewWindow(board_num) {
+	window.open('timelineDetail.do?board_num='+board_num,'게시글 확인');
+}

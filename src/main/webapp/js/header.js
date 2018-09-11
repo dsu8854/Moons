@@ -1,4 +1,56 @@
+var webSocket;
+var my_code;
+var prev_page;
+var current_page;
+var receiver;
+
 $(document).ready(function(){	
+	toastr.options = {
+		"closeButton": true,
+		"debug": false,
+		"newestOnTop": false,
+		"progressBar": false,
+		"positionClass": "toast-bottom-right",
+		"preventDuplicates": false,
+		"onclick": clickEvent,
+		"showDuration": "300",
+		"hideDuration": "1000",
+		"timeOut": "3000",
+		"extendedTimeOut": "1000",
+		"showEasing": "swing",
+		"hideEasing": "linear",
+		"showMethod": "fadeIn",
+		"hideMethod": "fadeOut"
+	}
+		
+	webSocket = new WebSocket("ws://192.168.10.61:8090/moons/chatws.do");
+	webSocket.onopen = onOpen;
+	webSocket.onmessage = onMessage;
+	webSocket.onclose = onClose;
+
+	my_code = $('#my_code').val();
+	prev_page = document.referrer.toString();
+	current_page = window.location.href.toString();
+		
+	countNotice();
+	countDm();
+
+	$('#adminBtn').on('click', function(){
+		location.href = "adminMain.do";
+	});
+		
+	$('#noticeBtn').on('click', function() {
+		location.href = "notice.do";
+	});
+
+	$('#messageBtn').on('click', function() {
+		location.href = "dmList.do";
+	});
+		
+	$('#paymentBtn').on('click', function() {
+		location.href = "payment.do";
+	});
+	
 	//자동검색창 크기조절
 	$('#suggest').css({'top':($('#searchField').offset().top+45)+'px',
 		'left':$('#searchField').offset().left+'px'});
@@ -65,6 +117,114 @@ $(document).ready(function(){
 
 });
 
+//WebSocket이 연결된 경우 호출되는 함수
+function onOpen() {
+	webSocket.send('1|' + my_code);
+
+	if (current_page.indexOf('dmRoom.do') != -1)
+		enterDm();
+	else if (prev_page.indexOf('dmRoom.do') != -1)
+		leaveDm();
+	
+	if(current_page.indexOf('notice.do') != -1)
+		readNotice();
+}
+
+function onClose() {
+	webSocket.send('2|' + my_code);
+	webSocket.close();
+}
+
+//서버에서 메시지가 왔을 때 호출되는 함수
+function onMessage(evt) {
+	// 서버가 전송한 메시지 받아오기
+	var data = evt.data;
+
+	if (data == 'notice') {
+		$('.noticeCount').text(parseInt($('.noticeCount').text())+1);
+		toastr.info('알림이 도착했습니다.');
+	} else {
+		var chk_cmd = data.split("|");
+		if (chk_cmd[0] == 'dm') {
+			if (chk_cmd[1] == '0') {
+				$('.dmbody').append('<div class="dmReceive"><a href=""><img src="images/'
+									+ $('#yourPhoto').val()
+									+ '" alt="" class="receiverPhoto"</a><span class="receiveBorder"><span class="reMes">'
+									+ chk_cmd[3]
+									+ '</span></span><span class="resDate">방금</span></div>');
+				document.querySelector(".dmbody").scrollTo(0,document.querySelector(".dmbody").scrollHeight);
+				
+				var dmFormData = $('#dmForm').serialize();
+				$.ajax({
+					url: 'dmRead.do?',
+					type: 'POST',
+					dataType: 'text',
+					data: dmFormData
+				});
+			} else {
+				$('.messageCount').text(parseInt($('.messageCount').text())+1);
+				$('#roomCount_'+chk_cmd[2]).text(parseInt($('#roomCount_'+chk_cmd[2]).text())+1);
+				$('#roomMessage_'+chk_cmd[2]).text(chk_cmd[3]);
+				toastr.success(chk_cmd[3], chk_cmd[4]);
+				receiver = parseInt(chk_cmd[1]);
+			}
+		}
+	}
+}
+
+function enterDm() {
+	webSocket.send('3|' + my_code);
+}
+
+function leaveDm() {
+	webSocket.send('4|' + my_code);
+}
+
+function countNotice() {
+	$.ajax({
+		url: 'noticeCount.do?',
+		type: 'POST',
+		dataType: 'text',
+		success: function(res) {
+			$('.noticeCount').text(res);
+		}
+	});
+}
+
+function countDm() {
+	$.ajax({
+		url: 'dmCount.do?',
+		type: 'POST',
+		dataType: 'text',
+		success: function(res) {
+			$('.messageCount').text(res);
+		}
+	});
+}
+
+function readNotice() {
+	$.ajax({
+		url: 'noticeRead.do?',
+		type: 'POST',
+		dataType: 'text',
+		success: function() {
+			$('.noticeCount').text(0);
+		}
+	});
+}
+
+function mytimeline() {
+	$('#myTimelineForm').attr('action','timeline.do').submit();
+}
+
+function clickEvent(e) {
+	if($(e.currentTarget).hasClass('toast-success')){
+		$('#noticeDmForm').children('input').val(receiver);
+		$('#noticeDmForm').submit();
+	} else {
+		location.href='notice.do';
+	}
+}
 	
 function suggestMovieMessage(data){
 	var xmlData = $(data).find('Result');

@@ -16,13 +16,13 @@ a {
 }
 
 .contents {
-	width: 1920px;
+	width: 1903px;
 	margin-top: 20px;
 }
 
 /* banner */
 .banner {
-	width: 1920px;
+	width: 1903px;
 	height: 350px;
 	margin-top: 90px;
 }
@@ -112,7 +112,7 @@ a {
 }
 
 .keyword-box {
-	width: 100%;
+	width: 1903px;
 	height: 400px;
 }
 
@@ -136,7 +136,6 @@ a {
 }
 
 #square-box {
-	width: 80%;
 	height: 450px;
 	display: inline-block;
 }
@@ -196,7 +195,7 @@ a {
 }
 
 .foot_brunch {
-	width: 100%;
+	width: 1903px;
 	height: 300px;
 	margin: 0;
 	background-color: #333;
@@ -211,7 +210,6 @@ a {
 
 .foot_brunch .area_quotation {
 	overflow: hidden;
-	margin-bottom: 170px;
 	text-align: center;
 	color: #fff;
 	font-family: Georgia, sans-serif;

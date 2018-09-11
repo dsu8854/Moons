@@ -28,7 +28,6 @@
 					<input type="hidden" name="board_subject" />
 					<input type="hidden" name="board_content" />
 					<input type="hidden" name="board_photo" />
-					<input type="hidden" name="fileArray" />
 					<input type="hidden" name="board_movie" id="board_movie"/>
 					<input type="hidden" name="board_hashtag" />
 				</form>

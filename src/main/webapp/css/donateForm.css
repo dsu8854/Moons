@@ -1,0 +1,34 @@
+#money{
+	width:200px;
+    margin-right: 72px;  
+}   
+
+#donateBtn{
+	border-radius: 10px; 
+	background-color: white;
+	outline: none;
+	border:1px solid gray; 
+	width:70px; 
+	heigth:80px;  
+	font-size: 12pt; 
+	margin-left: 10px;     
+}
+
+#donateBtn:hover{
+	background-color: black;
+	opacity: 0.8;  
+	color:white; 
+}
+
+#textpoint{   
+    padding:3px;
+    padding-left: 10px;  
+}
+
+#point-box{
+	margin-top: 100px; 
+}
+
+#content-box{
+	margin-top: 30px;  
+}

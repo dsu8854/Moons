@@ -1,5 +1,3 @@
-var fileArray = new Array();
-
 $(document).ready(function(){
 	var movie;
 	var files;
@@ -17,43 +15,21 @@ $(document).ready(function(){
 		$('.glyphicon').css({"color":"black"});		
 		$('.background-cover').css({"background-color":"rgba(0, 0, 0, 0)"});		
 		$('.cover_title').css({"color":"black"});		
-		$('.cover_subtitle').css({"color":"black"});		
+		$('.cover_subtitle').css({"color":"black"});
+		$('[name=board_photo]').val('');
 	});
 		
 		
 	$("#upfile1").click(function(){
    	 	$("#header_background_img").trigger('click'); 	
 	});
-   	 		
-	$('#btn_colorChange').click(function(){
-		count++;
-   	 	switch(count){
-   	 		case 1: $('.service_header').css({"background-color": "rgb(246, 112, 102)"});
-   	 		break;
-   	 		case 2: $('.service_header').css({"background-color": "rgb(248, 151, 46)"});
-	 		break;
-   	 		case 3: $('.service_header').css({"background-color": "rgb(250, 187, 17)"});
-	 		break;
-   	 		case 4: $('.service_header').css({"background-color": "rgb(35, 184, 119)"});
-	 		break;
-   	 		case 5: $('.service_header').css({"background-color": "rgb(0, 195, 189)"});
-	 		break;
-   	 		case 6: $('.service_header').css({"background-color": "white"});
- 			break;
-   	 		case 7: count=0;
-   	 		$("#btn_colorChange").trigger("click");
-   	 		break;
-   	 	}
-	});
-		
+   
 	$('#summernote').summernote({
 		lang: 'ko-KR',
 		height:500,
 		minheight: null,
 		maxheight: null,
 		focus:true,
-		fontNames: ['fontA',  'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', ],
-		fontNamesIgnoreCheck: ['fontA'],
 		popover: {
 			image: [['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
 					['float', ['floatLeft', 'floatRight', 'floatNone']],
@@ -76,9 +52,9 @@ $(document).ready(function(){
 			
 	//영화선택
 	$('.choiceMovieBox').on('click',function(){
-		if($('.choiceMovieBox').attr('id')=='boxOFF') return false;
-		$('#choiceBox').css('display','block');
-		
+		if($('.choiceMovieBox').attr('id')=='boxOFF') 
+			return false;
+		$('#choiceBox').css('display','block');     
 	});
 	
 	$('.closeBox').on('click',function(){
@@ -90,7 +66,6 @@ $(document).ready(function(){
 	//자동완성:자동검색 이벤트  ajax 발생
 	$('#searchMovie').on('keyup', function(){
 		$('#resultBox').empty();
-
 		if($('#searchMovie').val()==""){
 			return false;
 		}
@@ -123,31 +98,35 @@ $(document).ready(function(){
 	});
 	
 	$('#btnSave').on('click',function(){
-		var hashtag = $('#board_hashtag').text().split(' ');
-		var isCorrect=true;
-		$.each(hashtag,function(index,item){
-			console.log('#포함여부',item.substring(1,item.length));
-			if(item.charAt(0)!='#'){
-				alert('해시태그 형식이 올바르지 않습니다.(#해시태그1 #해시태그2...)');
-				isCorrect=false;
-				return false;
-			} else if(item.match(/#/g)!=null) {
-				if(item.match(/#/g).length > 1) {
+		if($('#board_hashtag').text()!='') {
+			var hashtag = $('#board_hashtag').text().split(' ');
+			var isCorrect=true;
+			$.each(hashtag,function(index,item){
+				if(item.charAt(0)!='#'){
 					alert('해시태그 형식이 올바르지 않습니다.(#해시태그1 #해시태그2...)');
 					isCorrect=false;
 					return false;
+				} else if(item.match(/#/g)!=null) {
+					if(item.match(/#/g).length > 1) {
+						alert('해시태그 형식이 올바르지 않습니다.(#해시태그1 #해시태그2...)');
+						isCorrect=false;
+						return false;
+					}
 				}
-			}
-		});
+			});
 		
-		if(!isCorrect){
-			return false;
+			if(!isCorrect){
+				return false;
+			}
 		}
 		
 		$('[name=board_content]').val($('#summernote').summernote('code'));
 		$('[name=board_subject]').val($('#board_subject_cover').text());
-		$('#board_photo').val($('#board_subject_cover').text());
-		$('[name=fileArray]').val(JSON.stringify(fileArray));
+		if($('[name=board_photo]').val()=='') {
+			if($('#choiceMovie').children('img').attr('src')!='images/noimage.png'){
+				$('[name=board_photo]').val($('#choiceMovie').children('img').attr('src'));
+			}
+		}
 		$('#board_subject_cover').attr('contenteditable','false');
 		$('#cover_subtitle').attr('contenteditable','false');
 		$('#board_hashtag').attr('contenteditable','false');
@@ -180,6 +159,11 @@ $(document).ready(function(){
 	$('#btn_modyc').click(function(){
 		$('[name=board_content]').val($('#summernote').summernote('code'));
 		$('[name=board_subject]').val($('#board_subject_cover').text());
+		if($('[name=board_photo]').val()=='') {
+			if($('#choiceMovie').children('img').attr('src')!='images/noimage.png'){
+				$('[name=board_photo]').val($('#choiceMovie').children('img').attr('src'));
+			}
+		}
 		$('.wrap_right_inner_modi').css("display","none");
 		$('#wrap_right_inner_in').css("display","inline");
 		$('#board_subject_cover').attr('contenteditable','false');
@@ -202,6 +186,10 @@ $(document).ready(function(){
 		$('#postForm').attr('action','post.do').submit();
 	});
 	
+	/*수정버튼 클릭시 적용되는 부분 여기만수정함*/
+	$('#btnModPost').on('click',function(){
+		$('#postForm').attr('action','updatePost.do').submit();
+	});
 });
 
 function choiceMovieMessage(data){
@@ -254,14 +242,13 @@ function sendFile(file,el){
 				$(el).summernote('editor.insertImage',"images/"+url);
 			else {
 				$('[name=board_photo]').val(url);
-				$('.service_header').css({"background":"url('images/"+url+"')","background-size":"100% 100%"});
+				$('.service_header').css({"background":"url('images/"+url+"') top fixed / 100% 100%"});
 				$('.glyphicon').css({"color":"white"});
 				$('.cover_title').css({"color":"white"});
 				$('.cover_subtitle').css({"color":"white"});
 				$('.background-cover').css({"background-color":"rgba(0, 0, 0, 0.4)"});
 				$('#header_background_img').val("");
 			}
-			fileArray.push(url);
 		}
 	});
 }

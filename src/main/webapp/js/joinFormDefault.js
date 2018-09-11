@@ -1,4 +1,28 @@
 $(document).ready(function() {
+	$('#sendBtn').on('click',function(){
+		if($('#email').val()==''){
+			alert('이메일을 입력해주세요.');
+			return false;
+		}
+		var formdata = $('#joinForm').serialize();
+		$.ajax({
+			type : 'POST',
+			dataType : 'text',
+			url : 'checkEmail.do',
+			data : formdata,
+			success : checkEmailDup
+		});
+	});
+	
+	$('#btn-box').on('click','#authBtn',function(){
+		if(auth_code != $('#auth_code').val())
+			alert("인증 코드가 일치하지 않습니다.");
+		else {
+			$('#auth_code').val('인증 성공');
+			$('#auth_code').attr('readonly',true);
+		}
+	});
+	
 	$('#joinBtn').on('click', join);
 
 	$("#checkAll").on('click', function() {
@@ -56,6 +80,9 @@ function join() {
 	} else if ($("#checkAll").is(":checked") == false) {
 		alert("이용약관에 동의하여 주세요.");
 		return false;
+	} else if ($('#auth_code').val()!='인증 성공') {
+		alert('이메일 인증을 진행해주세요.')
+		return false;
 	} else {
 		var formdata = $('#joinForm').serialize();
 		$.ajax({
@@ -75,4 +102,28 @@ function viewMessage(res) {
 		alert('중복된 아이디입니다.');
 	else
 		location.href = 'joinSuccess.do';
+}
+
+function checkEmailDup(res) {
+	if(!res) {
+		alert('이미 존재하는 이메일입니다.');
+	} else {
+		$.ajax({
+			type : 'POST',
+			dataType : 'text',
+			url : 'mailSend.do',
+			data : 'user_email='+$('#email').val(),
+			success : resultMessage
+		});
+	}
+}
+
+function resultMessage(res) {
+	if(res=='발송 실패') {
+		alert('메일 전송에 실패하였습니다.');
+	} else {
+		auth_code = res;
+		$('#btn-box').append('<li><input type="text" id="auth_code" placeholder="인증코드(6자리)" /></li>');
+		$('#btn-box').append('<li><input type="button" id="authBtn" value="인증코드 확인" /></li>');
+	}
 }

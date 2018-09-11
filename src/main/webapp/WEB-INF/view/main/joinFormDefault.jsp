@@ -12,6 +12,9 @@
 						<input type="text" id="id" name="user_id" placeholder="아이디(영문,숫자) 4자리이상" /> 
 						<input type="password" id="pass" name="user_pass" placeholder="비밀번호(특수&영문&숫자) 6자이상" />
 						<input type="text" id="email" name="user_email" placeholder="이메일" />
+						<ul id="btn-box">
+							<li><input type="button" id="sendBtn" value="인증코드 발송" /></li>
+						</ul>
 						<input type="hidden" id="type" name="user_type" value="default" />
 						<!-- <input type="hidden" id="email" name="user_email" value="asd123@asd123.com" /> -->
 						<table id="agree-box">  

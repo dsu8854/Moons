@@ -28,7 +28,6 @@
 			</span><br/><br/>
 			<input type="button" class="paymentBtn" id="payCharge" value="충전" />
 			<input type="button" class="paymentBtn" id="payWithdraw" value="인출" />
-			<input type="button" class="paymentBtn" id="donateBtn" value="선물" />
 		</div>
 	</div><br/>
 	<div id="pointHeaderCal">

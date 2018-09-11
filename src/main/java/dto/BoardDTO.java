@@ -24,7 +24,8 @@ public class BoardDTO {
 	private String user_introduce;	//작성자 소개를 저장하기 위한 변수
 	private Boolean isLike;			//좋아요 여부
 	private Boolean isShare;		//공유 여부 
-	private Boolean isReport;
+	private Boolean isReport;		//신고 여부
+	private Boolean isScrap;		//스크랩 여부
 	private Boolean checkFollow;
 	private int location;
 	
@@ -182,6 +183,14 @@ public class BoardDTO {
 
 	public void setIsReport(Boolean isReport) {
 		this.isReport = isReport;
+	}
+	
+	public Boolean getIsScrap() {
+		return isScrap;
+	}
+
+	public void setIsScrap(Boolean isScrap) {
+		this.isScrap = isScrap;
 	}
 
 	public Boolean getCheckFollow() {

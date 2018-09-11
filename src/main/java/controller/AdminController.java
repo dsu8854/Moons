@@ -95,7 +95,7 @@ public class AdminController {
 		return adminService.selectBoardListProcess(map);
 	}
 	
-	@RequestMapping(value="/adminBoardAdd.do")
+	/*@RequestMapping(value="/adminBoardAdd.do")
 	@ResponseBody
 	public List<BoardDTO> adminBoardAdd(int search_type, int start) {
 		HashMap<String,Integer> map = new HashMap<String,Integer>();
@@ -104,7 +104,7 @@ public class AdminController {
 		map.put("start",start);
 		
 		return adminService.selectBoardListProcess(map);
-	}
+	}*/
 	
 	@RequestMapping(value="/adminLinkUpdate.do")
 	@ResponseBody

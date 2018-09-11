@@ -50,10 +50,10 @@ public class PaymentController {
 		c.setTime(new Date());
 		String startterm=Integer.toString(c.get(Calendar.YEAR))+'-'
 						+Integer.toString(c.get(Calendar.MONTH))+'-'
-						+Integer.toString(c.get(Calendar.DATE));
+						+Integer.toString(c.get(Calendar.DATE)+1);
 		String endterm=Integer.toString(c.get(Calendar.YEAR))+'-'
 					+Integer.toString(c.get(Calendar.MONTH)+1)+'-'
-					+Integer.toString(c.get(Calendar.DATE));
+					+Integer.toString(c.get(Calendar.DATE)+1);
 		map.put("startterm",startterm);
 		map.put("endterm",endterm);
 		
@@ -108,10 +108,18 @@ public class PaymentController {
 	}
 	
 	@RequestMapping("/paywithdraw.do")
-	public String paywidthdraw(Model model, HttpSession session) {
-		return "paywithdraw";
-	} 
-	
+    public String paywidthdraw(Model model, HttpSession session) {
+       int user_code = (int) session.getAttribute("user_code");
+       
+       UserDTO udto = userservice.selectInfoProcess(user_code);
+
+       model.addAttribute("user_code",user_code);
+       model.addAttribute("user_nickname",udto.getUser_nickname());
+       model.addAttribute("user_point",udto.getUser_point()); 
+
+       return "paywithdraw"; 
+    } 
+    
 	@RequestMapping("/paywithdrawprocess.do")
 	@ResponseBody
 	public boolean paywidthdrawinsertproccess(Model model, HttpSession session, 
@@ -120,7 +128,7 @@ public class PaymentController {
 		WithdrawDTO wdto = new WithdrawDTO();
 		wdto.setUser_code(user_code);
 		wdto.setWithdraw_name(name);
-		wdto.setWithdraw_identitynum(identitynum1+'-'+identitynum1);
+		wdto.setWithdraw_identitynum(identitynum0+'-'+identitynum1);
 		wdto.setWithdraw_amount(point);
 		wdto.setWithdraw_account(account);
 		wdto.setWithdraw_bank(bank);

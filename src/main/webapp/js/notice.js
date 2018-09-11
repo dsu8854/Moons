@@ -34,7 +34,6 @@ $(document).ready(function(){
 });
 
 function noticelistMessage(data){
-	console.log('여기');
 	$.each(data,function(index, value){
 		var str='<tr><td><img src="images/'+value.user_photo+'" /></td><td>'
 		+'<input type="hidden" id="my_code" value="'+value.user_code+'" />'

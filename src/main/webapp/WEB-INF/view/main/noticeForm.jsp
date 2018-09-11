@@ -1,22 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src="js/notice.js"></script> 
 <link rel="stylesheet" href="css/notice.css">
-<div id="notice_setting">
-	<a href="#">설정</a>
-</div>
-<br/>
 <div class="noticeWrap">
-	<div class="notice_menu">
-		<ul>
-			<li>전체</li>
-			<li>게시글</li>
-			<li>후원</li>
-		</ul>
-	</div>
 	<table class="notice">
-	<c:forEach items="${notice_list}" var="ndto">
+		<c:forEach items="${notice_list}" var="ndto">
 			<tr>
 				<td>
 					<img src="images/${ndto.user_photo }" />
@@ -29,10 +19,12 @@
 					<input type="hidden" id="board_num" value="${ndto.board_num }" />
 					<input type="hidden" id="amount" value="${ndto.notice_amount }" />
 					<input type="hidden" id="read" value="${ndto.notice_read }" />
-					<a href="#" id="notice_content"> </a><br/>
-					<span id="notice_date">${ndto.notice_date }</span>
+					<a href="" id="notice_content"> </a><br/>
+					<fmt:formatDate value="${ndto.notice_date }" pattern="yyyy-M-dd HH:MM:SS" var="noticeDate" />
+					<span id="notice_date">${noticeDate }</span>
 				</td>
 			</tr>
-	</c:forEach>
-	</table><br/>
+		</c:forEach>
+	</table>
+	<br/>
 </div>

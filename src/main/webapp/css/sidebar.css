@@ -66,7 +66,10 @@
 	right: 20px;
 	top: 18px;
 }
-
+.myPoint{
+   font-size:30px;
+   color: black; 
+}
 #wrapSideMenu .ico_close {
 	display: block;
 	width: 19px;

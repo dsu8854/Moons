@@ -56,6 +56,7 @@ public class MailController {
 
 			mailSender.send(message);
 		} catch (Exception e) {
+			System.out.println(e.toString());
 			return "발송 실패";
 		}
 

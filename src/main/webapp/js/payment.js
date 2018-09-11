@@ -40,11 +40,6 @@ $(document).ready(function(){
 		location.href='paycharge.do';
 		return false;
 	});
-	
-	$('#donateBtn').on('click',function(){
-		location.href='donateForm.do?point_receiver=2';
-		return false;
-	});
 
 	//달력부분
 	var prev=$(this);

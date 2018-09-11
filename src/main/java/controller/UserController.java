@@ -99,6 +99,15 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping(value="/checkEmailDup.do", produces="application/text;charset=utf8")
+	public @ResponseBody boolean checkEmailDup(String user_email) {
+		if(userService.checkEmailDupProcess(user_email)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	@RequestMapping("/findProDefault.do")
 	public String findProDefault(Model model, UserDTO udto) {
 		model.addAttribute("user_pass", userService.passProcess(udto));
@@ -115,6 +124,7 @@ public class UserController {
 			session.setAttribute("user_nickname", userService.selectNickProcess(user_code));
 			if(userService.selectPhotoProcess(user_code)!=null)
 				session.setAttribute("user_photo",userService.selectPhotoProcess(user_code));
+			session.setAttribute("user_point", userService.selectPointProcess(user_code));
 			return "로그인 성공";
 		} else {
 			return "아이디/비밀번호 불일치";
@@ -183,7 +193,6 @@ public class UserController {
 		if(session.getAttribute("user_code")!=null) {
 			UserDTO udto = new UserDTO();
 			udto.setUser_code((int) session.getAttribute("user_code"));
-			udto.setUser_type(user_type);
 			userService.deleteProcess(udto);
 		}
 		
@@ -222,6 +231,7 @@ public class UserController {
 				session.setAttribute("user_nickname", userService.selectNickProcess(user_code));
 				if(userService.selectPhotoProcess(user_code)!=null)
 					session.setAttribute("user_photo",userService.selectPhotoProcess(user_code));
+				session.setAttribute("user_point", userService.selectPointProcess(user_code));
 				return "redirect:/index.do";
 			}
 
@@ -302,6 +312,7 @@ public class UserController {
 				session.setAttribute("user_nickname", userService.selectNickProcess(user_code));
 				if(userService.selectPhotoProcess(user_code)!=null)
 					session.setAttribute("user_photo",userService.selectPhotoProcess(user_code));
+				session.setAttribute("user_point", userService.selectPointProcess(user_code));
 				return "redirect:/index.do";
 			}
 			

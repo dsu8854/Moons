@@ -65,6 +65,5 @@
 				  	</when>
 				  </choose>
 				  desc)a)b
-		<![CDATA[where rm>#{start} and rm<=#{start}+10]]>
 	</select> 
 </mapper>

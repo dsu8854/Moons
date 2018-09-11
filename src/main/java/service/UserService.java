@@ -17,11 +17,13 @@ public interface UserService {
 	public int codeProcess(UserDTO udto);
 	public boolean checkIdPassProcess(UserDTO udto);
 	public boolean checkEmailProcess(UserDTO udto);
+	public boolean checkEmailDupProcess(String user_email);
 	public String passProcess(UserDTO udto);
 	public UserDTO selectAllInfoProcess(int user_code);
 	public UserDTO selectInfoProcess(int user_code);
 	public UserDTO selectUpdateInfoProcess(int user_code);
 	public String selectPhotoProcess(int user_code);
+	public int selectPointProcess(int user_code);
 	public String selectNickProcess(int user_code);
 	public void updateInfoProcess(UserDTO udto);
 

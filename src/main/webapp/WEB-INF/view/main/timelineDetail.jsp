@@ -10,10 +10,13 @@
 <!-- 이부분은 background가 계속 변경되니까 일부러 인라인으로 스타일을 적용함 -->
 <c:choose>
 	<c:when test="${empty bdto.board_photo }">
-		<div class="service_header" id="service_header" style="background-image:url('images/back.jpg');" >
+		<div class="service_header" id="service_header" style="background:url('images/back.jpg') top fixed / 100% 100%;" >
+	</c:when>
+	<c:when test='${fn:contains(bdto.board_photo,"http")}'>
+		<div class="service_header" id="service_header" style="background:url('${bdto.board_photo}') top fixed / 100% 100%;" >
 	</c:when>
 	<c:otherwise>
-		<div class="service_header" id="service_header" style="background-image:url('images/${bdto.board_photo}');" >
+		<div class="service_header" id="service_header" style="background:url('images/${bdto.board_photo}') top fixed / 100% 100%;" >
 	</c:otherwise>
 </c:choose>
     <div class="cover_text">
@@ -34,12 +37,14 @@
 <div id="time_content">${bdto.board_content }</div>
 
 <div id="etc_info">
-    <div id="time_hashtag">
-    <c:set var="totalTag" value="${fn:split(bdto.board_hashtag,' ') }" />
-	<c:forEach items="${totalTag }" var="resTag" begin="0" end="${fn:length(totalTag) }">
-		<span><a href="" onclick="javascript:timelineHashtag('${resTag}')" class="time_tag">${resTag }</a></span>
-	</c:forEach>
-    </div>
+	<c:if test="${!empty bdto.board_hashtag }">
+	    <div id="time_hashtag">
+	    	<c:set var="totalTag" value="${fn:split(bdto.board_hashtag,' ') }" />
+			<c:forEach items="${totalTag }" var="resTag" begin="0" end="${fn:length(totalTag) }">
+				<span><a href="" onclick="javascript:timelineHashtag('${resTag}')" class="time_tag">${resTag }</a></span>
+			</c:forEach>
+    	</div>
+    </c:if>
     
     <c:choose>
 		<c:when test="${empty user_code }">
@@ -80,21 +85,43 @@
 					공유하기
 					<span id="sharecnt">${bdto.board_share }</span>
 				</span>
-		        <c:set var="user_code" value='<%=session.getAttribute("user_code") %>' />
-    		    <span class="report_icon icon_link">
-					<c:choose>	
-						<c:when test="${bdto.user_code==user_code}">
-							<a href="삭제클릭" id="deleteclick"><span class="btn_one">삭제하기</span></a>
+				<span class="scrap_icon icon_link">
+					<form id="scrapForm" method="post">
+						<input type="hidden" id="isScrap" name="isScrap" value="${bdto.isScrap}" />
+						<input type="hidden" name="board_num" value="${bdto.board_num}" />
+					</form>
+					<c:choose>
+						<c:when test="${bdto.isScrap}">
+							<img src="images/scrap1.png" class="icon_img">스크랩취소
 						</c:when>
-						<c:when test="${!bdto.isReport }">
-							<a href="신고클릭" id="reportclick"><span class="btn_one">신고하기</span></a>
-						</c:when>
+						<c:otherwise>
+							<img src="images/scrap2.png" class="icon_img">스크랩하기
+						</c:otherwise>
 					</c:choose>
 				</span>
-				<span class="copy_icon icon_link">
-					<a href="복사클릭" id="copyclick"><span class="btn_one">복사하기</span></a>
-					<textarea id="urlArea"></textarea>
-				</span>
+		        <c:set var="user_code" value='<%=session.getAttribute("user_code") %>' />
+					<c:choose>	
+						<c:when test="${bdto.user_code==user_code}">
+							<a href="수정클릭" id="modifyclick"><span class="report_icon icon_link btn_one">수정하기</span></a>
+							<a href="삭제클릭" id="deleteclick"><span class="report_icon icon_link btn_one">삭제하기</span></a>
+							<span class="copy_icon icon_link">
+								<a href="복사클릭" id="copyclick"><span class="btn_one">복사하기</span></a>
+								<textarea id="urlArea"></textarea>
+							</span>
+							<form id="updateForm" method="get">
+					    		<input type="hidden" name="board_num" value="${bdto.board_num }" />
+					    	</form>
+						</c:when>
+						<c:when test="${!bdto.isReport }">
+							<span class="report_icon icon_link">
+								<a href="신고클릭" id="reportclick"><span class="btn_one">신고하기</span></a>
+							</span>
+							<span class="copy_icon icon_link">
+								<a href="복사클릭" id="copyclick"><span class="btn_one">복사하기</span></a>
+								<textarea id="urlArea"></textarea>
+							</span>
+						</c:when>
+					</c:choose>
 				<div class="reportArea">
 					<textarea rows="10" placeholder="신고사유를 작성해주세요." id="report_reason"></textarea>
 					<input type="button" value="제출" id="reportBtn" />

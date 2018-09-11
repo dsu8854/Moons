@@ -6,6 +6,7 @@ import java.util.List;
 import dao.BoardDAO;
 import dto.BoardDTO;
 import dto.ReplyDTO;
+import dto.ReportDTO;
 
 public class BoardServiceImp implements BoardService{
 	private BoardDAO boardDao;
@@ -57,10 +58,25 @@ public class BoardServiceImp implements BoardService{
 	public void deleteShareProcess(BoardDTO bdto) {
 		boardDao.deleteShareMethod(bdto);
 	}
+	
+	@Override
+	public void insertScrapProcess(BoardDTO bdto) {
+		boardDao.insertScrapMethod(bdto);
+	}
+
+	@Override
+	public void deleteScrapProcess(BoardDTO bdto) {
+		boardDao.deleteScrapMethod(bdto);
+	}
 
 	@Override
 	public int selectWriterProcess(BoardDTO bdto) {
 		return boardDao.selectWriterMethod(bdto);
+	}
+	
+	@Override
+	public int checkBoardStateProcess(int board_num) {
+		return boardDao.checkBoardStateMethod(board_num);
 	}
 
 	@Override
@@ -79,23 +95,18 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public void tempFileProcess(String file_name) {
-		boardDao.tempFileMethod(file_name);
-	}
-	
-	@Override
-	public void postFileProcess(HashMap<String, Object> map) {
-		boardDao.postFileMethod(map);
-	}
-
-	@Override
-	public List<String> selectFileProcess(int board_num) {
-		return boardDao.selectFileMethod(board_num);
-	}
-	
-	@Override
 	public void deletePostProcess(int board_num) {
 		boardDao.deletePostMethod(board_num);
+	}
+	
+	@Override
+	public void updatePostProcess(BoardDTO bdto) {
+		boardDao.updatePostMethod(bdto);
+	}
+	
+	@Override
+	public void reportPostProcess(ReportDTO rdto) {
+		boardDao.reportPostMethod(rdto);
 	}
 	
 	@Override
@@ -124,5 +135,15 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public List<BoardDTO> selectTimelineHashtagProcess(HashMap<String, Object> map) {
 		return boardDao.selectTimelineHashtagMethod(map);
+	}
+
+	@Override
+	public List<BoardDTO> selectTimelineFollowProcess(HashMap<String, Object> map) {
+		return boardDao.selectTimelineFollowMethod(map);
+	}
+	
+	@Override
+	public List<BoardDTO> selectTimelineLikeProcess(HashMap<String, Object> map) {
+		return boardDao.selectTimelineLikeMethod(map);
 	}
 }//end class

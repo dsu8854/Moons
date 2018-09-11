@@ -3,22 +3,33 @@
 	margin: 2% 0 0 10%;
 }
 
+.tab {
+	margin-top: 30px;
+}
+
 table {
 	width: 90%;
 	border: 1px solid black;
 	border-collapse: collapse;
 }
 
-th, td {
-	border: 1px solid black;
+th, td { 
+	border-bottom: 1px solid black;
+	height: 26px;
+	padding: 3px;
 }
 
 th {
-	background-color: #CCC;
+	font-size: 12pt;
+    height: 27px;
+    padding-top: 8px;
+    opacity: 0.7;
+    background-color: black;
+    color: white; 
 }
 
 .report_class td, .withdraw_class td {
-	background-color: #EEE;
+	padding-top: 15px;
 }
 
 .report_class {
@@ -29,7 +40,7 @@ th {
 	display: none;
 }
 
-.report_detail:not(:last-child) {
+.report_detail:not (:last-child ) {
 	border-bottom: 1px solid black;
 }
 
@@ -45,25 +56,24 @@ th {
 	width: 40%;
 }
 
-
 /* adminHeader.jsp */
-.header-box{
-	width:1920px;
-	height:90px;  
-	display: flex;   
+.header-box {
+	width: 1920px;
+	height: 90px;
+	display: flex;
 }
 
 .left-button {
 	padding: 1% 0 0 1%;
 }
 
-#logo{
-	padding: 8% 0 0 10%;    
+#logo {
+	padding: 8% 0 0 10%;
 }
 
-.right-button{
+.right-button {
 	width: 400px;
-    margin: 47px 0 0 1400px;
+	margin: 47px 0 0 1400px;
 }
 
 .reportArea, .withdrawArea, .boardArea {
@@ -74,35 +84,88 @@ th {
 
 .reportCountArea, .withdrawCountArea {
 	display: flex;
-    position: absolute;
-    right: -5%;
-    top: -10%;
+	position: absolute;
+	right: -5%;
+	top: -10%;
 }
 
 .reportCount, .withdrawCount {
 	background-color: #fa3e3e;
 	font-size: 1.3em;
-    border-radius: 2px;
-    color: #fff;
-    padding: 1px 3px;
+	border-radius: 2px;
+	color: #fff;
+	padding: 1px 3px;
 }
 
 #reportBtn, #withdrawBtn, #boardBtn {
-	width: 80px;   
-    height: 35px;    
-   	/* margin:15% 0 0 0 ; */            
-    color: #666;
-    border: 1px solid #959595;
-    border-radius: 13px;  
-    line-height: 28px;
-    font-size: 12px;
-    font-family: 'Noto Sans Light',sans-serif;
-    text-align: center;
-    text-decoration: none;
-    background-color: white; 
+	width: 80px;
+	height: 35px;
+	/* margin:15% 0 0 0 ; */
+	color: #666;
+	border: 1px solid #959595;
+	border-radius: 13px;
+	line-height: 28px;
+	font-size: 12px;
+	font-family: 'Noto Sans Light', sans-serif;
+	text-align: center;
+	text-decoration: none;
+	background-color: white;
 }
 
-hr{
-	margin-top:1%;   
-	border: 1px dotted gray;   
+hr {
+	margin-top: 1%;
+	border: 1px dotted gray;
+}
+
+
+#unProRepBtn, #accRepBtn, #rejRepBtn, #selfDelBtn, #boardLikeBtn,
+	#boardShareBtn, #boardReplyBtn, #boardDateBtn, #unProWitBtn, #accWitBtn,
+	#rejWitBtn {
+	width: 80px;
+	height: 35px;
+	/* margin:15% 0 0 0 ; */
+	color: #666;
+	border: 1px solid #959595;
+	border-radius: 13px;
+	line-height: 28px;
+	font-size: 12px;
+	font-family: 'Noto Sans Light', sans-serif;
+	text-align: center;
+	text-decoration: none;
+	background-color: white;
+	
+}
+
+#unProRepBtn:focus, #accRepBtn:focus, #rejRepBtn:focus, #selfDelBtn:focus, #boardLikeBtn:focus,
+	#boardShareBtn:focus, #boardReplyBtn:focus, #boardDateBtn:focus, #unProWitBtn:focus, #accWitBtn:focus,
+	#rejWitBtn:focus {
+	background-color: black;
+	color: white; 
+	outline: none;
+}
+
+#viewBtn, #enrollBtn,#updateBtn, #accBtn, #rejBtn,#linkBtn{
+    border-radius: 8px;
+    background-color: white;
+    font-weight: bold;  
+    color: gray;
+    margin-top: 5px;  
+}
+#viewBtn:hover, #enrollBtn:hover,#viewBtn:focus, #enrollBtn:focus,#updateBtn:hover, #accBtn:hover, #rejBtn:hover,#linkBtn:hover{
+	background-color: black;
+	color: white;  
+	outline: none; 
+	 
+}
+
+.linkArea{
+	padding:10px;
+}
+
+.locationArea{
+	padding:10px;
+}
+
+.btnArea{
+	padding-bottom: 12px;  
 }

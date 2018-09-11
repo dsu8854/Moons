@@ -49,6 +49,11 @@ public class UserDaoImp implements UserDAO {
 	public boolean checkEmailMethod(UserDTO udto) {
 		return userSqlSession.selectOne("user.chkEmail",udto);
 	}
+	
+	@Override
+	public boolean checkEmailDupMethod(String user_email) {
+		return userSqlSession.selectOne("user.chkEmailDup",user_email);
+	}
 
 	@Override
 	public String passMethod(UserDTO udto) {
@@ -62,6 +67,11 @@ public class UserDaoImp implements UserDAO {
 	@Override
 	public String selectPhotoMethod(int user_code) {
 		return userSqlSession.selectOne("user.selPhoto", user_code);
+	}
+	
+	@Override
+	public int selectPointMethod(int user_code) {
+		return userSqlSession.selectOne("user.selPoint", user_code);
 	}
 	
 	@Override

@@ -75,7 +75,7 @@ h1 {
 	height: auto;
 }
 
-#joinText, #loginText, #findText {
+#joinText, #loginText, #findText, #errorText {
 	font-size: 20pt;
 	opacity: 1;
 	padding: 0 0 20px 0;
@@ -109,7 +109,7 @@ h1 {
     cursor: pointer;
 }
 
-#loginBtn, #joinBtn, #findBtn, #sendBtn, #authBtn { 
+#loginBtn, #joinBtn, #findBtn, #sendBtn, #authBtn, #backBtn { 
 	width: 270px;           
     height: 50px;  
     margin:0px 0px 10px 0px;         

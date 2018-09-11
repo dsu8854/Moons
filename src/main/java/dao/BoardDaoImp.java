@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import dto.BoardDTO;
 import dto.ReplyDTO;
+import dto.ReportDTO;
 import dto.UserDTO;
 
 
@@ -60,10 +61,29 @@ public class BoardDaoImp implements BoardDAO{
 	public void deleteShareMethod(BoardDTO bdto) {
 		boardSqlSession.delete("board.delShare",bdto);
 	}
+	
+	@Override
+	public void insertScrapMethod(BoardDTO bdto) {
+		boardSqlSession.insert("board.insScrap",bdto);
+	}
+
+	@Override
+	public void deleteScrapMethod(BoardDTO bdto) {
+		boardSqlSession.delete("board.delScrap",bdto);
+	}
 
 	@Override
 	public int selectWriterMethod(BoardDTO bdto) {
 		return boardSqlSession.selectOne("board.selWriter",bdto);
+	}
+	
+	@Override
+	public int checkBoardStateMethod(int board_num) {
+		try {
+			return boardSqlSession.selectOne("board.chkBoardState",board_num);
+		} catch(Exception e) {
+			return 0;
+		}
 	}
 
 	@Override
@@ -80,25 +100,15 @@ public class BoardDaoImp implements BoardDAO{
 	public int postMethod(BoardDTO bdto) {
 		return boardSqlSession.insert("board.post",bdto);
 	}
-
-	@Override
-	public void tempFileMethod(String file_name) {
-		boardSqlSession.insert("board.tempFile",file_name);
-	}
-	
-	@Override
-	public void postFileMethod(HashMap<String, Object> map) {
-		boardSqlSession.insert("board.postFile",map);
-	}
-
-	@Override
-	public List<String> selectFileMethod(int board_num) {
-		return boardSqlSession.selectList("board.selFile",board_num);
-	}
 	
 	@Override
 	public void deletePostMethod(int board_num) {
-		boardSqlSession.delete("board.delPost",board_num);
+		boardSqlSession.update("board.delPost",board_num);
+	}
+	
+	@Override
+	public void updatePostMethod(BoardDTO bdto) {
+		boardSqlSession.update("board.uptPost", bdto);
 	}
 
 	@Override
@@ -129,5 +139,20 @@ public class BoardDaoImp implements BoardDAO{
 	@Override
 	public List<BoardDTO> selectTimelineHashtagMethod(HashMap<String, Object> map) {
 		return boardSqlSession.selectList("board.selTimelineHashtag", map);
+	}
+
+	@Override
+	public void reportPostMethod(ReportDTO rdto) {
+		boardSqlSession.insert("board.repPost",rdto);
+	}
+
+	@Override
+	public List<BoardDTO> selectTimelineFollowMethod(HashMap<String, Object> map) {
+		return boardSqlSession.selectList("board.selTimelineFollow", map);
+	}
+	
+	@Override
+	public List<BoardDTO> selectTimelineLikeMethod(HashMap<String, Object> map) {
+		return boardSqlSession.selectList("board.selTimelineLike", map);
 	}
 }//end class

@@ -139,7 +139,7 @@ a {
 
 /*프로필 3번째 창*/
 #content_h3 {  
- 	margin: 57px 0 0 0px;
+ 	margin: 57px 0 -1px 0px;
 	float: left;
 	height: 100%;
 }
@@ -555,6 +555,7 @@ a {
 .timelineWrap .icon_img {
     width: 35px;
     height: 35px;
+    cursor: pointer;
 }
 
 .content_icon {
@@ -578,4 +579,8 @@ a {
 	display: inline-block;
     text-decoration: none;
     color:#959595;
+}
+
+.board_writer {
+	color: white;
 }

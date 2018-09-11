@@ -120,6 +120,10 @@ $(document).ready(function() {
 	$(document).on('click','#dmBtn', function() { // 팔로우 신청 버튼
 		$(this).siblings('#dmForm').attr('action','dmRoom.do').submit();
 	});
+	
+	$(document).on('click','#userPhoto', function() { // 타임라인 버튼
+		$(this).siblings('#timelineForm').attr('action','timeline.do').submit();
+	});
 });
 
 function searchAjax(type, listCount, startCount) {
@@ -241,8 +245,12 @@ function userSuccessMessage(data) {
 				str+='<img src="images/'+value.user_photo+'" id="userPhoto" /><br/>';
 			
 			str+='<span id="userNickname">'+value.user_nickname+'</span><br/>'
-				+'<span id="userID">@'+value.user_id+'</span><br/><br/>'
-				+'<p id="userIntro">'+value.user_introduce+'</p><br/>';
+				+'<span id="userID">@'+value.user_id+'</span><br/><br/>';
+			
+			if(value.user_introduce==null)
+				str+='<p id="userIntro"></p><br/>';
+			else
+				str+='<p id="userIntro">'+value.user_introduce+'</p><br/>';
 		
 			if(value.follow_check>0){
 				str+='<input type="button" class="userBtn" id="followDeleteBtn" value="언팔로우"/>';
@@ -251,6 +259,7 @@ function userSuccessMessage(data) {
 			}
 		
 			str+='&nbsp;<input type="button" class="userBtn" id="dmBtn" value="쪽지"/>'
+				+'<form id="timelineForm" method="post"><input type="hidden" value="'+value.user_code+'" name="user_code"></form>'
 				+'<form id="followForm" method="post"><input type="hidden" value="'+value.user_code+'" name="follow_following"></form>'
 				+'<form id="dmForm" method="post"><input type="hidden" value="'+value.user_code+'" name="dm_receiver"></form>'
 				+'</div>';

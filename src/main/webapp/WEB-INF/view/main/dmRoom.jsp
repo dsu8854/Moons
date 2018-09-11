@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" href="css/dmRoom.css">
+<script src = "js/moment.js"></script>
 <script src="js/dmRoom.js"></script>
 	<div class="dm">		
 		<input type="hidden" id="myNickname" value="<%=session.getAttribute("user_nickname")%>"/>

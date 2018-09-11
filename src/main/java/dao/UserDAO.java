@@ -14,8 +14,10 @@ public interface UserDAO {
 	public int codeMethod(UserDTO udto);
 	public boolean checkIdPassMethod(UserDTO udto);
 	public boolean checkEmailMethod(UserDTO udto);
+	public boolean checkEmailDupMethod(String user_email);
 	public String passMethod(UserDTO udto);
 	public String selectPhotoMethod(int user_code); // 아이디를 통해 파일 가져오기
+	public int selectPointMethod(int user_code);
 	public String selectNickMethod(int user_code);
 	public UserDTO selectAllInfoMethod(int user_code);
 	public UserDTO selectInfoMethod(int user_code);

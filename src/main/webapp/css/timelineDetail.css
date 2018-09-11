@@ -69,6 +69,7 @@ a{
 .cover_text {
     color: white;
     text-align: left;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
 }
 
 .cover_movie {
@@ -150,19 +151,14 @@ a{
     color: darkgray;
     border: 2px solid darkgray;
     border-radius: 15px;
-    padding: 5px;
-    
-    
+    padding: 5px;    
 }
 
 .etcbtn {
-	width: 50%;
+	width: 1000px;
     margin: 30px auto 0;
-    
     text-align: right;
 }
-
-
 
 .icon_img {
     width: 25px;
@@ -170,8 +166,6 @@ a{
     border-radius: 10px;
     vertical-align: middle
 }
-
-
 
 #btn_one {
     border: 1px solid darkgray;
@@ -474,6 +468,11 @@ a{
 .menulogo {
 	text-align: left;
 	padding: 1% 0% 0% 1%;
+}
+
+#logo > img{
+   width: 171px;
+    height: 41px;
 }
 
 .icon_link {

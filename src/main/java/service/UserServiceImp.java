@@ -47,6 +47,11 @@ public class UserServiceImp implements UserService {
 	public boolean checkEmailProcess(UserDTO udto) {
 		return userDao.checkEmailMethod(udto);
 	}
+	
+	@Override
+	public boolean checkEmailDupProcess(String user_email) {
+		return userDao.checkEmailDupMethod(user_email);
+	}
 
 	@Override
 	public String passProcess(UserDTO udto) {
@@ -60,6 +65,11 @@ public class UserServiceImp implements UserService {
 	@Override
 	public String selectPhotoProcess(int user_code) {
 		return userDao.selectPhotoMethod(user_code);
+	}
+	
+	@Override
+	public int selectPointProcess(int user_code) {
+		return userDao.selectPointMethod(user_code);
 	}
 	
 	@Override

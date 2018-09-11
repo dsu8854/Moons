@@ -94,9 +94,25 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/timelineHashtag.jsp"/>
 	</definition>
 	
+	<definition name="timelineFollow" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/timelineFollow.jsp"/>
+	</definition>
+	
+	<definition name="timelineLike" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/timelineLike.jsp"/>
+	</definition>
+	
+	<definition name="timelineDetailError" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/timelineDetailError.jsp"/>
+	</definition>
+	
 	<definition name="write" template="/WEB-INF/view/template/layoutWrite.jsp">
 		<put-attribute name="title" value="Moons" />
 		<put-attribute name="body" value="/WEB-INF/view/main/write.jsp" />
+	</definition>
+	
+	<definition name="timelineModify" extends="write">
+		<put-attribute name="body" value="/WEB-INF/view/main/timelineModify.jsp" />
 	</definition>
 	
 	<definition name="timelineDetail" template="/WEB-INF/view/template/layoutDetail.jsp">
@@ -139,6 +155,18 @@
 	
 	<definition name="findSuccess" extends="intro">
 		<put-attribute name="body" value="/WEB-INF/view/main/findSuccess.jsp" />
+	</definition>
+	
+	<definition name="error400" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/error400.jsp"/>
+	</definition>
+	
+	<definition name="error404" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/error404.jsp"/>
+	</definition>
+	
+	<definition name="error500" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/error500.jsp"/>
 	</definition>
 	
 	<definition name="adminMain" template="/WEB-INF/view/template/layoutAdmin.jsp">

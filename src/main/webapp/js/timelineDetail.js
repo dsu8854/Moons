@@ -14,6 +14,10 @@ $(document).ready(function(){
 		$('#boardForm').attr('action','reportPost.do').submit();
 	});
 	
+	$('.cover_movie').on('click',function(){
+		window.open($('.service_header').css('backgroundImage').split('"')[1],'사진 확인');
+	});
+	
 	/*첫번째댓글추가시*/
 	$(document).on('click', '.comSubBtn', function(){
 		var insObj=$(this).parents('.comment_one');
@@ -36,9 +40,8 @@ $(document).ready(function(){
 	
 
 	$(document).on('click','.replyBtn', function(){
-		console.log($(this));
 		var togObj= $(this).parents('.comment_list').next();
-		$(togObj).slideToggle(0);		
+		$(togObj).slideToggle(0);
 	});
 	
 	/*대댓글추가시*/
@@ -47,8 +50,6 @@ $(document).ready(function(){
 		var reply_num=$(this).parents('.comment_rep').children('.reply_num');
 		var reply_step=$(this).parents('.comment_rep').children('.reply_step');
 		var reply_step_val = parseInt(reply_step.val())+1;
-		
-		console.log(reply_step);
 		
 		$.ajax({
 			type: 'GET',
@@ -184,6 +185,32 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('.scrap_icon').on('click', function(){
+		var icon = this;
+		
+		var formdata = $('#scrapForm',icon).serialize();
+		
+		$.ajax({
+			url: 'scrapPro.do?',
+			type: 'POST',
+			dataType: 'text',
+			data: formdata,
+			success: function(res) {
+				if(!res){
+					alert('스크랩 실패')
+				} else {
+					location.reload();
+				}
+			}
+		});
+		
+		if($('#isScrap',icon).val()=='true') {
+			$('#isScrap',icon).val('false');
+		} else if($('#isScrap',icon).val()=='false'){
+			$('#isScrap',icon).val('true');
+		}
+	});
+	
 	$(document).on('click','.comUserPho',function(){
 		$(this).next().attr('action','timeline.do').submit();
 	});
@@ -201,6 +228,11 @@ $(document).ready(function(){
 	});
 	
 	$('.time_tag').on('click',function(){
+		return false;
+	});
+	
+	$('#modifyclick').on('click',function(){
+		$('#updateForm').attr('action','updatePost.do').submit();
 		return false;
 	});
 });

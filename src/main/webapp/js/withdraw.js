@@ -17,6 +17,13 @@ $(document).ready(function(){
 	});
 	
 	$('#withdrawBtn').on('click',function(){
+		if($('#point').val()<10000) {
+			alert('10000P 이상부터 인출 가능합니다.');
+			return false;
+		} else if($('#user_point').val()<$('#point').val()) {
+			alert('잔액이 부족합니다.');
+			return false;
+		}
 		var formdata = $('#withdrawForm').serialize();
 		$.ajax({
 			type:'POST',
@@ -55,3 +62,39 @@ function withdrawlistMessage(data){
 		$('#withdrawlistTable').append(str);
 	});
 }
+
+function closeLayer(obj) {
+	   $(obj).parent().parent().hide();
+	}
+	 
+	$(function(){
+
+	   /* 클릭 클릭시 클릭을 클릭한 위치 근처에 레이어가 나타난다. */
+	   $('.imgSelect').click(function(e)
+	   {
+	      var sWidth = window.innerWidth;
+	      var sHeight = window.innerHeight;
+
+	      var oWidth = $('.popupLayer').width();
+	      var oHeight = $('.popupLayer').height();
+
+	      // 레이어가 나타날 위치를 셋팅한다.
+	      var divLeft = 767;  
+	      var divTop = 417; 
+
+	      /*// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+	      if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
+	      if( divTop + oHeight > sHeight ) divTop -= oHeight;
+
+	      // 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+	      if( divLeft < 0 ) divLeft = 0;
+	      if( divTop < 0 ) divTop = 0;
+	*/
+	      $('.popupLayer').css({
+	         "top": divTop,
+	         "left": divLeft,
+	         "position": "absolute"
+	      }).show();
+	   });
+
+	}); 

@@ -18,12 +18,22 @@
 	
 <div class="paywithdrawWrap">
 	<div class="minititle"> 인출신청하기 </div>
-	<br /><br />
-	<p id="caution">
-	인출시 주의사항<br/>
-	어쩌구...ㅁㅁㅁㅁㅁ<br/>
-	ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
-	</p>
+   <br /><br />
+   <p id="caution"><a class="imgSelect">인출시 주의사항</a></p>
+   <div class="popupLayer">
+      <div>
+         <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1em" title="닫기">X</span> 
+      </div>
+      <div id="infor">
+      <p id="cauinfo">- 정확한 정보를 기입해주십시오.<br/>
+       (Please fill in the correct information.)</p>
+      <p id="cauinfo">- 신청시 3일내에 입금됩니다.<br/>
+       (At the time of application, we deposit on the third day.)</p>
+      <p id="cauinfo">- 확인작업 없이 넘어감으로 다시 확인해주세요.<br/>
+       (Please check again without going over.)</p>
+      </div>   
+   </div>
+   <input type="hidden" value="${user_point}" id="user_point" />
 	<form id="withdrawForm" method="post">
 		<table id="withdrawTable">
 			<tr>
@@ -40,12 +50,17 @@
 				</td>
 			</tr>
 			<tr>
-				<th>인출할 포인트</th>
-				<td> 
-					<input type="text" size="10" name="point" id="point" /> P
-					<font style="color:#cccccc;font-size:10pt;">*10,000원 이상부터 가능합니다.</font>
-				</td>
-			</tr>
+         <th>인출할 포인트</th>
+       	  <td>
+            <label><input type="text" size="10" name="point" id="point" placeholder="*10000원 이상부터 가능합니다"/>P</label>
+       	  </td>
+     	 </tr>     
+     	 <tr>  
+       	  <th>현재 포인트</th>
+       	  <td>   
+        	    <label>( ${user_point} p )</label>
+          </td>
+     	 </tr>
 			<tr>
 				<th>은행</th>
 				<td>
@@ -61,9 +76,8 @@
 			</tr>
 			<tr>
 				<th>계좌번호</th>
-				<td> 
-					<input type="text" size="10" name="account" id="account" /> 
-					<font style="color:#cccccc;font-size:10pt;">'-'를 제외하고 입력해주세요.</font>
+				<td>
+					<input type="text" size="10" name="account" id="account" placeholder="'-'를 제외하고 입력해주세요."/> 
 				</td>
 			</tr>
 			<tr>

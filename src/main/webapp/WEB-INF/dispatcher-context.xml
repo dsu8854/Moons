@@ -158,6 +158,7 @@
 	<bean class="controller.SearchController" />
 	<bean class="controller.PaymentController" />
 	<bean class="controller.AdminController"/>
+	<bean class="controller.ErrorController"/>
 	
 	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<property name="definitions">
@@ -195,7 +196,7 @@
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="username" value="dsu8854@gmail.com" />
-		<property name="password" value="ehdtn4841" />
+		<property name="password" value="q1w2e3**%$" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>
