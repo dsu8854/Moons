@@ -7,6 +7,7 @@ import dto.BoardDTO;
 import dto.ChargeDTO;
 import dto.LinkDTO;
 import dto.ReportDTO;
+import dto.UserDTO;
 import dto.WithdrawDTO;
 
 public interface AdminService {
@@ -18,4 +19,8 @@ public interface AdminService {
 	public void updateWithdrawProcess(WithdrawDTO wdto);
 	public void updateLinkProcess(LinkDTO ldto);
 	public List<BoardDTO> selectBoardListProcess(HashMap<String,Integer> map);
+	public int selectReportCountAllProcess();
+	public int selectWithdrawCountAllProcess();
+	public List<UserDTO> selectMemberListProcess(HashMap<String,Integer> map);
+	public List<String> selectEmailAllProcess();
 }

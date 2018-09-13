@@ -65,5 +65,59 @@
 				  	</when>
 				  </choose>
 				  desc)a)b
-	</select> 
+	</select>
+	
+	<select id="selMemberList" parameterType="hashmap" resultType="dto.UserDTO">
+		select b.*
+		from(select rownum rm, a.*
+			 from(select user_code, user_nickname, 
+			 	  (select NVL(count(*),0)
+			  	   from moons_board b
+			  	   where b.user_code=u.user_code and b.board_state=1) as user_post, 
+			 	  (select NVL(sum(board_like),0)
+			  	   from moons_board b
+			  	   where b.user_code=u.user_code and b.board_state=1) as user_like,
+			 	  (select NVL(sum(board_share),0)
+			  	   from moons_board b
+			  	   where b.user_code=u.user_code and b.board_state=1) as user_share, 
+			 	  (select NVL(sum(point_donate),0)
+			  	   from moons_point p
+			  	   where p.point_receiver=u.user_code) as user_donate
+				  from moons_user u
+				  where user_state=1 and user_code!=0
+				  order by
+				  <choose>
+				  	<when test="search_type==1">
+				  		user_post
+				  	</when>
+				  	<when test="search_type==2">
+				  		user_like
+				  	</when>
+				  	<when test="search_type==3">
+				  		user_share
+				  	</when>
+				  	<when test="search_type==4">
+				  		user_donate
+				  	</when>
+				  </choose>
+				  desc)a)b
+	</select>  
+	
+	<select id="selReportCountAll" resultType="int">
+		select count(*)
+		from moons_report
+		where report_state=1
+	</select>
+	
+	<select id="selWithdrawCountAll" resultType="int">
+		select count(*)
+		from moons_withdraw
+		where withdraw_state=1
+	</select>
+	
+	<select id="selEmailAll" resultType="string">
+		select user_email
+		from moons_user
+		where user_state=1 and user_code!=0
+	</select>
 </mapper>

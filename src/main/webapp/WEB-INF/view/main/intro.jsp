@@ -26,10 +26,10 @@
 </ul>
 <div class="intro-page_section" id="firstP" style="background-image: url(images/introimage1.jpg);">
 	<div class="intro-page_centerer">
-		<h3> 최신 영화 리뷰 무제한 감상</h3>
-		<p>Apple 앱스토어 "2019년을 빛낼 최고작" 선정 되면 좋겠다</p>
+		<h3>다양한 시점에서 보는 영화 리뷰 SNS</h3>
+		<p>쉴틈없이 리뷰가 생성된다</p>
 		<div class="start" >
-			<a class="btn" href="loginPage.do">보러가기</a>
+			<a class="btn" href="loginPage.do">시작하기</a>
 		</div>
 		
 	</div>
@@ -41,10 +41,10 @@
 
 <div class="intro-page_section" id="secondP" style="background-image: url(images/introimage2.jpg);">
 	<div class="intro-page_centerer">
-		<h3> 오직 웹에서만 가능</h3>
-		<p>app은 할줄 모름...</p>
+		<h3>눈으로 Pick한 평론가의 리뷰를 보다</h3>
+		<p>평론가의 리뷰를 누구나 볼 수 있는 기회</p>
 		<div class="start">
-			<a class="btn" href="loginPage.do">보러가기</a>
+			<a class="btn" href="loginPage.do">시작하기</a>
 		</div>
 	</div>
 	<div class="img-cover"></div>
@@ -54,10 +54,10 @@
 </div>
 <div class="intro-page_section" id="thirdP" style="background-image: url(images/introimage3.jpg);">
 	<div class="intro-page_centerer">
-		<h3> 검증된 리뷰</h3>
-		<p>스포없음</p>
+		<h3>자신의 손으로 Movie를 만들다</h3>
+		<p>리뷰로서 소통하고 영화를 변화시킨다</p>
 		<div class="start">
-			<a class="btn" href="loginPage.do">보러가기</a>
+			<a class="btn" href="loginPage.do">시작하기</a>
 		</div>
 	</div>
 	<div class="img-cover"></div>

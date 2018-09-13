@@ -115,6 +115,31 @@ $(document).ready(function() {
 			$('#isShare', icon).val('true');
 		}
 	});
+	
+	$('#passeditBtn').on('click',function(){
+		if($('#new_pass').val()!=$('#pass_ok').val()){
+			alert('확인 비밀번호가 일치하지 않습니다.');
+			return false;
+		}
+		
+		var formdata = $('#editpass').serialize();
+		$.ajax({
+			url : 'updatePass.do',
+			type : 'POST',
+			dataType : 'json',
+			data : formdata,
+			success : function(res) {
+				if(res) {
+					alert('비밀번호 변경완료');
+					location.href='profile.do';
+				} else {
+					alert('비밀번호가 일치하지 않습니다.');
+				}
+			}
+		});
+		
+		return false;
+	});
 });
 
 $(function() {

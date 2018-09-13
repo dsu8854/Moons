@@ -76,11 +76,11 @@ public class ReplyDTO {
 	public void setReply_step(int reply_step) {
 		this.reply_step = reply_step;
 	}
-	
+
 	public String getUser_nickname() {
 		return user_nickname;
 	}
-	
+
 	public void setUser_nickname(String user_nickname) {
 		this.user_nickname = user_nickname;
 	}

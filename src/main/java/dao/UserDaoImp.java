@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,11 @@ public class UserDaoImp implements UserDAO {
 	public boolean checkIdPassMethod(UserDTO udto) {
 		return userSqlSession.selectOne("user.chkIdPass",udto);
 	}
+	
+	@Override
+	public boolean checkCodePassMethod(UserDTO udto) {
+		return userSqlSession.selectOne("user.chkCodePass",udto);
+	}
 
 	@Override
 	public boolean checkEmailMethod(UserDTO udto) {
@@ -53,6 +59,11 @@ public class UserDaoImp implements UserDAO {
 	@Override
 	public boolean checkEmailDupMethod(String user_email) {
 		return userSqlSession.selectOne("user.chkEmailDup",user_email);
+	}
+	
+	@Override
+	public int checkStateMethod(UserDTO udto) {
+		return userSqlSession.selectOne("user.chkState",udto);
 	}
 
 	@Override
@@ -106,8 +117,8 @@ public class UserDaoImp implements UserDAO {
 	}
 
 	@Override
-	public List<FollowDTO> selectFollowListMethod(UserDTO udto) {
-		return userSqlSession.selectList("user.selFollow",udto);
+	public List<FollowDTO> selectFollowListMethod(HashMap<String,Integer> map) {
+		return userSqlSession.selectList("user.selFollow",map);
 	}
 
 	@Override		
@@ -116,9 +127,14 @@ public class UserDaoImp implements UserDAO {
 	}
 	
 	@Override
+	public List<FollowDTO> selectFollowerListMethod(HashMap<String,Integer> map) {
+		return userSqlSession.selectList("user.selFollower",map);
+	}
+	
+	/*@Override
 	public List<FollowDTO> selectFollowerListMethod(UserDTO udto) {
 		return userSqlSession.selectList("user.selFollower",udto);
-	}
+	}*/
 
 	@Override
 	public int followerCountMethod(UserDTO udto) {
@@ -153,5 +169,11 @@ public class UserDaoImp implements UserDAO {
 	@Override
 	public List<UserDTO> searchUserMethod(Map<String, String> map) {
 		return userSqlSession.selectList("user.searchUser", map);
+	}
+		
+	// 추가
+	@Override
+	public boolean followCheckMethod(Map<String, Integer> map) {
+		return userSqlSession.selectOne("user.followCheck", map);
 	}
 }

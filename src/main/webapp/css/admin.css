@@ -1,5 +1,5 @@
 /* adminReport.jsp */
-.reportWrap, .withdrawWrap, .boardWrap {
+.reportWrap, .withdrawWrap, .boardWrap, .memberWrap, .mailWrap {
 	margin: 2% 0 0 10%;
 }
 
@@ -28,7 +28,7 @@ th {
     color: white; 
 }
 
-.report_class td, .withdraw_class td {
+.report_class td, .withdraw_class td, #withdraw_class td, #withdraw_sum td {
 	padding-top: 15px;
 }
 
@@ -40,7 +40,12 @@ th {
 	display: none;
 }
 
-.report_detail:not (:last-child ) {
+.report_detail {
+    height: 40px;
+    line-height: 40px;
+}
+
+.report_detail:not(:last-child) {
 	border-bottom: 1px solid black;
 }
 
@@ -72,11 +77,11 @@ th {
 }
 
 .right-button {
-	width: 400px;
-	margin: 47px 0 0 1400px;
+    width: 500px;
+    margin: 47px 0 0 1200px;
 }
 
-.reportArea, .withdrawArea, .boardArea {
+.reportArea, .withdrawArea, .boardArea, .memberArea, .mailArea {
 	position: relative;
 	float: left;
 	margin: 0 4% 0 0;
@@ -97,7 +102,11 @@ th {
 	padding: 1px 3px;
 }
 
-#reportBtn, #withdrawBtn, #boardBtn {
+.report_td {
+	height: 20px;
+}
+
+#reportBtn, #withdrawBtn, #boardBtn, #memberBtn, #mailBtn {
 	width: 80px;
 	height: 35px;
 	/* margin:15% 0 0 0 ; */
@@ -119,11 +128,10 @@ hr {
 
 
 #unProRepBtn, #accRepBtn, #rejRepBtn, #selfDelBtn, #boardLikeBtn,
-	#boardShareBtn, #boardReplyBtn, #boardDateBtn, #unProWitBtn, #accWitBtn,
-	#rejWitBtn {
+#boardShareBtn, #boardReplyBtn, #boardDateBtn, #unProWitBtn, #accWitBtn,
+#rejWitBtn, #memberLikeBtn, #memberShareBtn, #memberDonateBtn, #sendBtn, #excelBtn {
 	width: 80px;
 	height: 35px;
-	/* margin:15% 0 0 0 ; */
 	color: #666;
 	border: 1px solid #959595;
 	border-radius: 13px;
@@ -138,24 +146,23 @@ hr {
 
 #unProRepBtn:focus, #accRepBtn:focus, #rejRepBtn:focus, #selfDelBtn:focus, #boardLikeBtn:focus,
 	#boardShareBtn:focus, #boardReplyBtn:focus, #boardDateBtn:focus, #unProWitBtn:focus, #accWitBtn:focus,
-	#rejWitBtn:focus {
+	#rejWitBtn:focus, #memberLikeBtn:focus, #memberShareBtn:focus, #memberDonateBtn:focus, #sendBtn:focus, #excelBtn:focus {
 	background-color: black;
 	color: white; 
 	outline: none;
 }
 
-#viewBtn, #enrollBtn,#updateBtn, #accBtn, #rejBtn,#linkBtn{
+#viewBtn, #enrollBtn,#updateBtn, #accBtn, #rejBtn,#linkBtn, #resBtn{
     border-radius: 8px;
     background-color: white;
     font-weight: bold;  
     color: gray;
     margin-top: 5px;  
 }
-#viewBtn:hover, #enrollBtn:hover,#viewBtn:focus, #enrollBtn:focus,#updateBtn:hover, #accBtn:hover, #rejBtn:hover,#linkBtn:hover{
+#viewBtn:hover, #enrollBtn:hover,#viewBtn:focus, #enrollBtn:focus,#updateBtn:hover, #accBtn:hover, #rejBtn:hover,#linkBtn:hover, #resBtn:hover{
 	background-color: black;
 	color: white;  
 	outline: none; 
-	 
 }
 
 .linkArea{
@@ -168,4 +175,40 @@ hr {
 
 .btnArea{
 	padding-bottom: 12px;  
+}
+
+.btn-box {
+	position: relative;
+    top: 50px;
+    left: -80px;
+}
+
+#excelBtn {
+	position: relative;
+    top: 50px;
+    left: -95px;
+    display: inline-block;
+}
+
+#mail_subject {
+	width: 1000px;
+	font-size:18pt;
+	margin-bottom: 20px;
+    position: relative;
+    left: -80px;	
+}
+
+#mail_content {
+	width: 1000px;
+	height: 500px;
+	font-size:18pt;
+	resize: none;
+	margin-bottom: 50px;
+	position: relative;
+    left: -80px;
+}
+
+#sendBtn {
+	position: relative;
+    left: -80px;
 }

@@ -15,7 +15,7 @@
 				<div id="content_h1">
 					<div>
 						<!-- 아이디값 적용해야함 -->
-						<p id="my_profil">${userInfo.user_id}
+						<p id="my_profil">${userInfo.user_nickname}<br/><br/>	@${userInfo.user_id}
 							<c:choose>
 								<c:when test='${userInfo.user_type=="naver"}'>
 									(네이버)
@@ -59,20 +59,39 @@
    </ul>
    <div class="tab_container">
       <div id="tab1" class="tab_content">
-         <h3>받아보기 : </h3>
-            <div class="email-agree">
-               <label><input type="checkbox" checked="checked" id="checkbox" /> 뉴스 이메일 </label>
+         <div id="content_h2">
+               <table id="myinformation">
+                  <tr>
+                     <td id="tdone">ID</td>
+                     <td>${userInfo.user_id}
+                        <c:choose>
+                        <c:when test='${userInfo.user_type=="naver"}'>
+                           (네이버)
+                        </c:when>
+                        <c:when test='${userInfo.user_type=="kakao"}'>
+                           (카카오)
+                        </c:when>
+                     </c:choose>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td id="tdone">e-mail</td>
+                     <td>${userInfo.user_email}</td>
+                  </tr>
+                  <tr>
+                     <td id="tdone">닉네임</td> 
+                     <td>${userInfo.user_nickname}</td>
+                  </tr>
+                  <tr>
+                     <td id="tdone">포인트</td>
+                     <td>${userInfo.user_point} P</td>
+                  </tr>
+                  <tr>
+                     <td id="tdone">자기소개</td>
+                     <td>${userInfo.user_introduce}</td>
+                  </tr>
+               </table>
             </div>
-            <div class="email-agree">
-               <label><input type="checkbox" checked="checked" id="checkbox" /> 알림 이메일</label>
-            </div>
-            <div class="email-agree">
-               <label><input type="checkbox" checked="checked" id="checkbox" /> 제품 이메일</label>
-            </div>
-            <div class="email-agree">
-               <label><input type="checkbox" checked="checked" id="checkbox" /> 설문조사 이메일</label>
-            </div>
-            
       </div>
       <!-- #tab1 -->
       <div id="tab2" class="tab_content">
@@ -102,7 +121,7 @@
                   </tr>
                   <tr>
                      <td id="tdone">포인트</td>
-                     <td>${userInfo.user_point} P<a><input type="button" value="Point" id="chargeBtn" /></a></td>
+                     <td>${userInfo.user_point} P</td>
                   </tr>
                   <tr>
                      <td id="tdone">자기소개</td>
@@ -119,7 +138,7 @@
          <table id="myinformation">
             <tr>
                <td id="tdone">이전비밀번호</td>  
-               <td><input type="password" id="pre_pass" value="${userInfo.user_pass}"/></td>
+               <td><input type="password" name="prev_pass" id="pre_pass" /></td>
             </tr>
             <tr> 
                <td id="tdone">새비밀번호</td>

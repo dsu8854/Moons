@@ -1,4 +1,5 @@
 var board_hashtag;
+var start=0;
 
 $(document).ready(function(){
 	board_hashtag = $('#board_hashtag').text();
@@ -62,7 +63,7 @@ $(document).ready(function(){
 	timelineHashtag(board_hashtag);
 	
 	$(window).scroll(function() { 
-		if ($(window).scrollTop() >= $(document).height() - $(window).height() + 1) {
+		if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
 			start+=8;
 			var formdata = new FormData();
 			formdata.append('board_hashtag',board_hashtag);
@@ -126,10 +127,12 @@ $(document).ready(function(){
 									'<div class="card_page3">'+
 									'<div class="area_taging">';
 							
-						var totalTag = value.board_hashtag.split(' ');
-						$.each(totalTag,function(index,value){
-							source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
-						});
+							if(value.board_hashtag!=null){
+								var totalTag = value.board_hashtag.split(' ');
+								$.each(totalTag,function(index,value){
+									source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
+								});
+							}
 							
 							source+='</div>'+
 									'<div class="content_write">'+
@@ -242,10 +245,12 @@ function timelineHashtag(board_hashtag) {
 							'<div class="card_page3">'+
 							'<div class="area_taging">';
 					
-				var totalTag = value.board_hashtag.split(' ');
-				$.each(totalTag,function(index,value){
-					source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
-				});
+					if(value.board_hashtag!=null){
+						var totalTag = value.board_hashtag.split(' ');
+						$.each(totalTag,function(index,value){
+							source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
+						});
+					}
 					
 					source+='</div>'+
 							'<div class="content_write">'+

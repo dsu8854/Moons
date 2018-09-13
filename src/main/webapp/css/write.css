@@ -12,11 +12,11 @@ form{
 
 }
 
-/* #logo{  
-   width: 162px;
-    height: 51px;   
-    padding-top: 10px; 
-} */
+#logo {
+    width: 188px;
+    height: 65px;
+    margin-top: 15px;
+}
 
 .editor-wrapper{
    width: 100%;
@@ -54,9 +54,7 @@ form{
    border-bottom:1px dotted gray;   
    display: inline-block;
    margin:0px 0px 50px 0px;
-   /* font-size: 14pt;
-   color:cornflowerblue;
-   font-weight: blod; */ 
+   font-size: 20pt;
 }
 
 #board_hashtag{
@@ -80,14 +78,15 @@ form{
 }
 
 .cover_cell{
-   z-index:10;
+   	z-index:10;
+   	position: relative;
+   	left: 55px;
+	width: 1000px;
 }
 
 .cover_title{
    color:white;
    font-weight:bold;
-   opacity:0.5;   
-   /* outline-style: none; */
 }
 
 .cover_title:empty:before {
@@ -115,7 +114,7 @@ form{
 	float:right;
 	position: absolute;
 	top:100px;
-	right:200px;
+	left:1700px;
 }
    
 .background_upload_btn{
@@ -130,8 +129,8 @@ form{
 }
 
 .wrap_right_inner,.wrap_right_inner_in,.wrap_right_inner_modi{
-   float:right;
    position:relative;
+   left: 800px;
    margin:0px 20px 0px 0px;
    
 }
@@ -151,15 +150,16 @@ form{
  }
  
 .choiceMovieBox{
-	display:inline-block;
-	width:500px;
-	height:190px;
-	margin:10px;
-	padding:10px;
-	box-sizing: border-box;
-	border: 1px solid #dddddd;
-	border-radius: 5px;
-	cursor: pointer;
+	position: relative;
+    left: 690px;
+    width: 500px;
+    height: 190px;
+    margin: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 #choiceMovie{
@@ -287,4 +287,24 @@ form{
 
 .board_hashtag[contentEditable=true]:empty:not(:focus):before{
     content:attr(data-text);
+}
+
+.note-fontname {
+	display: none;
+}
+
+.panel-heading {
+	width: 1000px !important;
+}
+
+.note-para>button {
+	display: none;
+}
+
+.note-table {
+	display: none;
+}
+
+.panel-heading {
+	left: -50px !important;
 }

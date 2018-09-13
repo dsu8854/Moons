@@ -155,4 +155,9 @@ public class BoardDaoImp implements BoardDAO{
 	public List<BoardDTO> selectTimelineLikeMethod(HashMap<String, Object> map) {
 		return boardSqlSession.selectList("board.selTimelineLike", map);
 	}
+
+	@Override
+	public List<BoardDTO> selectTimelineAllMethod(HashMap<String, Object> map) {
+		return boardSqlSession.selectList("board.selTimelineAll", map);
+	}
 }//end class

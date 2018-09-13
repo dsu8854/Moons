@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title><tiles:getAsString name="title" /></title>
+<link rel="shortcut icon" href="images/moons.ico">
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/common.css">
 <script

@@ -9,10 +9,10 @@
 		select b.*
 		from(select rownum rm,a.*
 			 from(select n.user_code, n.notice_actor, n.board_num, n.reply_num, n.notice_type, n.notice_amount, 
-			 	  to_char(n.notice_date, 'YYYY-MM-DD HH24:MI:SS') as notice_date, n.notice_state, a.user_photo, a.user_nickname
-				  from moons_notice n, moons_user a
-				  where n.user_code=#{user_code} and n.notice_actor=a.user_code
-				  order by n.notice_date desc)a)b
+				to_char(n.notice_date, 'YYYY-MM-DD HH24:MI:SS') as notice_date, n.notice_state, a.user_photo, a.user_nickname
+				from moons_notice n, moons_user a
+				where n.user_code=#{user_code} and n.notice_actor=a.user_code
+				order by n.notice_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+10]]>
 	</select>
 	

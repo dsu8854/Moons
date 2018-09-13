@@ -9,7 +9,7 @@ $(document).ready(function(){
 	var start=0;
 	/////////달력세팅///////////
 	var date = new Date();
-	var month;
+	var month=date.getMonth()+1;
 	var startterm;
 	var endterm;
 	//한달전
@@ -42,6 +42,17 @@ $(document).ready(function(){
 	});
 
 	//달력부분
+	var prev=$(this);
+	$('#pointHeaderCal li').on('click',function(){
+		prev.css({'backgroundColor':'#ffffff','color':'#333333'});
+		$(this).css({'backgroundColor':'#007399','color':'#ffffff'});
+		prev=$(this);
+	});
+	
+	$('#pointHeaderCal li').each(function(index,value){
+		$(value).text(date.getMonth()+1-(6-$(value).index()-1)+"월");
+	});
+	
 	var prev=$(this);
 	$('#pointHeaderCal li').on('click',function(){
 	      start=0;

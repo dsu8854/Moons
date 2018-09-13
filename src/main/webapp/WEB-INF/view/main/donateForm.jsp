@@ -1,29 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
 <link rel="stylesheet" href="css/donateForm.css">
-<script>
-$(document).ready(function(){
-	$('#donateBtn').on('click',function(){
-		var formdata = $('#donateForm').serialize();
-		$.ajax({
-			url: 'donatePro.do',
-			type: 'POST',
-			dataType: 'text',
-			data: formdata,
-			success: function(res) {
-				if(res){
-					alert('선물 완료!');
-				}
-				else{
-					alert('선물 실패!');
-				}
-				location.href="payment.do";
-			}
-		});
-		return false;
-	});
-});
-</script>
+<script src="js/donateForm.js"></script>
 <div id="point-box">
    <form id="donateForm">
       <div>

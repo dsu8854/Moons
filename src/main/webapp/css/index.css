@@ -53,27 +53,11 @@ a {
 	text-align: center;
     color: #FFF;
     margin-top: 50%;
-    overflow: hidden;
     font-size: large;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 2;
-}
-
-#imgonetext, #imgfourtext {
-}
-
-#imgthreetext, #imgsixtext, #imgseventext, #imgeighttext, #imgninetext {
-	top: 40%;
-	left: 30%;
-	position: absolute;
-}
-
-#imgtwotext, #imgfivetext {
-	top: 63%;
-	left: 10%;
-	position: absolute;
 }
 
 /*//////////////////////////*/
@@ -108,7 +92,6 @@ a {
 	margin: 3%;
 	font-size: 18pt;
 	letter-spacing: 10px;
-	font-size: 18pt;
 }
 
 .keyword-box {
@@ -159,10 +142,15 @@ a {
 
 #contents {
 	font-size: 8pt;
-	padding: 5px 0 0 0;
-	letter-spacing: 2px;
-	line-height: 12px;
-	text-align: left;
+    padding: 5px 0 0 0;
+    letter-spacing: 2px;
+    line-height: 20px;
+    text-align: left;
+    width: 210px;
+    height: 205px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #moviemagazines {

@@ -14,8 +14,8 @@
 		<a href="index.do"><img src="images/logo.JPG" width="170" height="50" id="logo"></a>
 	</div>
 	<div class="search-box">
-        <form id="searchFrm" method="POST" action="search.do">
-        	<input type="text" name="search" id="searchField" placeholder="검색어를 입력해 주세요." />
+        <form id="searchFrm" method="POST" action="search.do" autocomplete="off">
+        	<input type="text" name="search" id="searchField" placeholder="검색어를 입력해 주세요."/>
 			<select name="type" id="searchType">
 				<option value="movie" selected="selected">영화</option>
 				<option value="director">감독</option>
@@ -84,10 +84,6 @@
 							<strong class="user_name"><%=session.getAttribute("user_nickname")%></strong>
 						</div>
 					</a>
-					<c:set var="user_point" value='<%=session.getAttribute("user_point")%>' />
-					<div class="myPoint">
-                     <fmt:formatNumber value="${user_point }" pattern="#,###"/> P
-                       </div>
 				</div>
 				<div class="wrap_side_service_menu logout" style="height: 416px;">
 					<ul>
@@ -114,8 +110,8 @@
 							</a>
 						</li>
 						<li>
-							<a class="menu_word5 #side_publish brunchPublishLink" href="ranking.do">
-								<span class="bar_left"></span>Movie Introduce
+							<a class="menu_word5 #side_publish brunchPublishLink" href="timelineAll.do">
+								<span class="bar_left"></span>All Review
 								<span class="bar_right"></span>
 							</a>
 						</li>

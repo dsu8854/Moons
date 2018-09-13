@@ -14,8 +14,14 @@
 		<!-- 맨상단의 유저정보표시 -->
 		<div class="dmhead">
 			<a href="dmList.do" class="dmPrev">&lt;</a>
-			<a href="" id="dmUser"><img src="images/${yourInfo.user_photo }"  class="senderPhotoHead">${yourInfo.user_nickname }</a>
-			<a href="" class="dmClose">X</a>
+			<c:choose>
+				<c:when test="${empty yourInfo.user_photo}">
+					<a href="timeline.do?user_code=${yourInfo.user_code }" id="dmUser"><img src="images/basic.png"  class="senderPhotoHead">${yourInfo.user_nickname }</a>
+				</c:when>
+				<c:otherwise>
+					<a href="timeline.do?user_code=${yourInfo.user_code }" id="dmUser"><img src="images/${yourInfo.user_photo }"  class="senderPhotoHead">${yourInfo.user_nickname }</a>
+				</c:otherwise>
+			</c:choose>
 		</div>	
 	    
 	    <!-- 대화내용 표시하는 부분 -->
@@ -26,14 +32,13 @@
 		
 			<!-- 왼쪽에 표시되는 말풍선 : 현재유저가 dm을 받는 사람 -->
 			<c:if test="${nowUser == dmDTO.dm_receiver}">
-			<c:set value="${dmDTO.user_code }" var="dm_receiver" />
 			<div class="dmReceive">
 				<c:choose>
 					<c:when test="${empty dmDTO.user_photo}">
-						<a href="" ><img src="images/basic.png" alt="" class="receiverPhoto"></a>
+						<a href="timeline.do?user_code=${yourInfo.user_code }" ><img src="images/basic.png" alt="" class="receiverPhoto"></a>
 					</c:when>
 					<c:otherwise>
-						<a href="" ><img src="images/${dmDTO.user_photo }" alt="" class="receiverPhoto"></a>
+						<a href="timeline.do?user_code=${yourInfo.user_code }" ><img src="images/${dmDTO.user_photo }" alt="" class="receiverPhoto"></a>
 					</c:otherwise>
 				</c:choose>
 				<span class="receiveBorder">
@@ -48,7 +53,14 @@
 					<span class="resDate">${dm_date }</span>
 					<span class="sendBorder">
 					<span class="sendMes">${dmDTO.dm_content }</span></span>
-					<a href="" ><img src="images/${dmDTO.user_photo }" alt="" class="senderPhoto"></a>
+					<c:choose>
+						<c:when test="${empty dmDTO.user_photo}">
+							<a href="" ><img src="images/basic.png" alt="" class="senderPhoto"></a>
+						</c:when>
+						<c:otherwise>
+							<a href="" ><img src="images/${dmDTO.user_photo }" alt="" class="senderPhoto"></a>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</c:if>
 
@@ -59,7 +71,7 @@
 		<form id="dmForm" method="post">
 			<div class="dmfooter">
 				<input type="hidden" name="user_code" value="${nowUser }" />
-				<input type="hidden" name="dm_receiver" value="${dm_receiver }" />
+				<input type="hidden" name="dm_receiver" id="dm_code" value="${yourInfo.user_code }" />
 				<input type="hidden" name="user_nickname" value="${yourInfo.user_nickname }" />
 				<img src="images/mesImg.png" class="mesImg">
 				<input type="text" name="dm_content" id="nowMes" autocomplete="off" >

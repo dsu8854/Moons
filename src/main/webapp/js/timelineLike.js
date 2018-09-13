@@ -1,3 +1,5 @@
+var start=0;
+
 $(document).ready(function(){
 	$(document).on('click', '.like_icon', function(){
 		var icon = this;
@@ -58,7 +60,7 @@ $(document).ready(function(){
 	timelineFollow();
 	
 	$(window).scroll(function() { 
-		if ($(window).scrollTop() >= $(document).height() - $(window).height() + 1) {
+		if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
 			start+=8;
 			var formdata = new FormData();
 			formdata.append('start',start);
@@ -121,10 +123,12 @@ $(document).ready(function(){
 									'<div class="card_page3">'+
 									'<div class="area_taging">';
 							
-						var totalTag = value.board_hashtag.split(' ');
-						$.each(totalTag,function(index,value){
-							source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
-						});
+							if(value.board_hashtag!=null){
+								var totalTag = value.board_hashtag.split(' ');
+								$.each(totalTag,function(index,value){
+									source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
+								});
+							}
 							
 							source+='</div>'+
 									'<div class="content_write">'+
@@ -234,10 +238,12 @@ function timelineFollow() {
 							'<div class="card_page3">'+
 							'<div class="area_taging">';
 					
-				var totalTag = value.board_hashtag.split(' ');
-				$.each(totalTag,function(index,value){
-					source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
-				});
+					if(value.board_hashtag!=null){
+						var totalTag = value.board_hashtag.split(' ');
+						$.each(totalTag,function(index,value){
+							source+='<span><a href="timelineHashtag.do?board_hashtag='+encodeURIComponent(value)+'" class="txt_taging">'+value+'</a></span>';
+						});
+					}
 					
 					source+='</div>'+
 							'<div class="content_write">'+

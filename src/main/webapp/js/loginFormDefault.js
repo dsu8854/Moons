@@ -31,6 +31,8 @@ function login() {
 function viewMessage(res) {
 	if(res=='아이디/비밀번호 불일치')
 		alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+	else if(res=='탈퇴')
+		alert('이미 탈퇴된 회원입니다.');
 	else
 		location.href = 'index.do';
 }

@@ -32,6 +32,12 @@
 		where user_id = #{user_id} and user_pass = #{user_pass} and user_type = #{user_type}
 	</select>
 	
+	<select id="chkCodePass" parameterType="dto.UserDTO" resultType="java.lang.Boolean">
+		select case when count(*) > 0 then 1 else 0 end 
+        from moons_user
+		where user_code = #{user_code} and user_pass = #{user_pass}
+	</select>
+	
 	<select id="chkEmail" parameterType="dto.UserDTO" resultType="java.lang.Boolean">
 		select case when count(*) > 0 then 1 else 0 end 
         from moons_user
@@ -42,6 +48,12 @@
 		select case when count(*) > 0 then 1 else 0 end 
         from moons_user
 		where user_email = #{user_email}
+	</select>
+	
+	<select id="chkState" parameterType="dto.UserDTO" resultType="int">
+		select user_state 
+        from moons_user
+		where user_id=#{user_id} and user_pass=#{user_pass} and user_type=#{user_type}
 	</select>
 	
 	<select id="pass" parameterType="dto.UserDTO" resultType="String">
@@ -71,11 +83,11 @@
 				from moons_board 
 				where user_code=#{user_code} and board_state=1) as postCount,
 			   (select count(*)
-				from moons_follow
-				where user_code=#{user_code}) as followCount,
+				from moons_follow f, moons_user u
+				where f.user_code=#{user_code} and f.follow_following=u.user_code and u.user_state=1) as followCount,
 			   (select count(*)
-				from moons_follow
-				where follow_following=#{user_code}) as followerCount
+				from moons_follow f, moons_user u
+				where f.follow_following=#{user_code} and f.user_code=u.user_code and u.user_state=1) as followerCount
 		from moons_user
 		where user_code=#{user_code}
 	</select>
@@ -105,43 +117,56 @@
 		where user_code=#{user_code}
 	</select>
 	
-	<select id="selFollow" parameterType="dto.UserDTO" resultType="dto.FollowDTO">
-		select f.follow_following,
+	<select id="selFollow" parameterType="hashmap" resultType="dto.FollowDTO">
+		select f.follow_following, f.checkFollow,
 		u.user_photo, u.user_nickname, u.user_introduce
-		from moons_follow f, moons_user u
-		where f.user_code=#{user_code} and u.user_code=f.follow_following
+		from
+		(
+		select follow_following, 1 as checkFollow
+		from moons_follow
+		where user_code=#{your_code} and follow_following in (select follow_following
+											 		from moons_follow
+											 		where user_code=#{my_code})
+		union
+		select follow_following, 0 as checkFollow
+		from moons_follow
+		where user_code=#{your_code} and follow_following not in (select follow_following
+											 			from moons_follow
+											 			where user_code=#{my_code})
+		) f, moons_user u
+		where f.follow_following=u.user_code and u.user_state=1
 	</select>
 	
 	<select id="followCount" parameterType="dto.UserDTO" resultType="int">
 		select count(*)
-		from moons_follow
-		where user_code=#{user_code}
+		from moons_follow f, moons_user u
+		where f.user_code=#{user_code} and f.follow_following=u.user_code and u.user_state=1
 	</select>
 	
-	<select id="selFollower" parameterType="dto.UserDTO" resultType="dto.FollowDTO">
+	<select id="selFollower" parameterType="hashmap" resultType="dto.FollowDTO">
 		select f.user_code as follow_following, f.checkFollow,
 	   	u.user_photo, u.user_nickname, u.user_introduce
 		from
 		(
 		select user_code, 1 as checkFollow
 		from moons_follow
-		where follow_following=#{user_code} and user_code in (select follow_following
+		where follow_following=#{your_code} and user_code in (select follow_following
 											 		 		  from moons_follow
-											 		 		  where user_code=#{user_code})
+											 		 		  where user_code=#{my_code})
 		union
 		select user_code, 0 as checkFollow
 		from moons_follow
-		where follow_following=#{user_code} and user_code not in (select follow_following
+		where follow_following=#{your_code} and user_code not in (select follow_following
 														 		  from moons_follow
-														 		  where user_code=#{user_code})
+														 		  where user_code=#{my_code})
 		) f, moons_user u
-		where u.user_code=f.user_code
+		where u.user_code=f.user_code and u.user_state=1
 	</select>
 	
 	<select id="followerCount" parameterType="dto.UserDTO" resultType="int">
 		select count(*)
-		from moons_follow
-		where follow_following=#{user_code}
+		from moons_follow f, moons_user u
+		where f.follow_following=#{user_code} and f.user_code=u.user_code and u.user_state=1
 	</select>
 	
 	<delete id="delFollow" parameterType="dto.FollowDTO">
@@ -182,7 +207,13 @@
 																 from moons_follow f
 																 where f.user_code=#{user_code} and f.follow_following=u.user_code) as follow_check
 				from moons_user u
-				where u.user_id LIKE '%'||#{search}||'%' or u.user_nickname LIKE '%'||#{search}||'%')a)b
+				where u.user_state=1 and u.user_code!=#{user_code} and (u.user_id LIKE '%'||#{search}||'%' or u.user_nickname LIKE '%'||#{search}||'%'))a)b
 		<![CDATA[where rm>#{startCount} and rm<=#{startCount}+#{listCount} ]]>
 	</select>
+	
+	<select id="followCheck" parameterType="map" resultType="java.lang.Boolean">
+      select case when count(*) > 0 then 1 else 0 end
+      from moons_follow f
+      where f.user_code=#{my_code} and f.follow_following=#{your_code}
+   </select>
 </mapper>

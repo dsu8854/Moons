@@ -22,6 +22,7 @@ public class BoardDTO {
 	private String user_photo; 		//작성자 프로필사진을 저장하기 위한 변수
 	private String user_nickname; 	//작성자 닉네임을 저장하기 위한 변수
 	private String user_introduce;	//작성자 소개를 저장하기 위한 변수
+	private int user_state;			//작성자 상태
 	private Boolean isLike;			//좋아요 여부
 	private Boolean isShare;		//공유 여부 
 	private Boolean isReport;		//신고 여부
@@ -151,6 +152,14 @@ public class BoardDTO {
 
 	public void setUser_introduce(String user_introduce) {
 		this.user_introduce = user_introduce;
+	}
+	
+	public int getUser_state() {
+		return user_state;
+	}
+
+	public void setUser_state(int user_state) {
+		this.user_state = user_state;
 	}
 
 	public Boolean getIsLike() {

@@ -41,15 +41,13 @@ $(document).ready(function(){
 				report_content.slideToggle(0);
 				contentWrap.empty();
 				$.each(res,function(index,item){
-					contentWrap.append('<div class="report_detail"><div style="text-align:left;"><span>'+item.report_reporter+'</span>'
-											+'<span style="float:right;">'+item.report_date+'</span></div>'
+					var report_date = moment(item.report_date);
+					contentWrap.append('<div class="report_detail"><div style="text-align:left;">'
+											+'<span style="float:right;">'+report_date.format('YYYY-M-DD')+'</span></div>'
 											+'<div style="text-align:left;"><span>'+item.report_reason+'</span></div></div>');
 				});
 			}
 		});
-		/*var form = $(this).siblings('form');
-		form.children('[name=report_state]').val(2);
-		form.attr('action','adminReportUpdate.do').submit();*/
 	});
 	
 	$('.reportWrap').on('click','#accBtn',function(){

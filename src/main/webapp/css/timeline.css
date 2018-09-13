@@ -324,8 +324,8 @@ a {
 	display: none;
 }
 
-#profileBtn, #dmBtn {
-	width: 80px;   
+#profileBtn, #dmBtn, #followApplyBtn, #followDeleteBtn {
+	width: 90px;
     height: 35px;               
     color: #666;
     border: 1px solid #959595;
@@ -453,12 +453,16 @@ a {
 	display: block;
     max-height: 1.5em;
     overflow: hidden;
-	color: black;
+    color: black;
     font-weight: 500;
     letter-spacing: -1px;
     margin-top: 10px;
     font-size: 20px;
-	}
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 450px;
+    height: 20px;
+}
 
 /*내용부분*/
 .timelineWrap .card_page1 .content_line{
@@ -522,13 +526,15 @@ a {
 
 /*태그부분*/
 .timelineWrap .area_taging{
-	display:block;
-	line-height:20px;
-	overflow:hidden;  
-	float: left;  
+	display: block;
+    line-height: 20px;
+    overflow: hidden;
+    float: left;
     margin: 15px 0 0 10px;
-	}
-
+    width: 400px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 .txt_taging {
     text-decoration: none;

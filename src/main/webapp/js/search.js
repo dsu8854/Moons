@@ -236,36 +236,36 @@ function diretorSuccessMessage(data) {
 
 function userSuccessMessage(data) {
 	$.each(data, function(index, value) {
-		if($('#user_code').val()!=value.user_code){
-			var str='<div class="userBox">';
+		var str='<div class="userBox">';
+	
+		if(value.user_photo==null)
+			str+='<img src="images/basic.png" id="userPhoto" /><br/>';
+		else
+			str+='<img src="images/'+value.user_photo+'" id="userPhoto" /><br/>';
 		
-			if(value.user_photo==null)
-				str+='<img src="images/basic.png" id="userPhoto" /><br/>';
-			else
-				str+='<img src="images/'+value.user_photo+'" id="userPhoto" /><br/>';
-			
-			str+='<span id="userNickname">'+value.user_nickname+'</span><br/>'
-				+'<span id="userID">@'+value.user_id+'</span><br/><br/>';
-			
-			if(value.user_introduce==null)
-				str+='<p id="userIntro"></p><br/>';
-			else
-				str+='<p id="userIntro">'+value.user_introduce+'</p><br/>';
+		str+='<span id="userNickname">'+value.user_nickname+'</span><br/>'
+			+'<span id="userID">@'+value.user_id+'</span><br/><br/>';
 		
+		if(value.user_introduce==null)
+			str+='<p id="userIntro"></p><br/>';
+		else
+			str+='<p id="userIntro">'+value.user_introduce+'</p><br/>';
+	
+		if($('#my_code').val()!=value.user_code){
 			if(value.follow_check>0){
 				str+='<input type="button" class="userBtn" id="followDeleteBtn" value="언팔로우"/>';
 			}else{
 				str+='<input type="button" class="userBtn" id="followApplyBtn" value="팔로우"/>';
 			}
 		
-			str+='&nbsp;<input type="button" class="userBtn" id="dmBtn" value="쪽지"/>'
-				+'<form id="timelineForm" method="post"><input type="hidden" value="'+value.user_code+'" name="user_code"></form>'
-				+'<form id="followForm" method="post"><input type="hidden" value="'+value.user_code+'" name="follow_following"></form>'
-				+'<form id="dmForm" method="post"><input type="hidden" value="'+value.user_code+'" name="dm_receiver"></form>'
-				+'</div>';
-		
-			$('#searchWrap').append(str);
+			str+='&nbsp;<input type="button" class="userBtn" id="dmBtn" value="쪽지"/>';
 		}
+			str+='<form id="timelineForm" method="post"><input type="hidden" value="'+value.user_code+'" name="user_code"></form>'
+			+'<form id="followForm" method="post"><input type="hidden" value="'+value.user_code+'" name="follow_following"></form>'
+			+'<form id="dmForm" method="post"><input type="hidden" value="'+value.user_code+'" name="dm_receiver"></form>'
+			+'</div>';
+	
+		$('#searchWrap').append(str);
 	});
 }// end viewMessage
 

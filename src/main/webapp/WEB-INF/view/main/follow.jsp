@@ -8,6 +8,8 @@
 <div id="follow_list">
 	<label id="follow_list_label">팔로잉 : ${followCount}명</label>
 	<input type="hidden" id="followCount" value="${followCount }" />
+	<c:set var="user_code" value='<%=session.getAttribute("user_code")%>' />
+	<input type="hidden" id="user_code" value="${user_code}" />
 </div>
 <div class="followWrap">
 	<c:forEach items="${followList}" var="follow">
@@ -31,13 +33,27 @@
 					<div class="content_introduce">${follow.user_introduce}</div>
 				</c:when>
 			</c:choose>
-			
-			<div>
-				<form id="followForm" method="post">
-					<input type="button" class="followCancelBtn" value="팔로우 취소" />
-					<input type="hidden" name="follow_following" value="${follow.follow_following }" />
-				</form>
-			</div>
+
+			<c:if test="${user_code!=follow.follow_following}">
+				<c:choose>
+					<c:when test="${!follow.checkFollow}">
+						<div>
+							<form id="followForm" method="post">
+								<input type="button" class="followBtn" value="팔로우 신청" />							
+								<input type="hidden" name="follow_following" value="${follow.follow_following }" />
+							</form>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div>
+							<form id="followForm" method="post">
+								<input type="button" class="followCancelBtn" value="팔로우 취소" />
+								<input type="hidden" name="follow_following" value="${follow.follow_following }" />
+							</form>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
 		</div>
 	</c:forEach>
 </div>

@@ -35,4 +35,5 @@ public interface BoardDAO {
 	public List<BoardDTO> selectTimelineHashtagMethod(HashMap<String, Object> map);
 	public List<BoardDTO> selectTimelineFollowMethod(HashMap<String, Object> map);
 	public List<BoardDTO> selectTimelineLikeMethod(HashMap<String, Object> map);
+	public List<BoardDTO> selectTimelineAllMethod(HashMap<String, Object> map);
 }//end interface

@@ -50,6 +50,52 @@ $(document).ready(function(){
 		}
 	});
 			
+	//수정시 영화정보
+	if($('#board_movie').val()!=''){
+		var movie=$('#board_movie').val().split('*')[0];
+		var director=$('#board_movie').val().split('*')[1];
+		console.log($('#board_movie').val());
+		console.log(movie+','+director);
+		$.ajax({
+			type:'GET',
+			dataType:'xml',
+			url:'searchMovieDirectorOpen.do?title='+movie+'&director='+director,
+			success: function(xmlData){
+				$(xmlData).find('Row').each(function(index) {	
+					var actor = "";
+					$(this).find('actorNm').each(function(index, value) {
+						if (index > 2)
+							return false;
+						
+						if (index == 0)
+							actor += $(value).text().substring(1, $(value).text().length - 1);
+						else
+							actor += ", "+ $(value).text().substring(1, $(value).text().length - 1);
+					});
+
+					$('#choiceBox').css('display','none');
+					$('#choiceMovie').find('img').attr('src', $(this).find('posters').text().split('|')[0]);
+					var m= '<li id="movieInfo"><span id="movieTitle">'+ $(this).find('title').text()+'</span><br/>'
+					+'<span id="movieSubTitle">'+$(this).find('titleOrg').text()+'</span><br/>'
+					+'<span id="moviePubDate">'+$(this).find('prodYear').text()+'</span><br/>'
+					+'<span id="movieDirector">'+$(this).find('directorNm').text()+'</span><br/>'
+					+'<span id="movieActor">'+actor+'</span></li>';
+					
+					$(document.getElementsByTagName('img')).each(function(index, item) {
+						if ($(item).attr('src') == "  ") {
+							$(item).attr('src', 'images/noimage.png');
+						}
+					});
+					
+					movie=$(this).find('#title').text()+'*'+$(this).find('#director').text();
+					$('.choiceMovieBox li:nth-of-type(2)').remove();
+					$('#movieInfo').remove();
+					$('.choiceMovieBox').append(m);
+				});
+			}
+		});
+	}
+	
 	//영화선택
 	$('.choiceMovieBox').on('click',function(){
 		if($('.choiceMovieBox').attr('id')=='boxOFF') 
@@ -89,12 +135,9 @@ $(document).ready(function(){
 			+'<span id="movieActor">'+$(this).find('#actor').text()+'</span></li>';
 		
 		movie=$(this).find('#title').text()+'*'+$(this).find('#director').text();
-		$('#choicemovieInfo').remove();
+		$('.choiceMovieBox li:nth-of-type(2)').remove();
+		$('#movieInfo').remove();
 		$('.choiceMovieBox').append(m);
-	});
-	
-	$('.itembox').on('mouseover',function(){
-		
 	});
 	
 	$('#btnSave').on('click',function(){
@@ -183,11 +226,27 @@ $(document).ready(function(){
 	});
 	
 	$('#btnPost').on('click',function(){
+		if($('[name=board_photo]').val()==''){
+			if($('#choiceMovie').find('img').attr('src')!='images/noimage.png')
+				$('[name=board_photo]').val($('#choiceMovie').find('img').attr('src'));
+		}
+		if($('#board_movie').val()==''){
+			alert('영화를 선택해 주세요');
+			return false;
+		}
 		$('#postForm').attr('action','post.do').submit();
 	});
 	
 	/*수정버튼 클릭시 적용되는 부분 여기만수정함*/
 	$('#btnModPost').on('click',function(){
+		if($('[name=board_photo]').val()==''){
+			if($('#choiceMovie').find('img').attr('src')!='images/noimage.png')
+				$('[name=board_photo]').val($('#choiceMovie').find('img').attr('src'));
+		}
+		if($('#board_movie').val()==''){
+			alert('영화를 선택해 주세요');
+			return false;
+		}
 		$('#postForm').attr('action','updatePost.do').submit();
 	});
 });

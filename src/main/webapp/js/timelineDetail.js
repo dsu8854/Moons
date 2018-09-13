@@ -34,7 +34,13 @@ $(document).ready(function(){
 			url: 'replyInsertList.do?board_num='+$(board_num).val()
 				+'&reply_content='+$(reply_content).val()
 				+'&user_nickname='+$('.comUserNick').text(),
-			success: reply_list
+			success: function(res){
+				if(res) {
+					location.reload();
+				} else {
+					alert('댓글 작성 실패');
+				}
+			}
 		});
 	});
 	
@@ -59,7 +65,13 @@ $(document).ready(function(){
 			+'&user_nickname='+$('#comUserNickid').val()
 			+'&reply_ref='+reply_num.val()
 			+'&reply_step='+reply_step_val,
-			success: reply_list
+			success: function(res){
+				if(res) {
+					location.reload();
+				} else {
+					alert('댓글 작성 실패');
+				}
+			}
 		});
 	});
 	
@@ -72,7 +84,13 @@ $(document).ready(function(){
 			dataType: 'json',
 			url: 'replyDelete.do?reply_num='+$(reply_num).val()
 			+'&board_num='+$('#board_num').val(),
-			success: reply_list
+			success: function(res){
+				if(res) {
+					location.reload();
+				} else {
+					alert('댓글 삭제 실패');
+				}
+			}
 		});
 		
 	});
@@ -109,7 +127,13 @@ $(document).ready(function(){
 				url: 'replyUpdate.do?reply_num='+$(reply_num).val()
 				+'&reply_content='+modCont.val()
 				+'&board_num='+$('#board_num').val(),
-				success: reply_list
+				success: function(res){
+					if(res) {
+						location.reload();
+					} else {
+						alert('댓글 수정 실패');
+					}
+				}
 			});	
 		});
 		
@@ -119,15 +143,12 @@ $(document).ready(function(){
 			$(this).parents('.comContWrap').html('<div class="comCont">'+repContText+'</div>');
 			
 			var source = "<div class='btnWrap'>"+
-						 	"<div class='editRep'>"+
-						 		"<input type='button' class='repModifyBtn' value='수정'>"+
-						 		"<input type='button' class='repDeleteBtn' value='삭제'>"+
-						 	"</div>"+
-						 	"<div class='comRep'>"+
-						 		"<input type='button' class='replyBtn' value='댓글'>"+
-						 		"<input type='button' class='reportBtn' value='신고'>"+
-						 	"</div>"+
-						 "</div>";		
+		 				 "<div class='editRep'>"+
+		 				 "<input type='button' class='repModifyBtn' value='수정'>"+
+		 				 "<input type='button' class='repDeleteBtn' value='삭제'>"+
+		 				 "<input type='button' class='replyBtn' value='댓글'>"+
+		 				 "</div>"+
+		 				 "</div>";		
 
 			comList.append(source);
 		});
@@ -236,62 +257,6 @@ $(document).ready(function(){
 		return false;
 	});
 });
-
-function reply_list(res){
-	/*현재로그인한사용자의 정보*/
-	var user_code=$('#comment_user').val();
-	var user_nickname=$('#comUserNickid').val();
-	
-	$('.reply_list').empty();
-	
-	$.each(res, function(index, value){
-		var source="<li class='comment_one'>" +
-					"<div class='comment_list'>";
-					
-					if(value.reply_num != value.reply_ref){
-						source+="<img class='repImg' src='images/re.gif'>";
-					}
-					
-			source+="<div class='comUserPhoWrap'>";
-			
-					if(value.user_photo==null)
-						source+="<img src='images/basic.png' class='comUserPho'>";
-					else
-						source+="<img src='images/"+value.user_photo+"' class='comUserPho'>";
-					
-			source+="</div>"+
-					"<input type='hidden' class='rep_num' name='rep_num' value='"+value.reply_num+"'>"+
-					"<input type='hidden' class='ref_num' name='ref_num' value='"+value.reply_ref+"'>"+
-					"<input type='hidden' class='rep_cont' name='rep_cont' value='"+value.reply_content+"'>"+
-					"<div class='comUserNick'><span>"+value.user_nickname +"</span><span class='comDate'>"+value.reply_date +"</span></div>"+
-					"<div class='comContWrap'><div class='comCont'>"+value.reply_content +"</div></div>"+
-					"<div class='btnWrap'>"+
-						"<div class='editRep'>"+
-							"<input type='button' class='repModifyBtn' value='수정'>"+
-							"<input type='button' class='repDeleteBtn' value='삭제'>"+
-						"</div>"+
-						"<div class='comRep'>"+
-							"<input type='button' class='replyBtn' value='댓글'>"+
-							"<input type='button' class='reportBtn' value='신고'>"+
-						"</div>"+
-					"</div>"+
-					"</div>"+
-					"<div class='comment_rep write1'>"+
-					"<img class='repImg' src='images/re.gif'>"+
-						"<input type='hidden' class='reply_num' name='reply_num' value='"+value.reply_num+"' />"+
-						"<input type='hidden' class='reply_step' name='reply_step' value='"+value.reply_step+"'} />"+
-						"<div class='comUserPhoWrap'><img src='images/back.jpg' class='comUserPho'></div>"+
-						"<div class='comUserNick'>"+user_nickname+"</div>"+
-				
-						"<textarea class='reply_content' name='reply_content1' placeholder='댓글로 자유롭게 이야기를 나누어 보세요!'></textarea>"+
-						"<input class='comRepBtn' type='button' value='등록' >"+
-					"</div></li>";
-		
-		$('.reply_list').append(source);
-		
-		$('.reply_content').val('');
-	});
-};
 
 function donateForm() {
 	$('#donateForm').submit();

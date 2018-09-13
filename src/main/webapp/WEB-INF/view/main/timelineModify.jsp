@@ -14,7 +14,6 @@
 <script src="lang/summernote-ko-KR.js"></script>
 <script src="js/write.js"></script>
 <link href="css/write.css" rel="stylesheet">
-<!-- <div class="service_header" id="service_header"> -->
 		<c:choose>
 			<c:when test="${empty bdto.board_photo }">
 				<div class="service_header" id="service_header" style="background:url('images/back.jpg') top fixed / 100% 100%;" >
@@ -28,7 +27,7 @@
 		</c:choose>
 
 	<div class="menubar">
-		<a href="index.do"><img src="images/logo.JPG" width="170" height="50" id="logo"></a>
+		<a href="index.do"><img src="images/logo.png" width="170" height="50" id="logo"></a>
 	</div>
 	<div class="wrap_inner">
 		<div class="f">
@@ -43,8 +42,7 @@
 					<input type="hidden" name="board_subject" />
 					<input type="hidden" name="board_content" />
 					<input type="hidden" name="board_photo" />
-					<input type="hidden" name="fileArray" />
-					<input type="hidden" name="board_movie" id="board_movie"/>
+					<input type="hidden" name="board_movie" id="board_movie" value="${bdto.board_movie }" />
 					<input type="hidden" name="board_hashtag" />
 				</form>
 			</div>

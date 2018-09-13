@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <meta http-equiv="Content-Type" Content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <script src="js/index.js"></script> 
@@ -15,11 +16,14 @@
 							<c:when test="${empty link.board_photo }">
 								<div class="linkArea" style="background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(images/back.jpg);">
 							</c:when>
+							<c:when test='${fn:contains(link.board_photo,"http")}'>
+								<div class="linkArea" style="background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(${link.board_photo});">
+							</c:when>
 							<c:otherwise>
 								<div class="linkArea" style="background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(images/${link.board_photo});">
 							</c:otherwise>
 						</c:choose>
-							<p class="imgtext" id="imgonetext">${link.board_subject}</p>  
+							<p class="imgtext" id="imgonetext">${link.board_subject}</p>
 							<input type="hidden" class="location" value="${link.location }" />
 						</div>
 					</a>
@@ -30,7 +34,7 @@
 		<img id="button-next" src="images/next.jpg"> -->  
 	</div>
 	 
-	<p id="keywordfont">MOONS KEYWORD</p>
+	<div id="keywordfont">MOONS KEYWORD</div>
 	<div class="keyword-box">
 		<div id="square-box">
 			<table>
@@ -50,6 +54,9 @@
 					<c:choose>
 						<c:when test="${empty link.board_photo }">
 							<img src="images/back.jpg" width="200" height="200">
+						</c:when>
+						<c:when test='${fn:contains(link.board_photo,"http")}'>
+							<img src="${link.board_photo}" width="200" height="200">
 						</c:when>
 						<c:otherwise>
 							<img src="images/${link.board_photo}" width="200" height="200">

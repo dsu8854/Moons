@@ -7,6 +7,7 @@ import dto.BoardDTO;
 import dto.ChargeDTO;
 import dto.LinkDTO;
 import dto.ReportDTO;
+import dto.UserDTO;
 import dto.WithdrawDTO;
 
 public interface AdminDAO {
@@ -18,4 +19,8 @@ public interface AdminDAO {
 	public void updateWithdrawMethod(WithdrawDTO wdto);
 	public void updateLinkMethod(LinkDTO ldto);
 	public List<BoardDTO> selectBoardListMethod(HashMap<String,Integer> map);
+	public int selectReportCountAllMethod();
+	public int selectWithdrawCountAllMethod();
+	public List<UserDTO> selectMemberListMethod(HashMap<String,Integer> map);
+	public List<String> selectEmailAllMethod();
 }

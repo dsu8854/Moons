@@ -14,7 +14,7 @@
 <link href="css/write.css" rel="stylesheet">
 <div class="service_header" id="service_header">
 	<div class="menubar">
-		<a href="index.do"><img src="images/logo.JPG" width="170" height="50" id="logo"></a>
+		<a href="index.do"><img src="images/logo.png" id="logo"></a>
 	</div>
 	<div class="wrap_inner">
 		<div class="f">
@@ -50,9 +50,6 @@
 					<div class="cover_cell">
 						<h1 class="cover_title" id="board_subject_cover" contenteditable="true"></h1>
 						<input type="text" name="board_subject" id="board_subject" style="display: none">
-						<!-- <br>
-							<div class="cover_subtitle"	 id="cover_subtitle" contenteditable="true">소제목을 입력하세요.</div>
-							<input type="text" name="board_subject" id="board_subject_sub" style="display:none"> -->
 					</div>
 				</div>
 			</div>

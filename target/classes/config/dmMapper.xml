@@ -25,24 +25,34 @@
 	</insert>
 	
 	<select id="selYourInfo" parameterType="dto.DmDTO" resultType="dto.DmDTO">
-		select user_nickname, user_photo
+		select user_nickname, user_photo, user_code
 		from moons_user
 		where user_code=#{dm_receiver}
 	</select>
 	
 	<select id="selList" parameterType="dto.DmDTO" resultType="dto.DmDTO">
 		select dm_receiver, user_nickname, user_photo, dm_count
-		from(select distinct case when d.user_code=#{user_code} then d.dm_receiver else d.user_code end as dm_receiver, 
-					u.user_nickname, u.user_photo, 
-					(select count(*) from moons_dm where user_code=d.user_code and dm_receiver=#{user_code} and dm_state=1) as dm_count,
-					row_number() over(partition by (case when d.user_code=#{user_code} then d.dm_receiver else d.user_code end) order by (case when d.user_code=#{user_code} then d.dm_receiver else d.user_code end)) as cnt
-	 		 from(select distinct user_code, dm_receiver
-		  		  from moons_dm
-	 	  		  where user_code=#{user_code} or (user_code!=#{user_code} and user_code in (select distinct user_code
-														  	   		   						 from moons_dm
-														  	   		   						 where dm_receiver=#{user_code}))) d, moons_user u
-	 		 where decode(d.user_code,#{user_code},d.dm_receiver,d.user_code) like u.user_code)
-		where cnt=1
+		from(select case when d.user_code=#{user_code} then d.dm_receiver else d.user_code end as dm_receiver,
+			 u.user_nickname, u.user_photo,
+			(select count(*) from moons_dm where user_code=d.user_code and dm_receiver=#{user_code} and dm_state=1) as dm_count
+	 		 from(select user_code, dm_receiver
+	 	  		  from((select user_code, dm_receiver
+	 	  	    		from moons_dm
+	 	  	    		where user_code=#{user_code})
+	 	  	   		   union
+	 	  	   		   (select user_code, dm_receiver
+	 	  	    		from moons_dm
+	 	  	    		where dm_receiver=#{user_code}))
+	 	  	   		   minus
+	 	  	   		   (select a.user_code, a.dm_receiver
+	 	  	    		from(select user_code, dm_receiver
+	 	  	    	 		 from moons_dm
+	 	  	    	 		 where user_code=#{user_code}) a,
+	 	  	   		   (select user_code, dm_receiver
+	 	  	   		 	from moons_dm
+	 	  	   		 	where dm_receiver=#{user_code}) b
+	 	  	   	 where a.dm_receiver(+)=b.user_code)) d, moons_user u
+	 		where decode(d.user_code,#{user_code},d.dm_receiver,d.user_code) like u.user_code)
 	</select>
 	
 	<select id="cntAll" parameterType="int" resultType="int">

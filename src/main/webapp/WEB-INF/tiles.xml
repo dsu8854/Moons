@@ -86,10 +86,6 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/privacy.jsp"/>
 	</definition>
 	
-	<definition name="ranking" extends="index">
-		<put-attribute name="body" value="/WEB-INF/view/main/ranking.jsp"/>
-	</definition>
-	
 	<definition name="timelineHashtag" extends="index">
 		<put-attribute name="body" value="/WEB-INF/view/main/timelineHashtag.jsp"/>
 	</definition>
@@ -102,8 +98,8 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/timelineLike.jsp"/>
 	</definition>
 	
-	<definition name="timelineDetailError" extends="index">
-		<put-attribute name="body" value="/WEB-INF/view/main/timelineDetailError.jsp"/>
+	<definition name="timelineAll" extends="index">
+		<put-attribute name="body" value="/WEB-INF/view/main/timelineAll.jsp"/>
 	</definition>
 	
 	<definition name="write" template="/WEB-INF/view/template/layoutWrite.jsp">
@@ -169,6 +165,10 @@
 		<put-attribute name="body" value="/WEB-INF/view/main/error500.jsp"/>
 	</definition>
 	
+	<definition name="timelineDetailError" extends="intro">
+		<put-attribute name="body" value="/WEB-INF/view/main/timelineDetailError.jsp"/>
+	</definition>
+	
 	<definition name="adminMain" template="/WEB-INF/view/template/layoutAdmin.jsp">
 		<put-attribute name="title" value="Moons"/>
 		<put-attribute name="header" value="/WEB-INF/view/template/adminHeader.jsp"/>
@@ -185,5 +185,13 @@
 	
 	<definition name="adminBoard" extends="adminMain">
 		<put-attribute name="body" value="/WEB-INF/view/main/adminBoard.jsp"/>
+	</definition>
+	
+	<definition name="adminMember" extends="adminMain">
+		<put-attribute name="body" value="/WEB-INF/view/main/adminMember.jsp"/>
+	</definition>
+	
+	<definition name="adminMail" extends="adminMain">
+		<put-attribute name="body" value="/WEB-INF/view/main/adminMail.jsp"/>
 	</definition>
 </tiles-definitions>

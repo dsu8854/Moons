@@ -19,6 +19,11 @@ public class UserDTO {
 	private int followerCount;
 	private int follow_check;
 	
+	private int user_post;
+	private int user_like;
+	private int user_share;
+	private int user_donate;
+	
 	public UserDTO() {
 		
 	}
@@ -133,5 +138,37 @@ public class UserDTO {
 	
  	public void setFollow_check(int follow_check) {
 		this.follow_check = follow_check;
+	}
+
+	public int getUser_post() {
+		return user_post;
+	}
+
+	public void setUser_post(int user_post) {
+		this.user_post = user_post;
+	}
+
+	public int getUser_like() {
+		return user_like;
+	}
+
+	public void setUser_like(int user_like) {
+		this.user_like = user_like;
+	}
+
+	public int getUser_share() {
+		return user_share;
+	}
+
+	public void setUser_share(int user_share) {
+		this.user_share = user_share;
+	}
+
+	public int getUser_donate() {
+		return user_donate;
+	}
+
+	public void setUser_donate(int user_donate) {
+		this.user_donate = user_donate;
 	}
 }

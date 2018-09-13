@@ -54,9 +54,7 @@ a{
 }
 
 #service_header {
-	background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    width: 1903px;
 }
 
 #board_subject_cover {
@@ -96,6 +94,8 @@ a{
 
 #time_content {
     font-weight: 300;
+    margin-left:400px;
+    margin-right:400px;
     text-align: center;
     margin-top: 50px;
     line-height: 1.4
@@ -396,6 +396,7 @@ a{
 	background-color: transparent;
 	margin-right: 2px;
 	font-size: 12px;
+	float: left;
 }
 
 .reportBtn{
@@ -413,14 +414,17 @@ a{
 .repModifyBtn{
 	border: 1px solid darkgray;
 	background-color: transparent;
-	margin-right: 2px;
+	margin-right: 4px;
 	font-size: 12px;
+	float: left;
 }
 
 .repDeleteBtn{
 	border: 1px solid darkgray;
 	background-color: transparent;
 	font-size: 12px;
+	margin-right: 4px;
+	float: left;
 }
 
 
@@ -471,8 +475,8 @@ a{
 }
 
 #logo > img{
-   width: 171px;
-    height: 41px;
+	width: 188px;
+    height: 65px;
 }
 
 .icon_link {

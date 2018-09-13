@@ -57,7 +57,7 @@
 	/* margin-right:10px; */
 }
 
-.followerBtn, .followCancelBtn, .followerCancelBtn {
+.followBtn, .followerBtn, .followCancelBtn, .followerCancelBtn {
 	margin-top: 45px;    
     margin-left: 552px;  
 	border: 1px solid gray;  
@@ -68,7 +68,7 @@
 	outline: none;
 }
 
-.followCancelBtn:hover {
+.followCancelBtn:hover, .followBtn:hover {
 	background-color: gray;
 	font-size: 11pt;
 	color: white;

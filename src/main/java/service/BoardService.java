@@ -26,11 +26,13 @@ public interface BoardService {
 	public void deletePostProcess(int board_num);
 	public void reportPostProcess(ReportDTO rdto);
 	public void updatePostProcess(BoardDTO bdto);
-	public List<ReplyDTO> insertReplyProcess(ReplyDTO rdto);
-	public List<ReplyDTO> deleteReplyProcess(ReplyDTO rdto);
-	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto);
+	public List<ReplyDTO> selectReplyProcess(ReplyDTO rdto);
+	public void insertReplyProcess(ReplyDTO rdto);
+	public void deleteReplyProcess(ReplyDTO rdto);
+	public void updateReplyProcess(ReplyDTO rdto);
 	public List<BoardDTO> selectTimelineMovieProcess(HashMap<String, Object> map);
 	public List<BoardDTO> selectTimelineHashtagProcess(HashMap<String, Object> map);
 	public List<BoardDTO> selectTimelineFollowProcess(HashMap<String, Object> map);
 	public List<BoardDTO> selectTimelineLikeProcess(HashMap<String, Object> map);
+	public List<BoardDTO> selectTimelineAllProcess(HashMap<String, Object> map);
 }//end interface

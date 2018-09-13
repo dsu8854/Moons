@@ -122,24 +122,10 @@
       where board_num=#{board_num}
    </update>
 	
-	<resultMap type="dto.BoardDTO" id="b_view_reply" autoMapping="true">
-		<result column="board_num" property="board_num"/>
-		<result column="user_code" property="user_code"/>
-		<collection property="replyList" javaType="java.util.List" ofType="dto.ReplyDTO" autoMapping="true">
-			<id column="reply_num" property="reply_num" />
-			<result column="rbnum" property="board_num" />
-			<result column="rucode" property="user_code" />
-			<result column="runick" property="user_nickname"/>
-		</collection>
-	</resultMap>
-	
-	<select id="selDetail" parameterType="hashmap" resultMap="b_view_reply">
+	<select id="selDetail" parameterType="hashmap" resultType="dto.BoardDTO">
 		<choose>
 			<when test="user_code!=null">
-				select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
-				r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
-				(select user_photo from moons_user where user_code=r.user_code) as user_photo,
-				m.*, u.*, r.*, 
+				select m.*, u.user_nickname, u.user_photo, u.user_state, u.user_introduce, 
 				(select case when count(*) > 0 then 1 else 0 end 
 				 from moons_like
 				 where user_code=#{user_code} and board_num=m.board_num) as isLike,
@@ -155,18 +141,13 @@
 				(select case when count(*) > 0 then 1 else 0 end 
 				 from moons_follow
 				 where user_code=#{user_code} and follow_following=m.user_code) as checkFollow
-				from moons_board m, moons_user u, moons_reply r
-				where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
-				order by reply_ref, reply_date
+				from moons_board m, moons_user u
+				where m.board_num=#{board_num} and m.user_code=u.user_code
 			</when>
 			<otherwise>
-				select to_char(m.board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, 
-				r.board_num as rbnum, r.user_code as rucode, (select user_nickname from moons_user where user_code=r.user_code) as runick, 
-				(select user_photo from moons_user where user_code=r.user_code) as user_photo,
-				m.*, u.*, r.*
-				from moons_board m, moons_user u, moons_reply r
-				where m.board_num=#{board_num} and m.user_code=u.user_code and m.board_num=r.board_num(+)
-				order by reply_ref, reply_date
+				select m.*, u.user_nickname, u.user_photo, u.user_state, u.user_introduce
+				from moons_board m, moons_user u
+				where m.board_num=#{board_num} and m.user_code=u.user_code
 			</otherwise>
 		</choose>
 	</select>
@@ -292,6 +273,24 @@
 				  from moons_board m, moons_user u
 				  where m.user_code=u.user_code and m.board_state=1 and u.user_state=1
 				  order by board_like desc)a)b
+		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
+	</select>
+	
+	<select id="selTimelineAll" parameterType="hashmap" resultType="dto.BoardDTO">
+		select b.*
+		from(select rownum rm, a.*
+			 from(select board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
+				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
+				  user_nickname, user_photo,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_like
+				   where user_code=#{user_code} and board_num=m.board_num) as isLike,
+				  (select case when count(*) > 0 then 1 else 0 end 
+        		   from moons_share
+				   where user_code=#{user_code} and board_num=m.board_num) as isShare
+				  from moons_board m, moons_user u
+				  where m.user_code=u.user_code and m.board_state=1 and u.user_state=1
+				  order by board_date desc)a)b
 		<![CDATA[where rm>#{start} and rm<=#{start}+8]]>
 	</select>
 </mapper>   

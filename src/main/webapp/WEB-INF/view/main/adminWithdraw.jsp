@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src = "js/moment.js"></script>
+<script type="text/javascript" src="js/jquery.techbytarun.excelexportjs.js"></script>
 <script src="js/adminWithdraw.js"></script>
 <input type="hidden" id="withdraw_state" value="${withdraw_state }" />
 <div class="tab">

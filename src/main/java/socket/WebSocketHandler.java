@@ -96,7 +96,20 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				userList.get(msgArr[1]).sendMessage(sendMsg);
 			}
 			break;
+		case "7":
+			if(userList.containsKey(msgArr[1])) {
+				WebSocketMessage<String> sendMsg = new TextMessage("report");			
+				userList.get(msgArr[1]).sendMessage(sendMsg);
+			}
+			break;
+		case "8":
+			if(userList.containsKey(msgArr[1])) {
+				WebSocketMessage<String> sendMsg = new TextMessage("withdraw");			
+				userList.get(msgArr[1]).sendMessage(sendMsg);
+			}
+			break;
 		}
+		
 		
 		System.out.println("사이트 인원 : " + userList.size());
 		System.out.println("채팅방 인원 : " + dmRoomList.size());

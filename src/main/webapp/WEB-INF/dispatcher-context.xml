@@ -181,11 +181,39 @@
 			<bean class="interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/index.do"/>
+			<mvc:mapping path="/adminMain.do"/>
+			<mvc:mapping path="/adminReport.do"/>
+			<mvc:mapping path="/adminWithdraw.do"/>
+			<mvc:mapping path="/adminBoard.do"/>
+			<mvc:mapping path="/adminMember.do"/>
+			<mvc:mapping path="/adminMail.do"/>			
 			<mvc:mapping path="/timeline.do"/>
-			<mvc:mapping path="/exit.do"/>
+			<mvc:mapping path="/write.do"/>
+			<mvc:mapping path="/timelineHashtag.do"/>
+			<mvc:mapping path="/timelineFollow.do"/>
+			<mvc:mapping path="/timelineLike.do"/>
+			<mvc:mapping path="/timelineAll.do"/>
+			<mvc:mapping path="/dmList.do"/>
+			<mvc:mapping path="/dmRoom.do"/>
+			<mvc:mapping path="/movie.do"/>
+			<mvc:mapping path="/movieOpen.do"/>
+			<mvc:mapping path="/notice.do"/>
+			<mvc:mapping path="/payment.do"/>
+			<mvc:mapping path="/donateForm.do"/>
+			<mvc:mapping path="/paywithdraw.do"/>
+			<mvc:mapping path="/paywithdrawlist.do"/>
+			<mvc:mapping path="/paycharge.do"/>
+			<mvc:mapping path="/paychargelist.do"/>
+			<mvc:mapping path="/search.do"/>
+			<mvc:mapping path="/index.do"/>
 			<mvc:mapping path="/profile.do"/>
 			<mvc:mapping path="/updateInfoForm.do"/>
+			<mvc:mapping path="/exit.do"/>
+			<mvc:mapping path="/follow.do"/>
+			<mvc:mapping path="/follower.do"/>
+			<mvc:mapping path="/about.do"/>
+			<mvc:mapping path="/privacy.do"/>
+			<mvc:mapping path="/contact.do"/>
 			<bean class="interceptor.MainInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

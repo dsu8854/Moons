@@ -40,23 +40,16 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping(value="/timeline.do",method=RequestMethod.POST)
+	@RequestMapping(value="/timeline.do")
 	public String timeline(Model model, HttpSession session, int user_code) {
-		UserDTO udto = new UserDTO();
-		udto.setUser_code(user_code);
-
+		int my_code= (int) session.getAttribute("user_code");
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("my_code", my_code);
+		map.put("your_code", user_code);
+		
 		model.addAttribute("userInfo", userService.selectInfoProcess(user_code)); // 닉네임, 아이디, 사진, 자기소개, 게시물수, 팔로잉수, 팔로워수
-
-		return "timeline";
-	}
-	
-	@RequestMapping(value="/timeline.do",method=RequestMethod.GET)
-	public String timeline(Model model, HttpSession session) {
-		UserDTO udto = new UserDTO();
-		udto.setUser_code((int) model.asMap().get("user_code"));
-
-		model.addAttribute("userInfo", userService.selectInfoProcess((int) model.asMap().get("user_code"))); // 닉네임, 아이디, 사진, 자기소개, 게시물수, 팔로잉수, 팔로워수
-
+		model.addAttribute("followCheck", userService.followCheckProcess(map));
 		return "timeline";
 	}
 	
@@ -109,6 +102,9 @@ public class BoardController {
 			return "timelineDetailError";
 		}
 		
+		ReplyDTO rdto = new ReplyDTO();
+		rdto.setBoard_num(board_num);
+		
 		if(session.getAttribute("user_code")!=null) {
 			int user_code = (int) session.getAttribute("user_code");
 		
@@ -117,12 +113,14 @@ public class BoardController {
 			map.put("board_num", board_num);
 			
 			model.addAttribute("bdto", boardService.selectDetailProcess(map));
+			model.addAttribute("replyList", boardService.selectReplyProcess(rdto));
 			model.addAttribute("userInfo", userService.selectInfoProcess(user_code));
 		} else {
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("board_num", board_num);
 			
 			model.addAttribute("bdto", boardService.selectDetailProcess(map));
+			model.addAttribute("replyList", boardService.selectReplyProcess(rdto));
 		}
 		
 		return "timelineDetail";
@@ -131,26 +129,49 @@ public class BoardController {
 
 	@RequestMapping(value="/replyInsertList.do")
 	@ResponseBody
-	public List<ReplyDTO> replyIns(ReplyDTO rdto, HttpSession sesssion){
+	public boolean replyIns(ReplyDTO rdto, HttpSession sesssion){
 		int user_code=(int)sesssion.getAttribute("user_code");
 		rdto.setUser_code(user_code);
-		return boardService.insertReplyProcess(rdto);
+		try {
+			boardService.insertReplyProcess(rdto);
+			
+			BoardDTO bdto = new BoardDTO();
+			bdto.setBoard_num(rdto.getBoard_num());
+			
+			WebSocketMessage<String> sendMsg = new TextMessage("5|"+boardService.selectWriterProcess(bdto));
+			WebSocketHandler handler = WebSocketHandler.getInstance();
+			if(handler.getUserList().get(String.valueOf(boardService.selectWriterProcess(bdto)))!=null)
+				handler.handleMessage(handler.getUserList().get(String.valueOf(boardService.selectWriterProcess(bdto))), sendMsg);
+			return true;
+		} catch(Exception e) { 
+			return false;
+		}
 	}
 	
 	//댓글삭제
 	@RequestMapping(value="/replyDelete.do")
 	@ResponseBody
-	public List<ReplyDTO> replyDel(ReplyDTO rdto, int board_num) {
+	public boolean replyDel(ReplyDTO rdto, int board_num) {
 		rdto.setBoard_num(board_num);
-		return boardService.deleteReplyProcess(rdto);
+		try {
+			boardService.deleteReplyProcess(rdto);
+			return true;
+		} catch(Exception e) { 
+			return false;
+		}
 	}
 	
 	//댓글수정
 	@RequestMapping(value="/replyUpdate.do")
 	@ResponseBody
-	public List<ReplyDTO> repModify(ReplyDTO rdto, int board_num){
+	public boolean repModify(ReplyDTO rdto, int board_num){
 		rdto.setBoard_num(board_num);
-		return boardService.updateReplyProcess(rdto);
+		try {
+			boardService.updateReplyProcess(rdto);
+			return true;
+		} catch(Exception e) { 
+			return false;
+		}
 	}
 		 
 	//좋아요 클릭시 +1증가시켜 ajax로 뿌리기 위한 메소드
@@ -256,12 +277,12 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/deletePost.do",method=RequestMethod.POST)
-	public String deletePost(RedirectAttributes redirectAttributes, HttpSession session, HttpServletRequest request, int board_num) {
+	public String deletePost(Model model, HttpSession session, HttpServletRequest request, int board_num) {
 		int user_code = (int) session.getAttribute("user_code");
 		
 		boardService.deletePostProcess(board_num);
 	
-		redirectAttributes.addFlashAttribute("user_code", user_code);
+		model.addAttribute("user_code", user_code);
 
 		return "redirect:/timeline.do";
 	}
@@ -422,5 +443,32 @@ public class BoardController {
 		map.put("start", start);
 		
 		return boardService.selectTimelineLikeProcess(map);
+	}
+	
+	@RequestMapping(value="/timelineAll.do")
+	public String timelineAll() {
+		return "timelineAll";
+	}
+	
+	@RequestMapping(value="/timelineAllList.do")
+	@ResponseBody
+	public List<BoardDTO> timelineAllList(HttpSession session) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("user_code", (int) session.getAttribute("user_code"));
+		map.put("start", 0);
+		
+		return boardService.selectTimelineAllProcess(map);
+	}
+	
+	@RequestMapping(value="/timelineAllAdd.do")
+	@ResponseBody
+	public List<BoardDTO> timelineAllAdd(HttpSession session, int start) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("user_code", (int) session.getAttribute("user_code"));
+		map.put("start", start);
+		
+		return boardService.selectTimelineAllProcess(map);
 	}
 }

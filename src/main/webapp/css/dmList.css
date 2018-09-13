@@ -1,0 +1,73 @@
+.dmList {
+	width: 500px;
+	height: 500px;
+	margin: 0 auto;
+	background-color: white;
+	border-radius: 10px;
+}
+
+.dmRoom {
+	height: 100px;
+	border-bottom: 1px solid #E6ECF0;
+	margin: 0 auto;
+	line-height: 100px;
+}
+
+.receiver_photo {
+	width: 50px;
+	height: 50px;
+	border-radius:50%;
+	float: left;
+    margin-top: 25px;
+    margin-left: 25px;
+}
+
+.receiver_nickname {
+	float: left;
+    margin-left: 25px;
+    display: inline-block;
+    height: 50px;
+    margin-top: -15px;
+}
+
+.dmRoomBtn {
+    margin-right: 20px;
+    border-radius: 8px;
+    background-color: white;
+    font-weight: bold;  
+    color: gray;
+    margin-top: 5px;
+}
+
+.dmRoomBtn:focus {
+    background-color: black;
+	color: white;  
+	outline: none; 
+}
+
+.dmCountArea {
+	float: right;
+}
+
+.dmCount {
+	background-color: #fa3e3e;
+    border-radius: 2px;
+    color: #fff;
+    padding: 1px 3px;
+}
+
+.dmArea {
+    float: left;
+}
+
+[id*='roomMessage_'] {
+	float: left;
+    margin-left: 25px;
+    width: 300px;
+    height: 60px;
+    margin-top: -15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+}

@@ -16,8 +16,10 @@ public interface UserService {
 	public boolean checkIdProcess(UserDTO udto);
 	public int codeProcess(UserDTO udto);
 	public boolean checkIdPassProcess(UserDTO udto);
+	public boolean checkCodePassProcess(UserDTO udto);
 	public boolean checkEmailProcess(UserDTO udto);
 	public boolean checkEmailDupProcess(String user_email);
+	public int checkStateProcess(UserDTO udto);
 	public String passProcess(UserDTO udto);
 	public UserDTO selectAllInfoProcess(int user_code);
 	public UserDTO selectInfoProcess(int user_code);
@@ -26,10 +28,10 @@ public interface UserService {
 	public int selectPointProcess(int user_code);
 	public String selectNickProcess(int user_code);
 	public void updateInfoProcess(UserDTO udto);
-
-	public List<FollowDTO> selectFollowListProcess(UserDTO udto);
+	public void updatePassProcess(UserDTO udto);
+	public List<FollowDTO> selectFollowListProcess(HashMap<String,Integer> map);
 	public int followCountProcess(UserDTO udto);
-	public List<FollowDTO> selectFollowerListProcess(UserDTO fdto);
+	public List<FollowDTO> selectFollowerListProcess(HashMap<String,Integer> map);
 	public int followerCountProcess(UserDTO udto);
 	public void deleteFollowProcess(FollowDTO fdto);
 	public void insertFollowProcess(FollowDTO fdto);
@@ -38,4 +40,5 @@ public interface UserService {
 	public List<BoardDTO> selectMainTopProcess();
 	public List<BoardDTO> selectMainBottomProcess();
 	public List<UserDTO> searchUserProcess(Map<String, String> map);
+	public boolean followCheckProcess(Map<String, Integer> map); // 추가
 }

@@ -110,21 +110,23 @@ public class BoardServiceImp implements BoardService{
 	}
 	
 	@Override
-	public List<ReplyDTO> insertReplyProcess(ReplyDTO rdto) {
-		boardDao.InsertReplyMethod(rdto);
+	public List<ReplyDTO> selectReplyProcess(ReplyDTO rdto) {
 		return boardDao.selectReplyListMethod(rdto);
 	}
 	
 	@Override
-	public List<ReplyDTO> deleteReplyProcess(ReplyDTO rdto) {
+	public void insertReplyProcess(ReplyDTO rdto) {
+		boardDao.InsertReplyMethod(rdto);
+	}
+	
+	@Override
+	public void deleteReplyProcess(ReplyDTO rdto) {
 		boardDao.deleteReplyMehtod(rdto.getReply_num());
-		return boardDao.selectReplyListMethod(rdto);
 	}
 
 	@Override
-	public List<ReplyDTO> updateReplyProcess(ReplyDTO rdto) {
+	public void updateReplyProcess(ReplyDTO rdto) {
 		boardDao.updateReplyMehtod(rdto);
-		return boardDao.selectReplyListMethod(rdto);
 	}
 
 	@Override
@@ -145,5 +147,10 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public List<BoardDTO> selectTimelineLikeProcess(HashMap<String, Object> map) {
 		return boardDao.selectTimelineLikeMethod(map);
+	}
+
+	@Override
+	public List<BoardDTO> selectTimelineAllProcess(HashMap<String, Object> map) {
+		return boardDao.selectTimelineAllMethod(map);
 	}
 }//end class

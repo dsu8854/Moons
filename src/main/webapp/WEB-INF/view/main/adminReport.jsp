@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src = "js/moment.js"></script>
 <script src="js/adminReport.js"></script>
 <input type="hidden" id="report_state" value="${report_state }" />
 <div class="tab">

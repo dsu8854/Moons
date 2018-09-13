@@ -1,3 +1,9 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+* {
+	font-family: "Nanum Gothic";
+}
+
 #logo {
 	font-size: 30pt;
 }
@@ -79,6 +85,12 @@ h1 {
 	font-size: 20pt;
 	opacity: 1;
 	padding: 0 0 20px 0;
+}
+
+#errorText2 {
+	font-size:17px;
+	color:white;
+	padding:10px;	
 }
 
 #id, #pass, #nickname, #email, #auth_code{    

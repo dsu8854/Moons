@@ -9,6 +9,7 @@ import dto.BoardDTO;
 import dto.ChargeDTO;
 import dto.LinkDTO;
 import dto.ReportDTO;
+import dto.UserDTO;
 import dto.WithdrawDTO;
 
 public class AdminDaoImp implements AdminDAO {
@@ -60,5 +61,25 @@ public class AdminDaoImp implements AdminDAO {
 	@Override
 	public List<BoardDTO> selectBoardListMethod(HashMap<String, Integer> map) {
 		return adminSqlSession.selectList("admin.selBoardList", map);
+	}
+
+	@Override
+	public int selectReportCountAllMethod() {
+		return adminSqlSession.selectOne("admin.selReportCountAll");
+	}
+
+	@Override
+	public int selectWithdrawCountAllMethod() {
+		return adminSqlSession.selectOne("admin.selWithdrawCountAll");
+	}
+
+	@Override
+	public List<UserDTO> selectMemberListMethod(HashMap<String,Integer> map) {
+		return adminSqlSession.selectList("admin.selMemberList",map);
+	}
+
+	@Override
+	public List<String> selectEmailAllMethod() {
+		return adminSqlSession.selectList("admin.selEmailAll");
 	}
 }

@@ -14,7 +14,7 @@ $(document).ready(function() {
 				data: formdata,
 				success: function(res) {
 					if(res) {
-						wrap.remove();
+						btn.replaceWith('<input type="button" class="followerBtn" value="팔로우 신청" />');
 					}
 				}
 			});

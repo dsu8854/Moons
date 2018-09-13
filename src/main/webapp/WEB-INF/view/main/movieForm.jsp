@@ -19,14 +19,10 @@
 		<span id="plot">plot</span>
 		<br/><br/>
 		<h2 id="more">상세 영화 정보</h2>
-		<p id="add">
-
-		<h1>제작사</h1> company<br/>
-		<h1>주제곡</h1> themeSong<br/>
-		<h1>영화제 수상 내역</h1> Awards1<br/>
-		<h1>수상내역 기타</h1> Award2<br/>
-		<h1>누적관람인원</h1> audiAcc<br/>
-		</p>
+		<div id="add">
+			<h1>제작사</h1><span id="company"> company</span><br/>
+			<h1>영화제 수상 내역</h1><br/> <span id="awards1"></span><br/>
+		</div>
 	</div>
 </div>
 <br/>

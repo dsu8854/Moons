@@ -3,19 +3,25 @@ package controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 
 import dto.BoardDTO;
 import dto.ChargeDTO;
 import dto.LinkDTO;
 import dto.ReportDTO;
+import dto.UserDTO;
 import dto.WithdrawDTO;
 import service.AdminService;
+import socket.WebSocketHandler;
 
 @Controller
 public class AdminController {
@@ -72,10 +78,16 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminWithdrawUpdate.do")
-	public String adminWithdrawUpdate(RedirectAttributes redirectAttributes, WithdrawDTO wdto) {
+	public String adminWithdrawUpdate(RedirectAttributes redirectAttributes, WithdrawDTO wdto) throws Exception  {
 		adminService.updateWithdrawProcess(wdto);
 		
 		redirectAttributes.addFlashAttribute("withdraw_state", wdto.getWithdraw_state());
+		
+		WebSocketMessage<String> sendMsg = new TextMessage("5|"+wdto.getUser_code());
+		WebSocketHandler handler = WebSocketHandler.getInstance();
+		if(handler.getUserList().get(String.valueOf(wdto.getUser_code()))!=null)
+			handler.handleMessage(handler.getUserList().get(String.valueOf(wdto.getUser_code())), sendMsg);
+		
 		return "redirect:/adminWithdraw.do";
 	}
 	
@@ -90,21 +102,9 @@ public class AdminController {
 		HashMap<String,Integer> map = new HashMap<String,Integer>();
 		
 		map.put("search_type", search_type);
-		map.put("start",0);
 		
 		return adminService.selectBoardListProcess(map);
 	}
-	
-	/*@RequestMapping(value="/adminBoardAdd.do")
-	@ResponseBody
-	public List<BoardDTO> adminBoardAdd(int search_type, int start) {
-		HashMap<String,Integer> map = new HashMap<String,Integer>();
-		
-		map.put("search_type", search_type);
-		map.put("start",start);
-		
-		return adminService.selectBoardListProcess(map);
-	}*/
 	
 	@RequestMapping(value="/adminLinkUpdate.do")
 	@ResponseBody
@@ -115,5 +115,35 @@ public class AdminController {
 		} catch(Exception e) {
 			return false;
 		}
+	}
+	
+	@RequestMapping(value="/adminMember.do")
+	public String adminMember() {
+		return "adminMember";
+	}
+	
+	@RequestMapping(value="/adminMemberList.do")
+	@ResponseBody
+	public List<UserDTO> adminMemberList(int search_type) {
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		
+		map.put("search_type", search_type);
+		
+		return adminService.selectMemberListProcess(map);
+	}
+	
+	@RequestMapping("/reportCount.do")
+	public @ResponseBody int reportCount() {
+		return adminService.selectReportCountAllProcess();
+	}
+	
+	@RequestMapping("/withdrawCount.do")
+	public @ResponseBody int withdrawCount() {
+		return adminService.selectWithdrawCountAllProcess();
+	}
+	
+	@RequestMapping(value="/adminMail.do")
+	public String adminMail() {
+		return "adminMail";
 	}
 }

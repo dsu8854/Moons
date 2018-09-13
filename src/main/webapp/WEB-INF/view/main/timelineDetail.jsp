@@ -134,7 +134,7 @@
 		</c:otherwise>
 	</c:choose>	
 </div>
-
+<c:if test="${bdto.user_state==1}">
 <div id="writerPhoWrap">
 	<c:choose>
 		<c:when test="${empty bdto.user_photo }">
@@ -178,18 +178,19 @@
 		</c:choose>
 	</div>
 </div>
+</c:if>
 
 <div id="time_comment_wrap">
 	<div id="time_comment">
 		<div id="comment_info">댓글<span id="comment_count">${bdto.board_reply }</span></div>
 		<div id="time_comment_wrap">      
-			<ul class="reply_list" >  	
-      			<c:forEach items="${bdto.replyList }" var="rdto">
+			<ul class="reply_list" >
+      			<c:forEach items="${replyList }" var="rdto">
       				<fmt:formatDate pattern="yyyy년 MM월 dd일" value="${rdto.reply_date }" var="replyDate" />      	
 					<li class="comment_one">
 						<div class="comment_list">
 						<c:if test="${rdto.reply_num ne rdto.reply_ref }">
-							<img class="repImg" src="images/re.gif">	
+							<img class="repImg" src="images/re.png">	
 						</c:if>
 							<div class="comUserPhoWrap">
 								<c:choose>
@@ -227,7 +228,7 @@
    			        	<c:if test="${!empty user_code}">
 							<!-- 대댓글 작성부분 -->				
 							<div class="comment_rep write1">
-								<img class="repImg" src="images/re.gif">
+								<img class="repImg" src="images/re.png">
 								<input type="hidden" class="reply_num" name="reply_num" value="${rdto.reply_num }" />
 								<input type="hidden" class="reply_step" name="reply_step" value="${rdto.reply_step}" />
 								<div class="comUserPhoWrap">
@@ -255,7 +256,7 @@
 					<input type="hidden" id="comment_user" name="user_code" value='${userInfo.user_code }'>
 					<input type="hidden" id="board_num" name="board_num" value='${bdto.board_num }'>
 					<input type="hidden" id="comUserNickid" name="user_nickname" value='${userInfo.user_nickname }'>
-					
+					<input type="hidden" id="comUserPhoto" name="user_photo" value='<%=session.getAttribute("user_photo")%>'>
 					<div class="comUserPhoWrap">
 						<c:choose>
 							<c:when test="${empty userInfo.user_photo }">

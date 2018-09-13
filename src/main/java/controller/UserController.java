@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,6 +118,9 @@ public class UserController {
 	@RequestMapping(value="/loginProDefault.do", produces="application/text;charset=utf8")
 	public @ResponseBody String loginProDefault(UserDTO udto, HttpSession session) {
 		if(userService.checkIdPassProcess(udto)) {
+			if(userService.checkStateProcess(udto)==2) {
+				return "탈퇴";
+			}
 			int user_code = userService.codeProcess(udto);
 			session.setAttribute("user_code", user_code);
 			session.setAttribute("user_type",udto.getUser_type());
@@ -366,7 +370,26 @@ public class UserController {
 		int user_code = (Integer) session.getAttribute("user_code");
 		udto.setUser_code(user_code);
 		userService.updateInfoProcess(udto);
+		session.setAttribute("user_nickname", udto.getUser_nickname());
 		return "redirect:/profile.do";
+	}// end updateProc()
+	
+	@RequestMapping(value = "/updatePass.do", method = RequestMethod.POST) // 수정후
+	@ResponseBody
+	public boolean updatePass(String prev_pass, String user_pass, HttpSession session) {
+		int user_code = (Integer) session.getAttribute("user_code");
+		
+		UserDTO udto = new UserDTO();
+		udto.setUser_code(user_code);
+		udto.setUser_pass(prev_pass);
+		
+		if(userService.checkCodePassProcess(udto)) {
+			udto.setUser_pass(user_pass);
+			userService.updatePassProcess(udto);
+			return true;
+		} else {
+			return false;
+		}
 	}// end updateProc()
 	
 	@RequestMapping(value="/exit.do")
@@ -375,24 +398,33 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/follow.do")					// 팔로워 페이지 이동
-	public String followList(Model model, int user_code) {
-		/*int user_code = (Integer) session.getAttribute("user_code");*/
+	public String followList(Model model, HttpSession session, int user_code) {
+		int my_code = (Integer) session.getAttribute("user_code");
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
 		
-		model.addAttribute("followList",userService.selectFollowListProcess(udto)); // code에 해당하는 팔로워할 유저들 보여주기 
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		map.put("my_code",my_code);
+		map.put("your_code",user_code);
+		
+		model.addAttribute("followList",userService.selectFollowListProcess(map)); // code에 해당하는 팔로워할 유저들 보여주기 
 		model.addAttribute("followCount",userService.followCountProcess(udto));		// 팔로워 인원수 
 		
 		return "follow";
 	}
 	
 	@RequestMapping(value="/follower.do")						// 팔로잉 페이지로 이동
-	public String followerList(Model model, int user_code) {
-		/*int user_code = (Integer) session.getAttribute("user_code");*/
+	public String followerList(Model model, HttpSession session, int user_code) {
+		int my_code = (Integer) session.getAttribute("user_code");
+		
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		map.put("my_code",my_code);
+		map.put("your_code",user_code);
+		
 		UserDTO udto = new UserDTO();
 		udto.setUser_code(user_code);
 		
-		model.addAttribute("followerList",userService.selectFollowerListProcess(udto));	// 팔로잉된 유저들 보여주기
+		model.addAttribute("followerList",userService.selectFollowerListProcess(map));	// 팔로잉된 유저들 보여주기
 		model.addAttribute("followerCount",userService.followerCountProcess(udto));		// 팔로워 인원수 
 		
 		return "follower";
@@ -415,6 +447,8 @@ public class UserController {
 	public @ResponseBody boolean followApply(FollowDTO fdto,HttpSession session) {
 		int user_code = (Integer) session.getAttribute("user_code");
 		fdto.setUser_code(user_code);
+		
+		System.out.println(fdto.getFollow_following());
 		
 		try {
 			userService.insertFollowProcess(fdto);
@@ -461,17 +495,13 @@ public class UserController {
 			try {
 				FileCopyUtils.copy(image.getInputStream(), new FileOutputStream(ff));
 				userService.updateProfilePhotoProcess(udto);
+				session.setAttribute("user_photo", udto.getUser_photo());
 				return "profile";
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return "profile";
-	}
-
-	@RequestMapping(value="/ranking.do")
-	public String ranking() {
-		return "ranking";
 	}
 	
 	@RequestMapping(value="/contact.do")

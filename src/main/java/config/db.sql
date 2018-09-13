@@ -89,7 +89,7 @@ CREATE TABLE moons_notice (
 CREATE TABLE moons_reply (
 	reply_num     NUMBER     NOT NULL, -- num
 	board_num     NUMBER     NOT NULL, -- 게시판번호
-	user_code     NUMBER     NOT NULL, -- 작성자
+	user_code    NUMBER     NOT NULL, -- 작성자
 	reply_content VARCHAR2(2000) NULL,     -- 내용
 	reply_date    DATE       NOT NULL, -- 날짜
 	reply_ref     NUMBER     DEFAULT 0, -- 댓글순서
@@ -196,6 +196,8 @@ CREATE TABLE moons_point (
    point_donate   NUMBER DEFAULT 0, -- 후원한금액
    point_date     DATE   NOT NULL  -- 날짜
 );
+
+select * from moons_user
 
 -- point
 ALTER TABLE moons_point
@@ -664,7 +666,7 @@ for each row
   	reply_actor NUMBER;
   begin	  
 	select user_code into reply_actor from moons_board where board_num=:new.board_num;  
-	if reply_actor!=:new.user_code then
+	if reply_actor != :new.user_code then
 		insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_actor,:new.user_code,:new.board_num,:new.reply_num,4,sysdate,1);
 	end if;
 	update moons_board set board_reply = board_reply+1 where board_num=:new.board_num;
@@ -707,9 +709,9 @@ after insert on moons_reply
   declare
     reply_receiver number;
   begin
-    if notice_reply_pkg.reply_step!=0 then
+    if notice_reply_pkg.reply_step<>0 then
       select user_code into reply_receiver from moons_reply where board_num=notice_reply_pkg.board_num and reply_num=notice_reply_pkg.reply_ref and reply_step=notice_reply_pkg.reply_step-1;
-      if reply_receiver!=notice_reply_pkg.user_code then
+      if reply_receiver<>notice_reply_pkg.user_code then
 		  insert into moons_notice(user_code,notice_actor,board_num,reply_num,notice_type,notice_date,notice_state) values(reply_receiver,notice_reply_pkg.user_code,notice_reply_pkg.board_num,notice_reply_pkg.reply_num,5,sysdate,1);
 	  end if;
 	  update moons_board set board_reply=board_reply+1 where board_num=notice_reply_pkg.board_num;
@@ -760,6 +762,7 @@ for each row
   end;
 /
 
+/*
 -- 본인에 의한 게시글 삭제 시 신고내역 수정
 create or replace trigger user_board_delete
 after update of board_state on moons_board
@@ -768,7 +771,7 @@ for each row
 	update moons_report set report_state=4 where board_num=:new.board_num and (report_state=1 or report_state=3);
   end;
 /
-
+*/
 -- 신고에 의한 삭제된 게시글 복원
 create or replace trigger report_board_restore
 after update of report_state on moons_report
@@ -829,12 +832,14 @@ select * from moons_withdraw;
 select * from moons_report;
 select * from moons_link;
 
-select * from user_triggers;
+select * from user_triggers;		
+
+update moons_user set user_point=0 where user_code=5
 
 -- 관리자 계정
 insert into moons_user values(0,'default','admin','admin','admin',NULL,NULL,0,NULL,1);
-insert into moons_follow values(2,1);
-insert into moons_follow values(9,1);
+insert into moons_user values(19,'default','member9','member9','회원9',NULL,NULL,0,NULL,1);
+insert into moons_follow values(16,12);
 insert into moons_like values(1,13,sysdate);
 insert into moons_like values(1,14,sysdate);
 insert into moons_board values(moons_board_num_seq.nextval,1,'신과함께','재미있네요','십점 만점에 백점 드립니다.',0,0,sysdate,'#하정우 #마동석');
@@ -859,10 +864,9 @@ insert into moons_link values(2,5,5);
 insert into moons_link values(2,6,6);
 
 delete from moons_dm;
-delete from moons_user;
 delete from moons_comment;
 delete from moons_rating;
-delete from moons_board where board_num=12;
+delete from moons_board where board_num=26;
 delete from moons_follow;
 delete from moons_reply;
 delete from moons_like;
@@ -881,25 +885,13 @@ WHERE rowid not in
 FROM moons_notice
 GROUP BY user_code,notice_actor,notice_type);
 
+select * from moons_notice where user_code=11
+
 select b.*
-		from(select rownum rm, a.*
-			 from(select m.board_num, m.user_code, board_movie, board_subject, board_content, board_like, board_share, board_reply,
-				  to_char(board_date, 'YYYY-MM-DD HH24:MI:SS') as board_date, board_hashtag, board_photo,
-				  user_nickname, user_photo,
-				  (select case when count(*) > 0 then 1 else 0 end 
-        		   from moons_like
-				   where user_code=1 and board_num=m.board_num) as isLike,
-				  (select case when count(*) > 0 then 1 else 0 end 
-        		   from moons_share
-				   where user_code=1 and board_num=m.board_num) as isShare
-				  from moons_board m, moons_user u
-				  where m.user_code=u.user_code and 
-				  (m.user_code=1 or m.board_num in(select board_num
-				  								  from moons_share
-				  								  where user_code=1))
-				  order by board_date desc)a)b
-		where rm>0 and rm<=0+8	
-		
-select NVL(board_state,0)
-from moons_board
-where board_num=20
+		from(select rownum rm,a.*
+			 from(select n.user_code, n.notice_actor, n.board_num, n.reply_num, n.notice_type, n.notice_amount, 
+			 	  to_char(n.notice_date, 'YYYY-MM-DD HH24:MI:SS') as notice_date, n.notice_state, a.user_photo, a.user_nickname
+				  from moons_notice n, moons_user a
+				  where n.user_code=11 and n.notice_actor=a.user_code
+				  order by n.notice_date desc)a)b
+		where rm>0 and rm<=10

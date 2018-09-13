@@ -8,6 +8,7 @@ import dto.BoardDTO;
 import dto.ChargeDTO;
 import dto.LinkDTO;
 import dto.ReportDTO;
+import dto.UserDTO;
 import dto.WithdrawDTO;
 
 public class AdminServiceImp implements AdminService {
@@ -59,5 +60,25 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public List<BoardDTO> selectBoardListProcess(HashMap<String, Integer> map) {
 		return adminDao.selectBoardListMethod(map);
+	}
+
+	@Override
+	public int selectReportCountAllProcess() {
+		return adminDao.selectReportCountAllMethod();
+	}
+
+	@Override
+	public int selectWithdrawCountAllProcess() {
+		return adminDao.selectWithdrawCountAllMethod();
+	}
+
+	@Override
+	public List<UserDTO> selectMemberListProcess(HashMap<String, Integer> map) {
+		return adminDao.selectMemberListMethod(map);
+	}
+
+	@Override
+	public List<String> selectEmailAllProcess() {
+		return adminDao.selectEmailAllMethod();
 	}
 }

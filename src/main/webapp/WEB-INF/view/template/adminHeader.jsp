@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="css/admin.css">
+<link href="css/toastr.css" type="text/css" rel="stylesheet" />
+<script src="js/toastr.js"></script> 
 <script src="js/admin.js"></script>
 <div class="header-box">
 <div class="left-button">
@@ -21,6 +23,12 @@
 	</div>
 	<div class="boardArea">
 		<input type="button" value="게시물관리" id="boardBtn" />
+	</div>
+	<div class="memberArea">
+		<input type="button" value="회원관리" id="memberBtn" />
+	</div>
+	<div class="mailArea">
+		<input type="button" value="메일발송" id="mailBtn" />
 	</div>
 </div>
 </div>

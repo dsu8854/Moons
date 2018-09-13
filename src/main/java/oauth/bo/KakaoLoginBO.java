@@ -4,9 +4,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class KakaoLoginBO {
-	private final static String clientId="98e3d6c2b978895622a5cf46cf1a0f6c"; //카카오에서 받은 REST API 키
-	private final static String redirectUri="http://192.168.10.61:8090/moons/loginProKakao.do"; //카카오에 등록한 redirectUri
-	private final static String adminKey="9b160e46187a41c4d6274e015fc0bd57"; //카카오에서 받은 Admin 키
+	private final static String clientId="2e52a5e6be5a07786e8e0f1a8ad0d591"; //카카오에서 받은 REST API 키
+	private final static String redirectUri="http://192.168.200.158:8090/moons/loginProKakao.do"; //카카오에 등록한 redirectUri
+	private final static String adminKey="b73d8342e41e5f714de03466c95cd766"; //카카오에서 받은 Admin 키
 	
 	public URL getAuthorizationUrl() throws MalformedURLException {
 		String url="https://kauth.kakao.com/oauth/authorize?";

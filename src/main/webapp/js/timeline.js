@@ -34,7 +34,7 @@ $(document).ready(function(){
 		formdata.append('listType',listType);
 		formdata.append('viewType',viewType);
 
-		$('#list_view').css({"border":"2px red solid"});	
+		$('#list_view').css({"border":"2px #33CCCC solid"});	
 		$('#grid_view').css({"border":"2px gray solid"});	
 		
 		$('.content_h3_wrap').css({'display':'inline-block'});
@@ -164,7 +164,7 @@ $(document).ready(function(){
 		formdata.append('viewType',viewType);
 		
 		$('#list_view').css({"border":"2px gray solid"});	
-		$('#grid_view').css({"border":"2px red solid"});	
+		$('#grid_view').css({"border":"2px #33CCCC solid"});	
 		
 		$('.content_h3_wrap').css({'display':'none'});
 		$('.board_grid_wrap').css({'display':'grid'});
@@ -208,7 +208,7 @@ $(document).ready(function(){
 		$.each($('#view_clear').children('button'),function(index,value){
 			$(value).css({"border":"2px gray solid"});
 		});
-		$(this).css({"border":"2px red solid"});
+		$(this).css({"border":"2px #33CCCC solid"});
 		$('#list_view').trigger('click');
 	});
 	
@@ -217,7 +217,7 @@ $(document).ready(function(){
 		$.each($('#view_clear').children('button'),function(index,value){
 			$(value).css({"border":"2px gray solid"});
 		});
-		$(this).css({"border":"2px red solid"});
+		$(this).css({"border":"2px #33CCCC solid"});
 		$('#list_view').trigger('click');
 	});
 	
@@ -226,7 +226,7 @@ $(document).ready(function(){
 		$.each($('#view_clear').children('button'),function(index,value){
 			$(value).css({"border":"2px gray solid"});
 		});
-		$(this).css({"border":"2px red solid"});
+		$(this).css({"border":"2px #33CCCC solid"});
 		$('#list_view').trigger('click');
 	});
 	
@@ -289,7 +289,7 @@ $(document).ready(function(){
 	$('#my_review').trigger('click');
 	
 	$(window).scroll(function() { 
-		if ($(window).scrollTop() >= $(document).height() - $(window).height() + 1) {
+		if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
 			start+=9;
 			var formdata = new FormData();
 			formdata.append('user_code',user_code);
@@ -439,6 +439,44 @@ $(document).ready(function(){
 					}
 				});
 			}
+		}
+	});
+	
+	$('#followApplyBtn').on('click', function() { // 팔로우 신청 버튼
+		if (confirm("정말로 팔로우를 신청하시겠습니까?") == true) {
+			var formdata = $('#followForm').serialize();
+			$.ajax({
+				url: 'followApply.do',
+	            type: 'POST',
+	            dataType: 'json',
+	            data: formdata,
+	            success: function(res) {
+	            	if(res) {
+	            		location.reload();
+	            	} else {
+	            		alert('팔로우 신청 실패');
+	            	}
+	            }
+			});
+		}
+	});
+	   
+	$('#followDeleteBtn').on('click', function() { // 팔로우 취소 버튼
+		if (confirm("정말로 팔로우를 취소하시겠습니까?") == true) {
+			var formdata = $('#followForm').serialize();
+			$.ajax({
+	            url: 'followDelete.do',
+	            type: 'POST',
+	            dataType: 'json',
+	            data: formdata,
+	            success: function(res) {
+	            	if(res) {
+	            		location.reload();
+	            	} else {
+	            		alert('팔로우 취소 실패');
+	            	}
+	            }
+			});
 		}
 	});
 });

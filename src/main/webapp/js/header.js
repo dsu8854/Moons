@@ -23,7 +23,7 @@ $(document).ready(function(){
 		"hideMethod": "fadeOut"
 	}
 		
-	webSocket = new WebSocket("ws://192.168.10.61:8090/moons/chatws.do");
+	webSocket = new WebSocket("ws://192.168.200.158:8090/moons/chatws.do");
 	webSocket.onopen = onOpen;
 	webSocket.onmessage = onMessage;
 	webSocket.onclose = onClose;
@@ -147,6 +147,9 @@ function onMessage(evt) {
 		var chk_cmd = data.split("|");
 		if (chk_cmd[0] == 'dm') {
 			if (chk_cmd[1] == '0') {
+				console.log($('#dm_code').val());
+				console.log(chk_cmd[2]);
+				if(chk_cmd[2]==$('#dm_code').val()){
 				$('.dmbody').append('<div class="dmReceive"><a href=""><img src="images/'
 									+ $('#yourPhoto').val()
 									+ '" alt="" class="receiverPhoto"</a><span class="receiveBorder"><span class="reMes">'
@@ -161,12 +164,13 @@ function onMessage(evt) {
 					dataType: 'text',
 					data: dmFormData
 				});
+				}
 			} else {
 				$('.messageCount').text(parseInt($('.messageCount').text())+1);
 				$('#roomCount_'+chk_cmd[2]).text(parseInt($('#roomCount_'+chk_cmd[2]).text())+1);
 				$('#roomMessage_'+chk_cmd[2]).text(chk_cmd[3]);
 				toastr.success(chk_cmd[3], chk_cmd[4]);
-				receiver = parseInt(chk_cmd[1]);
+				receiver = parseInt(chk_cmd[2]);
 			}
 		}
 	}

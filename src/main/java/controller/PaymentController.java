@@ -135,6 +135,10 @@ public class PaymentController {
 		wdto.setWithdraw_holder(holder);
 		try {
 			paymentService.withdrawinsertProcess(wdto);
+			WebSocketMessage<String> sendMsg = new TextMessage("8|"+0);
+			WebSocketHandler handler = WebSocketHandler.getInstance();
+			if(handler.getUserList().get("0")!=null)
+				handler.handleMessage(handler.getUserList().get("0"), sendMsg);
 			return true;
 		} catch(Exception e) {
 			return false;
